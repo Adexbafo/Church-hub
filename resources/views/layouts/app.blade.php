@@ -15,22 +15,51 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-gray-100">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+    <div class="flex min-h-screen">
+
+        <x-sidebar />
+
+        <div class="flex-1">
+
+            <header class="bg-white shadow-sm px-8 py-4 flex justify-between items-center">
+
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        ChurchHub Dashboard
+                    </h2>
+                </div>
+
+                <div class="flex items-center gap-4">
+
+                    @if(auth()->user()->member?->profile_picture)
+
+                        <img src="{{ asset('storage/' . auth()->user()->member->profile_picture) }}"
+                             class="w-10 h-10 rounded-full object-cover">
+
+                    @else
+
+                        <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                        </div>
+
+                    @endif
+
+                    <div class="text-gray-700">
+                        {{ auth()->user()->name }}
                     </div>
-                </header>
-            @endisset
 
-            <!-- Page Content -->
+                </div>
+
+            </header>
+
             <main>
                 {{ $slot }}
             </main>
+
         </div>
-    </body>
+
+    </div>
+
+</body>
 </html>

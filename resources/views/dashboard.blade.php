@@ -1,62 +1,76 @@
 <x-app-layout>
 
-    <div class="py-10">
+    <div class="p-8">
 
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 
-            <div class="bg-gradient-to-r from-blue-700 to-indigo-700 rounded-2xl shadow-lg p-10 text-white mb-8">
+            <div class="bg-white rounded-2xl shadow p-6">
 
-                <h1 class="text-4xl font-bold mb-3">
-                    Welcome to ChurchHub
-                </h1>
+                <h3 class="text-gray-500 mb-2">
+                    Total Members
+                </h3>
 
-                <p class="text-blue-100 text-lg">
-                    Church member management and communication platform.
-                </p>
+                <div class="text-4xl font-bold text-blue-700">
+                    {{ \App\Models\Member::count() }}
+                </div>
 
             </div>
+
+            <div class="bg-white rounded-2xl shadow p-6">
+
+                <h3 class="text-gray-500 mb-2">
+                    Active Members
+                </h3>
+
+                <div class="text-4xl font-bold text-green-600">
+                    {{ \App\Models\Member::where('membership_status', 'active')->count() }}
+                </div>
+
+            </div>
+
+            <div class="bg-white rounded-2xl shadow p-6">
+
+                <h3 class="text-gray-500 mb-2">
+                    Inactive Members
+                </h3>
+
+                <div class="text-4xl font-bold text-red-500">
+                    {{ \App\Models\Member::where('membership_status', 'inactive')->count() }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="bg-white rounded-2xl shadow p-8">
+
+            <h2 class="text-2xl font-bold mb-6">
+                Quick Actions
+            </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
                 <a href="{{ route('member.profile') }}"
-                   class="bg-white hover:shadow-xl transition rounded-2xl p-8">
+                   class="bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-6 transition">
 
-                    <h2 class="text-2xl font-bold text-gray-800 mb-3">
-                        My Profile
-                    </h2>
-
-                    <p class="text-gray-600">
-                        Manage your church member information and profile picture.
-                    </p>
+                    My Profile
 
                 </a>
 
                 @if(auth()->user()->role === 'admin')
 
-                    <a href="{{ route('admin.dashboard') }}"
-                       class="bg-white hover:shadow-xl transition rounded-2xl p-8">
+                    <a href="{{ route('admin.members.index') }}"
+                       class="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl p-6 transition">
 
-                        <h2 class="text-2xl font-bold text-gray-800 mb-3">
-                            Admin Dashboard
-                        </h2>
-
-                        <p class="text-gray-600">
-                            Manage church members and administration.
-                        </p>
+                        Manage Members
 
                     </a>
 
                 @endif
 
-                <div class="bg-white rounded-2xl p-8">
+                <div class="bg-gray-100 rounded-xl p-6">
 
-                    <h2 class="text-2xl font-bold text-gray-800 mb-3">
-                        Announcements
-                    </h2>
-
-                    <p class="text-gray-600">
-                        Church updates and ministry information coming soon.
-                    </p>
+                    Announcements Coming Soon
 
                 </div>
 
