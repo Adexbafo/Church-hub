@@ -1,4 +1,5 @@
-<aside class="w-64 bg-white shadow-lg min-h-screen">
+<aside id="sidebar"
+       class="fixed md:relative z-40 w-64 bg-white shadow-lg min-h-screen transform -translate-x-full md:translate-x-0 transition-transform duration-300">
 
     <div class="p-6 border-b">
 

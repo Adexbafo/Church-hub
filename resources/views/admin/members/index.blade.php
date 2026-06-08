@@ -1,9 +1,9 @@
 <x-app-layout>
 
-    <div class="py-10">
-        <div class="max-w-7xl mx-auto px-6">
+    <div class="py-6 md:py-10 overflow-x-hidden">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
 
-            <div class="bg-white rounded-2xl shadow p-8">
+           <div class="bg-white rounded-2xl shadow p-4 md:p-8 overflow-x-hidden">
 
                 <div class="flex justify-between items-center mb-6">
 
@@ -31,7 +31,7 @@
 
                 <div class="overflow-x-auto">
 
-                    <table class="w-full">
+                    <table class="w-full text-sm md:text-base">
 
                         <thead>
 
@@ -54,7 +54,7 @@
 
                                 <tr class="border-b">
 
-                                    <td class="p-4">
+                                    <td class="p-2 md:p-4">
 
                                         @if($member->profile_picture)
 
@@ -71,27 +71,29 @@
 
                                     </td>
 
-                                    <td class="p-4">
+                                    <td class="p-2 md:p-4">
                                         {{ $member->full_name }}
                                     </td>
 
-                                    <td class="p-4">
+                                    <td class="p-2 md:p-4">
                                         {{ $member->phone }}
                                     </td>
 
-                                    <td class="p-4">
+                                    <td class="p-2 md:p-4">
                                         {{ $member->occupation }}
                                     </td>
 
-                                    <td class="p-4">
+                                    <td class="p-2 md:p-4">
 
-                                        <span class="px-3 py-1 rounded-full text-sm bg-green-100 text-green-700">
+                                        <span class="px-2 py-1 md:px-3 md:py-1 rounded-full text-xs md:text-sm bg-green-100 text-green-700">
                                             {{ $member->membership_status }}
                                         </span>
 
                                     </td>
 
-                                    <td class="p-4 flex gap-2">
+                                    <td class="p-2 md:p-4">
+
+                                        <div class="flex flex-col md:flex-row gap-2">
 
                                         <a href="{{ route('admin.members.show', $member) }}"
                                            class="bg-blue-600 text-white px-3 py-2 rounded">
@@ -119,6 +121,8 @@
 
                                         </form>
 
+                                        </div>
+
                                     </td>
 
                                 </tr>
@@ -128,6 +132,8 @@
                         </tbody>
 
                     </table>
+
+                    </div>
 
                 </div>
 

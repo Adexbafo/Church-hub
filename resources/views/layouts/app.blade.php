@@ -23,20 +23,29 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-gray-100">
+    <body class="font-sans antialiased bg-gray-100 overflow-x-hidden">
 
     <div class="flex min-h-screen">
 
         <x-sidebar />
 
-        <div class="flex-1">
+        <div class="flex-1 md:ml-0">
 
             <header class="bg-white shadow-sm px-8 py-4 flex justify-between items-center">
 
-                <div>
+                <div class="flex items-center gap-4">
+
+                    <button id="menuButton"
+                            class="md:hidden bg-gray-100 p-2 rounded-lg">
+
+                        ☰
+
+                    </button>
+
                     <h2 class="text-2xl font-bold text-gray-800">
                         ChurchHub Dashboard
                     </h2>
+
                 </div>
 
                 <div class="flex items-center gap-4">
@@ -62,13 +71,27 @@
 
             </header>
 
-            <main>
+            <main class="overflow-x-hidden">
                 {{ $slot }}
             </main>
 
         </div>
 
     </div>
+
+<script>
+
+    const menuButton = document.getElementById('menuButton')
+    const sidebar = document.getElementById('sidebar')
+
+    menuButton?.addEventListener('click', () => {
+
+        sidebar.classList.toggle('-translate-x-full')
+
+    })
+
+</script>
+
 
 </body>
 </html>

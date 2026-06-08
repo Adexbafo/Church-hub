@@ -2,7 +2,7 @@
 
     <div class="p-8">
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
 
             <div class="bg-white rounded-2xl shadow p-6">
 
@@ -48,7 +48,7 @@
                 Quick Actions
             </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <a href="{{ route('member.profile') }}"
                    class="bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-6 transition">
