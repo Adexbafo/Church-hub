@@ -9,6 +9,16 @@
                     Admin Dashboard
                 </h1>
 
+                <div class="mb-6">
+                    <a href="{{ route('admin.members.index') }}"
+                       class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+
+                        Manage Members
+
+                    </a>
+
+                </div>
+
                 <div class="overflow-x-auto">
 
                     <table class="w-full border-collapse">

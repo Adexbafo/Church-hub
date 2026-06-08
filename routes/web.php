@@ -16,6 +16,9 @@ Route::middleware(['auth', 'admin'])
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])
             ->name('admin.dashboard');
 
+        Route::resource('members', \App\Http\Controllers\Admin\MemberManagementController::class)
+    ->names('admin.members');
+
     });
 
 Route::get('/dashboard', function () {
