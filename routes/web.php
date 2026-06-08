@@ -34,6 +34,25 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('/member/profile', [MemberProfileController::class, 'update'])
         ->name('member.profile.update');
+
+        Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+            ->name('admin.dashboard');
+
+        Route::resource(
+            'members',
+            \App\Http\Controllers\Admin\MemberManagementController::class
+        )->names('admin.members');
+
+        Route::resource(
+            'announcements',
+            \App\Http\Controllers\Admin\AnnouncementController::class
+        )->names('admin.announcements');
+
+    });
 });
 
 require __DIR__.'/auth.php';

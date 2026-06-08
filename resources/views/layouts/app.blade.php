@@ -33,6 +33,13 @@
 
             <header class="bg-white shadow-sm px-8 py-4 flex justify-between items-center">
 
+                <button id="menuButton"
+                class="md:hidden bg-gray-100 p-2 rounded-lg">
+
+                ☰
+
+                </button>
+
                 <div>
                     <h2 class="text-2xl font-bold text-gray-800">
                         ChurchHub Dashboard
@@ -69,6 +76,24 @@
         </div>
 
     </div>
+
+
+    <script>
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const menuButton = document.getElementById('menuButton')
+    const sidebar = document.getElementById('sidebar')
+
+    menuButton?.addEventListener('click', () => {
+
+        sidebar.classList.toggle('-translate-x-full')
+
+    })
+
+})
+
+</script>
 
 </body>
 </html>

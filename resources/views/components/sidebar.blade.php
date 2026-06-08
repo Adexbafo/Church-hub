@@ -1,5 +1,8 @@
-<aside class="w-64 bg-white shadow-lg min-h-screen">
-
+<aside id="sidebar"
+    class="fixed inset-y-0 left-0 z-50
+           w-64 bg-white shadow-lg min-h-screen
+           transform transition-transform duration-300 ease-in-out
+           -translate-x-full md:translate-x-0 md:relative">
     <div class="p-6 border-b">
 
         <h1 class="text-2xl font-bold text-blue-700">
@@ -37,6 +40,13 @@
                class="block px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700">
 
                 Members
+
+            </a>
+
+            <a href="{{ route('admin.announcements.index') }}"
+               class="block px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700">
+
+                Announcements
 
             </a>
 
