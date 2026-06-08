@@ -19,6 +19,11 @@ Route::middleware(['auth', 'admin'])
         Route::resource('members', \App\Http\Controllers\Admin\MemberManagementController::class)
     ->names('admin.members');
 
+    Route::resource(
+    'announcements',
+    App\Http\Controllers\Admin\AnnouncementController::class
+)->names('admin.announcements');
+
     });
 
 Route::get('/dashboard', function () {

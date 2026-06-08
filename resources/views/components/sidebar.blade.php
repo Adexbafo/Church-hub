@@ -41,6 +41,11 @@
 
             </a>
 
+            <a href="{{ route('admin.announcements.index') }}"
+               class="block px-4 py-2 rounded-lg hover:bg-gray-100">
+                Announcements
+            </a>
+
         @endif
 
         <div class="pt-6 border-t mt-6">
