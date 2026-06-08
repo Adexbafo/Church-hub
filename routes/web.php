@@ -3,10 +3,20 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberProfileController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+            ->name('admin.dashboard');
+
+    });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
