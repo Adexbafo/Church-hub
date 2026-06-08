@@ -1,6 +1,7 @@
 <x-app-layout>
 
     <div class="py-10">
+
         <div class="max-w-6xl mx-auto px-4">
 
             <div class="bg-white rounded-2xl shadow p-6">
@@ -12,7 +13,7 @@
                     </h1>
 
                     <a href="{{ route('admin.announcements.create') }}"
-                       class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+                       class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
 
                         Create Announcement
 
@@ -22,43 +23,66 @@
 
                 <div class="space-y-4">
 
-                    <div class="border rounded-xl p-5">
+                    @forelse($announcements as $announcement)
 
-                        <h2 class="text-xl font-semibold mb-2">
-                            Sunday Service Update
-                        </h2>
+                        <div class="border rounded-2xl p-5 shadow-sm hover:shadow-md hover:-translate-y-1 transition bg-white">
 
-                        <p class="text-gray-600 mb-3">
-                            There will be a special thanksgiving service this Sunday by 8AM.
-                        </p>
+                            <h2 class="text-xl font-semibold mb-2">
+                                {{ $announcement->title }}
+                            </h2>
 
-                        <div class="text-sm text-gray-400">
-                            Posted 2 hours ago
+                            <p class="text-gray-600 mb-3 leading-relaxed">
+                                {{ $announcement->content }}
+                            </p>
+
+                            <div class="text-sm text-gray-400">
+
+                                Posted
+                                {{ $announcement->created_at->diffForHumans() }}
+
+                            </div>
+
+                            <div class="flex gap-2 mt-4">
+
+    <a href="{{ route('admin.announcements.edit', $announcement) }}"
+       class="bg-yellow-500 text-white px-4 py-2 rounded-lg text-sm">
+        Edit
+    </a>
+
+    <form method="POST"
+          action="{{ route('admin.announcements.destroy', $announcement) }}">
+
+        @csrf
+        @method('DELETE')
+
+        <button type="submit"
+                onclick="return confirm('Delete announcement?')"
+                class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
+
+            Delete
+
+        </button>
+
+    </form>
+
+</div>
+
                         </div>
 
-                    </div>
+                    @empty
 
-                    <div class="border rounded-xl p-5">
+                        <div class="text-gray-500">
+                            No announcements yet.
+                        </div>   
 
-                        <h2 class="text-xl font-semibold mb-2">
-                            Workers Meeting
-                        </h2>
-
-                        <p class="text-gray-600 mb-3">
-                            All department leaders should attend the leadership meeting on Friday.
-                        </p>
-
-                        <div class="text-sm text-gray-400">
-                            Posted yesterday
-                        </div>
-
-                    </div>
+                    @endforelse
 
                 </div>
 
             </div>
 
         </div>
+
     </div>
 
 </x-app-layout>

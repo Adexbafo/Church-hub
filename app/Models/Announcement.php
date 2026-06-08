@@ -7,14 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Announcement extends Model
 {
     protected $fillable = [
+
         'title',
         'content',
         'user_id',
         'is_active',
+        'published_at',
+
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $casts = [
+
+        'published_at' => 'datetime',
+        'is_active' => 'boolean',
+
+    ];
 }

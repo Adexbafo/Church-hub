@@ -23,12 +23,6 @@
 
                 </div>
 
-                @if(session('success'))
-                    <div class="mb-4 bg-green-500 text-white px-4 py-3 rounded">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
                 <div class="overflow-x-auto">
 
                     <table class="w-full text-sm md:text-base">

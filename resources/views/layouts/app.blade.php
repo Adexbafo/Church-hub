@@ -23,7 +23,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-gray-100 overflow-x-hidden">
+    <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden">
 
     <div class="flex min-h-screen">
 
@@ -70,6 +70,25 @@
                 </div>
 
             </header>
+
+            @if(session('success'))
+
+                <div
+                    x-data="{ show: true }"
+                    x-init="setTimeout(() => show = false, 3000)"
+                    x-show="show"
+                    x-transition
+                    class="fixed top-5 right-5 z-50">
+
+                    <div class="bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl">
+
+                        {{ session('success') }}
+
+                    </div>
+
+                </div>
+
+            @endif
 
             <main class="overflow-x-hidden">
                 {{ $slot }}

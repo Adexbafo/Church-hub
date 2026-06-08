@@ -42,8 +42,18 @@
             </a>
 
             <a href="{{ route('admin.announcements.index') }}"
-               class="block px-4 py-2 rounded-lg hover:bg-gray-100">
-                Announcements
+               class="block px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-200">
+
+                <div class="flex items-center justify-between">
+
+                    <span>Announcements</span>
+
+                    <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                        {{ \App\Models\Announcement::count() }}
+                    </span>
+
+                </div>
+
             </a>
 
         @endif

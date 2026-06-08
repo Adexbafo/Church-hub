@@ -9,12 +9,6 @@
                     Member Profile
                 </h1>
 
-                @if (session('success'))
-                    <div class="mb-6 bg-green-500 text-white px-4 py-3 rounded-lg">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
                 <form method="POST"
                       action="{{ route('member.profile.update') }}"
                       enctype="multipart/form-data"

@@ -68,11 +68,14 @@
 
                 @endif
 
-                <div class="bg-gray-100 rounded-xl p-6">
+                <a href="{{ route('admin.announcements.index') }}"
+   class="block">
 
-                    Announcements Coming Soon
+                    <div class="bg-gray-100 hover:bg-gray-200 transition rounded-xl p-6">
+                        Announcements
+                    </div>
 
-                </div>
+                </a>
 
             </div>
 
