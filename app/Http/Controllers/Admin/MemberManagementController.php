@@ -34,42 +34,43 @@ class MemberManagementController extends Controller
     {
         return view('admin.members.edit', compact('member'));
     }
-
     public function update(Request $request, Member $member)
-    {
-        $validated = $request->validate([
-            'full_name' => ['required', 'string'],
-            'phone' => ['nullable', 'string'],
-            'occupation' => ['nullable', 'string'],
-            'address' => ['nullable', 'string'],
-            'membership_status' => ['required', 'string'],
-            'profile_picture' => [
-                'nullable',
-                'image',
-                'mimes:jpg,jpeg,png,webp',
-                'max:2048',
-                ],
-        ]);
+{
+    $validated = $request->validate([
+        'full_name' => ['required', 'string'],
+        'phone' => ['nullable', 'string'],
+        'occupation' => ['nullable', 'string'],
+        'address' => ['nullable', 'string'],
+        'joined_at' => ['nullable', 'date'],
+        'membership_status' => ['required', 'string'],
+        'profile_picture' => [
+            'nullable',
+            'image',
+            'mimes:jpg,jpeg,png,webp',
+            'max:2048',
+        ],
+    ]);
 
-        if ($request->hasFile('profile_picture')) {
+    if ($request->hasFile('profile_picture')) {
 
-    if ($member->profile_picture) {
+        if ($member->profile_picture) {
 
-        Storage::disk('public')
-            ->delete($member->profile_picture);
+            Storage::disk('public')
+                ->delete($member->profile_picture);
+        }
+
+        $path = $request->file('profile_picture')
+            ->store('members', 'public');
+
+        $validated['profile_picture'] = $path;
     }
 
-    $validated['profile_picture'] = $request
-        ->file('profile_picture')
-        ->store('members', 'public');
+    $member->update($validated);
+
+    return redirect()
+    ->route('admin.members.index')
+    ->with('success', 'Member updated successfully.');
 }
-
-        $member->update($validated);
-
-        return redirect()
-            ->route('admin.members.index')
-            ->with('success', 'Member updated successfully.');
-    }
 
     public function destroy(Member $member)
     {

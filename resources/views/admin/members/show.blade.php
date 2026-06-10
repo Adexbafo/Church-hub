@@ -19,29 +19,44 @@
                     @endif
 
                     <div>
-                        <strong>Name:</strong>
-                        {{ $member->full_name }}
-                    </div>
+    <strong>Occupation:</strong>
+    {{ $member->occupation ?? '—' }}
+</div>
 
-                    <div>
-                        <strong>Phone:</strong>
-                        {{ $member->phone }}
-                    </div>
+<div>
+    <strong>Gender:</strong>
+    {{ ucfirst($member->gender ?? '—') }}
+</div>
 
-                    <div>
-                        <strong>Occupation:</strong>
-                        {{ $member->occupation }}
-                    </div>
+<div>
+    <strong>Date of Birth:</strong>
+    {{ $member->date_of_birth?->format('F d, Y') ?? '—' }}
+</div>
 
-                    <div>
-                        <strong>Status:</strong>
-                        {{ $member->membership_status }}
-                    </div>
+<div>
+    <strong>Marital Status:</strong>
+    {{ ucfirst($member->marital_status ?? '—') }}
+</div>
 
-                    <div>
-                        <strong>Address:</strong>
-                        {{ $member->address }}
-                    </div>
+<div>
+    <strong>Baptized:</strong>
+    {{ $member->is_baptized ? 'Yes' : 'No' }}
+</div>
+
+<div>
+    <strong>Status:</strong>
+    {{ ucfirst($member->membership_status) }}
+</div>
+
+<div>
+    <strong>Address:</strong>
+    {{ $member->address ?? '—' }}
+</div>
+
+<div>
+    <strong>Joined At:</strong>
+    {{ $member->joined_at?->format('F d, Y') ?? '—' }}
+</div>
 
                 </div>
 
