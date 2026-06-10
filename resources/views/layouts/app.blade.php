@@ -69,6 +69,29 @@
 
             </header>
 
+            @if(session('success'))
+
+    <div
+        x-data="{ show: true }"
+        x-init="setTimeout(() => show = false, 3000)"
+        x-show="show"
+        x-transition.opacity.duration.500ms
+        class="fixed top-5 right-5 z-50">
+
+        <div class="bg-green-500 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
+
+            <span class="text-lg">✅</span>
+
+            <span class="font-medium">
+                {{ session('success') }}
+            </span>
+
+        </div>
+
+    </div>
+
+@endif
+
             <main>
                 {{ $slot }}
             </main>

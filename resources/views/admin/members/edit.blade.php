@@ -10,8 +10,9 @@
                 </h1>
 
                 <form method="POST"
-                      action="{{ route('admin.members.update', $member) }}"
-                      class="space-y-6">
+                        action="{{ route('admin.members.update', $member) }}"
+                        enctype="multipart/form-data"
+                        class="space-y-6">
 
                     @csrf
                     @method('PUT')
@@ -42,6 +43,23 @@
                                value="{{ old('occupation', $member->occupation) }}"
                                class="w-full rounded-lg border-gray-300">
                     </div>
+
+                    <div>
+                        <label class="block mb-2">
+                            Profile Picture
+                        </label>
+
+                        <input type="file"
+                               name="profile_picture"
+                               class="w-full rounded-lg border-gray-300">
+                    </div>
+
+                        @if ($member->profile_picture)
+
+                            <img src="{{ asset('storage/' . $member->profile_picture) }}"
+                                class="w-24 h-24 rounded-full object-cover border">
+
+                        @endif
 
                     <div>
                         <label class="block mb-2">Address</label>

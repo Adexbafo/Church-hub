@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MemberManagementController extends Controller
 {
@@ -42,7 +43,26 @@ class MemberManagementController extends Controller
             'occupation' => ['nullable', 'string'],
             'address' => ['nullable', 'string'],
             'membership_status' => ['required', 'string'],
+            'profile_picture' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+                ],
         ]);
+
+        if ($request->hasFile('profile_picture')) {
+
+    if ($member->profile_picture) {
+
+        Storage::disk('public')
+            ->delete($member->profile_picture);
+    }
+
+    $validated['profile_picture'] = $request
+        ->file('profile_picture')
+        ->store('members', 'public');
+}
 
         $member->update($validated);
 

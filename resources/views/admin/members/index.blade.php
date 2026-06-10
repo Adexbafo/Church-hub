@@ -56,20 +56,24 @@
 
                                     <td class="p-4">
 
-                                        @if($member->profile_picture)
+    @if ($member->profile_picture)
 
-                                            <img src="{{ asset('storage/' . $member->profile_picture) }}"
-                                                 class="w-12 h-12 rounded-full object-cover">
+        <img
+            src="{{ asset('storage/' . $member->profile_picture) }}"
+            class="w-12 h-12 rounded-full object-cover"
+        >
 
-                                        @else
+    @else
 
-                                            <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center">
-                                                {{ strtoupper(substr($member->full_name, 0, 1)) }}
-                                            </div>
+        <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center">
 
-                                        @endif
+            {{ strtoupper(substr($member->full_name, 0, 1)) }}
 
-                                    </td>
+        </div>
+
+    @endif
+
+</td>
 
                                     <td class="p-4">
                                         {{ $member->full_name }}
