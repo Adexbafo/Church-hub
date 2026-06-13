@@ -26,6 +26,9 @@
     <body class="font-sans antialiased bg-gray-100">
 
     <div class="flex min-h-screen">
+        <div id="sidebarOverlay"
+            class="fixed inset-0 bg-black/50 z-40 hidden md:hidden">
+        </div>
 
         <x-sidebar />
 
@@ -41,7 +44,7 @@
                 </button>
 
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-800">
+                    <h2 class="hidden md:block text-2xl font-bold text-gray-800">
                         ChurchHub Dashboard
                     </h2>
                 </div>
@@ -107,10 +110,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const menuButton = document.getElementById('menuButton')
     const sidebar = document.getElementById('sidebar')
+    const overlay = document.getElementById('sidebarOverlay')
 
     menuButton?.addEventListener('click', () => {
 
         sidebar.classList.toggle('-translate-x-full')
+
+        overlay.classList.toggle('hidden')
+
+    })
+
+    overlay?.addEventListener('click', () => {
+
+        sidebar.classList.add('-translate-x-full')
+
+        overlay.classList.add('hidden')
 
     })
 

@@ -4,9 +4,9 @@
 
         <div class="max-w-3xl mx-auto px-4">
 
-            <div class="bg-white rounded-2xl shadow p-8">
+            <div class="bg-white rounded-2xl shadow p-4 md:p-8">
 
-                <h1 class="text-3xl font-bold mb-6">
+                <h1 class="text-2xl md:text-3xl font-bold mb-6">
                     Create Announcement
                 </h1>
 
@@ -42,7 +42,7 @@
                     </div>
 
                     <button type="submit"
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+                            class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
 
                         Publish Announcement
 

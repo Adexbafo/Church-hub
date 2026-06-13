@@ -1,6 +1,6 @@
 <aside id="sidebar"
     class="fixed inset-y-0 left-0 z-50
-           w-64 bg-white shadow-lg min-h-screen
+           w-72 max-w-[85vw] bg-white shadow-lg min-h-screen
            transform transition-transform duration-300 ease-in-out
            -translate-x-full md:translate-x-0 md:relative">
     <div class="p-6 border-b">
