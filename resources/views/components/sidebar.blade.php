@@ -13,75 +13,46 @@
 
     <nav class="p-4 space-y-2">
 
-        <a href="{{ route('dashboard') }}"
+    @if(auth()->user()->role === 'admin')
+
+        <a href="{{ route('admin.dashboard') }}"
            class="block px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700">
-
             Dashboard
-
         </a>
+
+        <a href="{{ route('admin.members.index') }}"
+           class="block px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700">
+            Members
+        </a>
+
+        <a href="{{ route('admin.announcements.index') }}"
+           class="block px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700">
+            Announcements
+        </a>
+
+    @else
 
         <a href="{{ route('member.profile') }}"
            class="block px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700">
-
             My Profile
-
         </a>
 
-        @if(auth()->user()->role === 'admin')
+    @endif
 
-            <a href="{{ route('admin.dashboard') }}"
-               class="block px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700">
+    <div class="pt-6 border-t mt-6">
 
-                Admin Dashboard
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
 
-            </a>
+            <button type="submit"
+                    class="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg">
+                Logout
+            </button>
 
-            <a href="{{ route('admin.members.index') }}"
-               class="block px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700">
+        </form>
 
-                Members
+    </div>
 
-            </a>
-
-            <a href="{{ route('admin.announcements.index') }}"
-               class="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700">
-
-                <span>
-                    Announcements
-                </span>
-
-                @if(\App\Models\Announcement::count() > 0)
-
-                    <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-
-                        {{ \App\Models\Announcement::count() }}
-
-                    </span>
-
-                @endif
-
-            </a>
-
-        @endif
-
-        <div class="pt-6 border-t mt-6">
-
-            <form method="POST"
-                  action="{{ route('logout') }}">
-
-                @csrf
-
-                <button type="submit"
-                        class="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg">
-
-                    Logout
-
-                </button>
-
-            </form>
-
-        </div>
-
-    </nav>
+</nav>
 
 </aside>
