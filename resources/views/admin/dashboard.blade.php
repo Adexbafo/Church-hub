@@ -19,6 +19,38 @@
 
                 </div>
 
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+    <div class="bg-white rounded-xl shadow p-6">
+        <div class="text-gray-500 text-sm">Total Members</div>
+        <div class="text-3xl font-bold text-blue-600">
+            {{ $totalMembers }}
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-6">
+        <div class="text-gray-500 text-sm">Active Members</div>
+        <div class="text-3xl font-bold text-green-600">
+            {{ $activeMembers }}
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-6">
+        <div class="text-gray-500 text-sm">Inactive Members</div>
+        <div class="text-3xl font-bold text-red-600">
+            {{ $inactiveMembers }}
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-6">
+        <div class="text-gray-500 text-sm">Announcements</div>
+        <div class="text-3xl font-bold text-purple-600">
+            {{ $announcementCount }}
+        </div>
+    </div>
+
+</div>
+
                 <div class="overflow-x-auto">
 
                     <table class="w-full border-collapse">
@@ -57,10 +89,6 @@
 
                     </table>
 
-                </div>
-
-                <div class="mt-6">
-                    {{ $members->links() }}
                 </div>
 
             </div>

@@ -41,6 +41,14 @@
 
 @else
 
+    <a href="{{ route('dashboard') }}"
+   class="block px-4 py-3 rounded-lg
+   {{ request()->routeIs('dashboard')
+       ? 'bg-blue-100 text-blue-700'
+       : 'text-gray-700 hover:bg-blue-50' }}">
+    Dashboard
+    </a>
+
     <a href="{{ route('member.profile') }}"
        class="block px-4 py-3 rounded-lg
        {{ request()->routeIs('member.profile')
