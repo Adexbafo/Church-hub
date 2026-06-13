@@ -11,6 +11,8 @@ class AdminDashboardController extends Controller
     {
         $members = Member::latest()->paginate(10);
 
+        abort_unless(auth()->user()->role === 'admin', 403);
+
         return view('admin.dashboard', compact('members'));
     }
 }

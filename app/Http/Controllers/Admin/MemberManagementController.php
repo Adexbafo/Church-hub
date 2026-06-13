@@ -13,6 +13,8 @@ class MemberManagementController extends Controller
     {
         $search = $request->search;
 
+        abort_unless(auth()->user()->role === 'admin', 403);
+
         $members = Member::query()
             ->when($search, function ($query) use ($search) {
                 $query->where('full_name', 'like', "%{$search}%")

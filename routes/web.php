@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\MemberManagementController;
 use App\Http\Controllers\Admin\AnnouncementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AnnouncementFeedController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,6 +29,14 @@ Route::middleware(['auth', 'admin'])
     });
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/announcements', [AnnouncementFeedController::class, 'index'])
+    ->name('announcements.index');
+
+    Route::get(
+    '/announcements/{announcement}',
+    [AnnouncementFeedController::class, 'show']
+)->name('announcements.show');
 
     Route::get('/member/profile', [MemberProfileController::class, 'edit'])
         ->name('member.profile');

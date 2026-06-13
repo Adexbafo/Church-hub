@@ -12,6 +12,8 @@ class AnnouncementController extends Controller
     {
         $announcements = Announcement::latest()->get();
 
+        abort_unless(auth()->user()->role === 'admin', 403);
+
         return view(
             'admin.announcements.index',
             compact('announcements')
