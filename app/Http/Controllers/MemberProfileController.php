@@ -35,6 +35,12 @@ class MemberProfileController extends Controller
             'date_of_birth' => ['nullable', 'date'],
             'marital_status' => ['nullable', 'string'],
             'is_baptized' => ['nullable', 'boolean'],
+
+            'next_of_kin_name' => ['nullable', 'string'],
+            'next_of_kin_relationship' => ['nullable', 'string'],
+            'next_of_kin_phone' => ['nullable', 'string'],
+            'next_of_kin_address' => ['nullable', 'string'],
+            'band_name' => ['nullable', 'string'],
         ]);
 
         if ($request->hasFile('profile_picture')) {
@@ -53,8 +59,6 @@ class MemberProfileController extends Controller
         $validated['is_baptized'] = $request->has('is_baptized');
 
         $member->update($validated);
-
-return back()->with('success', 'Profile updated successfully.');
 
         return back()->with('success', 'Profile updated successfully.');
     }

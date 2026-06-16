@@ -8,18 +8,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Member extends Model
 {
     protected $fillable = [
-        'user_id',
-        'full_name',
-        'phone',
-        'gender',
-        'date_of_birth',
-        'address',
-        'occupation',
-        'marital_status',
-        'profile_picture',
-        'joined_at',
-        'is_baptized',
-        'membership_status',
+    'user_id',
+    'membership_id',
+    'full_name',
+    'phone',
+    'gender',
+    'date_of_birth',
+    'address',
+    'occupation',
+    'marital_status',
+    'profile_picture',
+    'joined_at',
+    'is_baptized',
+    'membership_status',
+    'next_of_kin_name',
+    'next_of_kin_relationship',
+    'next_of_kin_phone',
+    'next_of_kin_address',
+    'band_name',
     ];
 
     protected $casts = [

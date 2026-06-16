@@ -2,13 +2,16 @@
     $member = auth()->user()->member;
 
     $fields = [
-        $member?->phone,
-        $member?->gender,
-        $member?->date_of_birth,
-        $member?->address,
-        $member?->occupation,
-        $member?->marital_status,
-    ];
+    $member?->phone,
+    $member?->gender,
+    $member?->date_of_birth,
+    $member?->address,
+    $member?->occupation,
+    $member?->marital_status,
+    $member?->band_name,
+    $member?->next_of_kin_name,
+    $member?->next_of_kin_phone,
+];
 
     $completedFields = collect($fields)
         ->filter()
@@ -37,52 +40,64 @@
 
             <!-- Stats Cards -->
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-    <div class="bg-white rounded-2xl shadow p-6">
+                <div class="bg-white rounded-2xl shadow p-6">
 
-        <div class="text-gray-500 text-sm mb-2">
-            Profile Completion
-        </div>
+                    <div class="text-gray-500 text-sm mb-2">
+                        Membership ID
+                    </div>
 
-        <div class="text-5xl font-bold text-blue-600 mb-4">
-            {{ $completedFields }}/{{ $totalFields }}
-        </div>
+                    <div class="text-2xl font-bold text-blue-600">
+                        {{ $member->membership_id }}
+                    </div>
 
-        <div class="w-full bg-gray-200 rounded-full h-3">
-            <div
-                class="bg-green-500 h-3 rounded-full"
-                style="width: {{ ($completedFields / $totalFields) * 100 }}%">
+                </div>
+
+                <div class="bg-white rounded-2xl shadow p-6">
+
+                    <div class="text-gray-500 text-sm mb-2">
+                        Profile Completion
+                    </div>
+
+                    <div class="text-5xl font-bold text-blue-600 mb-4">
+                        {{ $completedFields }}/{{ $totalFields }}
+                    </div>
+
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div
+                            class="bg-green-500 h-3 rounded-full"
+                            style="width: {{ ($completedFields / $totalFields) * 100 }}%">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bg-white rounded-2xl shadow p-6">
+
+                    <div class="text-gray-500 text-sm mb-2">
+                        Membership Status
+                    </div>
+
+                    <div class="text-2xl font-bold text-green-600">
+                        {{ ucfirst($member->membership_status) }}
+                    </div>
+
+                </div>
+
+                <div class="bg-white rounded-2xl shadow p-6">
+
+                    <div class="text-gray-500 text-sm mb-2">
+                        Baptized
+                    </div>
+
+                    <div class="text-2xl font-bold text-purple-600">
+                        {{ $member->is_baptized ? 'Yes' : 'No' }}
+                    </div>
+
+                </div>
+
             </div>
-        </div>
-
-    </div>
-
-    <div class="bg-white rounded-2xl shadow p-6">
-
-        <div class="text-gray-500 text-sm mb-2">
-            Membership Status
-        </div>
-
-        <div class="text-2xl font-bold text-green-600">
-            {{ ucfirst($member->membership_status) }}
-        </div>
-
-    </div>
-
-    <div class="bg-white rounded-2xl shadow p-6">
-
-        <div class="text-gray-500 text-sm mb-2">
-            Baptized
-        </div>
-
-        <div class="text-2xl font-bold text-purple-600">
-            {{ $member->is_baptized ? 'Yes' : 'No' }}
-        </div>
-
-    </div>
-
-</div>
 
     <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
 

@@ -43,8 +43,18 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $memberCount = Member::count() + 1;
+
+        $membershipId = 'VDC-' . now()->year . '-' . str_pad(
+            $memberCount,
+            4,
+            '0',
+            STR_PAD_LEFT
+        );
+
         Member::create([
             'user_id' => $user->id,
+            'membership_id' => $membershipId,
             'full_name' => $request->name,
         ]);
 

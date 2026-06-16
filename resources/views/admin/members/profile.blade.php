@@ -9,6 +9,18 @@
                     Member Profile
                 </h1>
 
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+
+                    <div class="text-sm text-blue-600">
+                        Membership ID
+                    </div>
+
+                    <div class="text-2xl font-bold text-blue-800">
+                        {{ $member->membership_id ?? 'Not Assigned' }}
+                    </div>
+
+                </div>
+
                 @if (session('success'))
                     <div class="mb-6 bg-green-500 text-white px-4 py-3 rounded-lg">
                         {{ session('success') }}
@@ -109,6 +121,95 @@
                         <textarea name="address"
                                 class="w-full rounded-lg border-gray-300">{{ old('address', $member->address) }}</textarea>
                     </div>
+
+                    <h2 class="text-xl font-semibold text-gray-800">
+                        Next of Kin Information
+                    </h2>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Next of Kin Name
+                        </label>
+
+                        <input type="text"
+                            name="next_of_kin_name"
+                            value="{{ old('next_of_kin_name', $member->next_of_kin_name) }}"
+                            class="w-full rounded-lg border-gray-300">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Relationship
+                        </label>
+
+                        <input type="text"
+                            name="next_of_kin_relationship"
+                            value="{{ old('next_of_kin_relationship', $member->next_of_kin_relationship) }}"
+                            class="w-full rounded-lg border-gray-300">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Next of Kin Phone
+                        </label>
+
+                        <input type="text"
+                            name="next_of_kin_phone"
+                            value="{{ old('next_of_kin_phone', $member->next_of_kin_phone) }}"
+                            class="w-full rounded-lg border-gray-300">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Next of Kin Address
+                        </label>
+
+                        <textarea name="next_of_kin_address"
+                            class="w-full rounded-lg border-gray-300">{{ old('next_of_kin_address', $member->next_of_kin_address) }}</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Band
+                        </label>
+
+                        <select name="band_name"
+                            class="w-full rounded-lg border-gray-300">
+
+                            <option value="">Select Band</option>
+
+                            @foreach([
+                                'Ruth',
+                                'Hope',
+                                'Rhoda',
+                                'Queen Sheba',
+                                'Deborah',
+                                'Elizabeth',
+                                'Rebecca',
+                                'Martha',
+                                'Dorcas',
+                                'Abigail',
+                                'Lydia',
+                                'Mary',
+                                'Queen Esther',
+                                'Samuel',
+                                'Joseph',
+                                'Early Morning Star',
+                                'Love Divine',
+                                'Show the Glory of God',
+                                'Soldiers of Christ',
+                                'King David'
+                            ] as $band)
+
+                            <option value="{{ $band }}"
+                                @selected($member->band_name === $band)>
+                                {{ $band }}
+                            </option>
+
+                        @endforeach
+
+                    </select>
+                </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
