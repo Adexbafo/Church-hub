@@ -9,21 +9,32 @@
                     Member Details
                 </h1>
 
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold">
+                        {{ $member->full_name }}
+                    </h2>
+                </div>
+
                 <div class="space-y-4">
 
                     @if($member->profile_picture)
 
                         <img src="{{ asset('storage/' . $member->profile_picture) }}"
-                             class="w-32 h-32 rounded-full object-cover">
+                            class="w-32 h-32 rounded-full object-cover">
 
                     @endif
 
                     <div>
-    <strong>Occupation:</strong>
-    {{ $member->occupation ?? '—' }}
-</div>
+                        <strong>Phone:</strong>
+                        {{ $member->phone ?? '—' }}
+                    </div>
 
-<div>
+                    <div>
+                        <strong>Occupation:</strong>
+                        {{ $member->occupation ?? '—' }}
+                    </div>
+
+                    <div>
     <strong>Gender:</strong>
     {{ ucfirst($member->gender ?? '—') }}
 </div>
@@ -56,6 +67,46 @@
 <div>
     <strong>Joined At:</strong>
     {{ $member->joined_at?->format('F d, Y') ?? '—' }}
+</div>
+
+<hr class="my-6">
+
+<h2 class="text-xl font-bold mb-4">
+    Membership Information
+</h2>
+
+<div>
+    <strong>Membership ID:</strong>
+    {{ $member->membership_id ?? '—' }}
+</div>
+
+<div>
+    <strong>Band:</strong>
+    {{ $member->band_name ?? '—' }}
+</div>
+<hr class="my-6">
+
+<h2 class="text-xl font-bold mb-4">
+    Next of Kin
+</h2>
+
+<div>
+    <strong>Name:</strong>
+    {{ $member->next_of_kin_name ?? '—' }}
+</div>
+
+<div>
+    <strong>Relationship:</strong>
+    {{ $member->next_of_kin_relationship ?? '—' }}
+</div>
+
+<div>
+    <strong>Phone:</strong>
+    {{ $member->next_of_kin_phone ?? '—' }}
+</div>
+<div>
+    <strong>Address:</strong>
+    {{ $member->next_of_kin_address ?? '—' }}
 </div>
 
                 </div>

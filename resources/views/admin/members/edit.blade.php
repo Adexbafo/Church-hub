@@ -27,6 +27,109 @@
                     </div>
 
                     <div>
+                        <label class="block mb-2">
+                            Membership ID
+                        </label>
+
+                        <input type="text"
+                            name="membership_id"
+                            value="{{ old('membership_id', $member->membership_id) }}"
+                            readonly
+                            class="w-full rounded-lg border-gray-300 bg-gray-100">
+                    </div>
+
+                    <div>
+                        <label class="block mb-2">
+                            Band
+                        </label>
+
+                        <select name="band_name"
+                            class="w-full rounded-lg border-gray-300">
+
+                            <option value="">Select Band</option>
+
+                            @foreach([
+                                'Ruth',
+                                'Hope',
+                                'Rhoda',
+                                'Queen Sheba',
+                                'Deborah',
+                                'Elizabeth',
+                                'Rebecca',
+                                'Martha',
+                                'Dorcas',
+                                'Abigail',
+                                'Lydia',
+                                'Mary',
+                                'Queen Esther',
+                                'Samuel',
+                                'Joseph',
+                                'Early Morning Star',
+                                'Love Divine',
+                                'Show the Glory of God',
+                                'Soldiers of Christ',
+                                'King David'
+                                ] as $band)
+
+                                <option value="{{ $band }}"
+                                    @selected($member->band_name === $band)>
+                                    {{ $band }}
+                                </option>
+
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <hr>
+
+                    <h2 class="text-xl font-bold">
+                        Next of Kin Information
+                    </h2>
+
+                    <div>
+                    <label class="block mb-2">
+                            Next of Kin Name
+                    </label>
+
+                        <input type="text"
+                            name="next_of_kin_name"
+                            value="{{ old('next_of_kin_name', $member->next_of_kin_name) }}"
+                            class="w-full rounded-lg border-gray-300">
+                    </div>
+
+                    <div>
+                    <label class="block mb-2">
+                        Relationship
+                    </label>
+
+                        <input type="text"
+                            name="next_of_kin_relationship"
+                            value="{{ old('next_of_kin_relationship', $member->next_of_kin_relationship) }}"
+                            class="w-full rounded-lg border-gray-300">
+                    </div>
+
+                    <div>
+                        <label class="block mb-2">
+                            Next of Kin Phone
+                        </label>
+
+                        <input type="text"
+                                name="next_of_kin_phone"
+                                value="{{ old('next_of_kin_phone', $member->next_of_kin_phone) }}"
+                                class="w-full rounded-lg border-gray-300">
+                    </div>
+
+                    <div>
+                    <label class="block mb-2">
+                        Next of Kin Address
+                    </label>
+
+                    <textarea
+                        name="next_of_kin_address"
+                        class="w-full rounded-lg border-gray-300">{{ old('next_of_kin_address', $member->next_of_kin_address) }}</textarea>
+                    </div>
+
+                    <div>
                         <label class="block mb-2">Phone</label>
 
                         <input type="text"

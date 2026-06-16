@@ -97,29 +97,65 @@
 
                 </div>
 
+                <div class="bg-white rounded-2xl shadow p-6">
+
+                    <div class="text-gray-500 text-sm mb-2">
+                        Band
+                    </div>
+
+                    <div class="text-2xl font-bold text-indigo-600">
+                        {{ $member->band_name ?? 'Not Assigned' }}
+                    </div>
+
+                </div>
+
+                <div class="bg-white rounded-2xl shadow p-6">
+
+                    <div class="text-gray-500 text-sm mb-2">
+                        Next of Kin
+                    </div>
+
+                    <div class="text-lg font-semibold text-gray-800">
+                        {{ $member->next_of_kin_name ?? 'Not Provided' }}
+                    </div>
+
+                    @if($member->next_of_kin_relationship)
+                        <div class="text-sm text-gray-500 mt-1">
+                            {{ $member->next_of_kin_relationship }}
+                        </div>
+                    @endif
+
+                    @if($member->next_of_kin_phone)
+                        <div class="text-sm text-blue-600 mt-1">
+                            {{ $member->next_of_kin_phone }}
+                        </div>
+                    @endif
+
+                </div>
+
             </div>
 
-    <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
+                <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
 
-    <h2 class="text-xl font-bold text-blue-800 mb-2">
-        Complete Your Profile
-    </h2>
+                    <h2 class="text-xl font-bold text-blue-800 mb-2">
+                        Complete Your Profile
+                    </h2>
 
-    <p class="text-blue-700 mb-4">
-        Your profile completion is currently
-        {{ $completedFields }}/{{ $totalFields }}.
-    </p>
+                    <p class="text-blue-700 mb-4">
+                        Your profile completion is currently
+                        {{ $completedFields }}/{{ $totalFields }}.
+                    </p>
 
-    <a href="{{ route('member.profile') }}"
-       class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg">
+                    <a href="{{ route('member.profile') }}"
+                        class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg">
 
-        Update Profile
+                        Update Profile
 
-    </a>
+                    </a>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
             <!-- Quick Actions -->
 
