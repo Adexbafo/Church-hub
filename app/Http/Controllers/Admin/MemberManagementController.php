@@ -19,7 +19,9 @@ class MemberManagementController extends Controller
             ->when($search, function ($query) use ($search) {
                 $query->where('full_name', 'like', "%{$search}%")
                     ->orWhere('phone', 'like', "%{$search}%")
-                    ->orWhere('occupation', 'like', "%{$search}%");
+                    ->orWhere('occupation', 'like', "%{$search}%")
+                    ->orWhere('membership_id', 'like', "%{$search}%")
+                    ->orWhere('band_name', 'like', "%{$search}%");
             })
             ->latest()
             ->paginate(10);
@@ -37,58 +39,58 @@ class MemberManagementController extends Controller
         return view('admin.members.edit', compact('member'));
     }
     public function update(Request $request, Member $member)
-{
-    $validated = $request->validate([
-        'full_name' => ['required', 'string'],
-        'phone' => ['nullable', 'string'],
-        'occupation' => ['nullable', 'string'],
-        'address' => ['nullable', 'string'],
-        'joined_at' => ['nullable', 'date'],
-        'membership_status' => ['required', 'string'],
-        'profile_picture' => [
-            'nullable',
-            'image',
-            'mimes:jpg,jpeg,png,webp',
-            'max:2048',
-        ],
+    {
+        $validated = $request->validate([
+            'full_name' => ['required', 'string'],
+            'phone' => ['nullable', 'string'],
+            'occupation' => ['nullable', 'string'],
+            'address' => ['nullable', 'string'],
+            'joined_at' => ['nullable', 'date'],
+            'membership_status' => ['required', 'string'],
+            'profile_picture' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ],
 
-        'membership_id' => ['nullable', 'string'],
+            'membership_id' => ['nullable', 'string'],
 
-        'next_of_kin_name' => ['nullable', 'string'],
-        'next_of_kin_relationship' => ['nullable', 'string'],
-        'next_of_kin_phone' => ['nullable', 'string'],
-        'next_of_kin_address' => ['nullable', 'string'],
+            'next_of_kin_name' => ['nullable', 'string'],
+            'next_of_kin_relationship' => ['nullable', 'string'],
+            'next_of_kin_phone' => ['nullable', 'string'],
+            'next_of_kin_address' => ['nullable', 'string'],
 
-        'band_name' => ['nullable', 'string'],
+            'band_name' => ['nullable', 'string'],
 
-        'gender' => ['nullable', 'string'],
-        'date_of_birth' => ['nullable', 'date'],
-        'marital_status' => ['nullable', 'string'],
-        'is_baptized' => ['nullable', 'boolean'],
-    ]);
+            'gender' => ['nullable', 'string'],
+            'date_of_birth' => ['nullable', 'date'],
+            'marital_status' => ['nullable', 'string'],
+            'is_baptized' => ['nullable', 'boolean'],
+        ]);
 
-    if ($request->hasFile('profile_picture')) {
+        if ($request->hasFile('profile_picture')) {
 
-        if ($member->profile_picture) {
+            if ($member->profile_picture) {
 
-            Storage::disk('public')
-                ->delete($member->profile_picture);
+                Storage::disk('public')
+                    ->delete($member->profile_picture);
+            }
+
+            $path = $request->file('profile_picture')
+                ->store('members', 'public');
+
+            $validated['profile_picture'] = $path;
         }
 
-        $path = $request->file('profile_picture')
-            ->store('members', 'public');
+        $validated['is_baptized'] = $request->has('is_baptized');
 
-        $validated['profile_picture'] = $path;
+        $member->update($validated);
+
+        return redirect()
+            ->route('admin.members.index')
+            ->with('success', 'Member updated successfully.');
     }
-
-    $validated['is_baptized'] = $request->has('is_baptized');
-
-    $member->update($validated);
-
-    return redirect()
-    ->route('admin.members.index')
-    ->with('success', 'Member updated successfully.');
-}
 
     public function destroy(Member $member)
     {
