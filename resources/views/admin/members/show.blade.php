@@ -19,8 +19,8 @@
 
                     @if($member->profile_picture)
 
-                        <img src="{{ asset('storage/' . $member->profile_picture) }}"
-                            class="w-32 h-32 rounded-full object-cover">
+                    <img src="{{ asset('storage/' . $member->profile_picture) }}"
+                        class="w-32 h-32 rounded-full object-cover">
 
                     @endif
 
@@ -35,79 +35,107 @@
                     </div>
 
                     <div>
-    <strong>Gender:</strong>
-    {{ ucfirst($member->gender ?? '—') }}
-</div>
+                        <strong>Gender:</strong>
+                        {{ ucfirst($member->gender ?? '—') }}
+                    </div>
 
-<div>
-    <strong>Date of Birth:</strong>
-    {{ $member->date_of_birth?->format('F d, Y') ?? '—' }}
-</div>
+                    <div>
+                        <strong>Date of Birth:</strong>
+                        {{ $member->date_of_birth?->format('F d, Y') ?? '—' }}
+                    </div>
 
-<div>
-    <strong>Marital Status:</strong>
-    {{ ucfirst($member->marital_status ?? '—') }}
-</div>
+                    <div>
+                        <strong>Marital Status:</strong>
+                        {{ ucfirst($member->marital_status ?? '—') }}
+                    </div>
 
-<div>
-    <strong>Baptized:</strong>
-    {{ $member->is_baptized ? 'Yes' : 'No' }}
-</div>
+                    <div>
+                        <strong>Baptized:</strong>
+                        {{ $member->is_baptized ? 'Yes' : 'No' }}
+                    </div>
 
-<div>
-    <strong>Status:</strong>
-    {{ ucfirst($member->membership_status) }}
-</div>
+                    <div>
+                        <strong>Status:</strong>
+                        {{ ucfirst($member->membership_status) }}
+                    </div>
 
-<div>
-    <strong>Address:</strong>
-    {{ $member->address ?? '—' }}
-</div>
+                    <div>
+                        <strong>Address:</strong>
+                        {{ $member->address ?? '—' }}
+                    </div>
 
-<div>
-    <strong>Joined At:</strong>
-    {{ $member->joined_at?->format('F d, Y') ?? '—' }}
-</div>
+                    <div>
+                        <strong>Joined At:</strong>
+                        {{ $member->joined_at?->format('F d, Y') ?? '—' }}
+                    </div>
 
-<hr class="my-6">
+                    <hr class="my-6">
 
-<h2 class="text-xl font-bold mb-4">
-    Membership Information
-</h2>
+                    <h2 class="text-xl font-bold mb-4">
+                        Membership Information
+                    </h2>
 
-<div>
-    <strong>Membership ID:</strong>
-    {{ $member->membership_id ?? '—' }}
-</div>
+                    <div>
+                        <strong>Membership ID:</strong>
+                        {{ $member->membership_id ?? '—' }}
+                    </div>
 
-<div>
-    <strong>Band:</strong>
-    {{ $member->band_name ?? '—' }}
-</div>
-<hr class="my-6">
+                    <div>
+                        <strong>Ministry Bands:</strong>
 
-<h2 class="text-xl font-bold mb-4">
-    Next of Kin
-</h2>
+                        @php
+                        $bands = array_filter([
+                        $member->band_one,
+                        $member->band_two,
+                        $member->band_three,
+                        ]);
+                        @endphp
 
-<div>
-    <strong>Name:</strong>
-    {{ $member->next_of_kin_name ?? '—' }}
-</div>
+                        @if(count($bands))
 
-<div>
-    <strong>Relationship:</strong>
-    {{ $member->next_of_kin_relationship ?? '—' }}
-</div>
+                        <div class="flex flex-wrap gap-2 mt-2">
 
-<div>
-    <strong>Phone:</strong>
-    {{ $member->next_of_kin_phone ?? '—' }}
-</div>
-<div>
-    <strong>Address:</strong>
-    {{ $member->next_of_kin_address ?? '—' }}
-</div>
+                            @foreach($bands as $band)
+
+                            <span class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm">
+                                {{ $band }}
+                            </span>
+
+                            @endforeach
+
+                        </div>
+
+                        @else
+
+                        <span>—</span>
+
+                        @endif
+
+                    </div>
+                    <hr class="my-6">
+
+                    <h2 class="text-xl font-bold mb-4">
+                        Next of Kin
+                    </h2>
+
+                    <div>
+                        <strong>Name:</strong>
+                        {{ $member->next_of_kin_name ?? '—' }}
+                    </div>
+
+                    <div>
+                        <strong>Relationship:</strong>
+                        {{ $member->next_of_kin_relationship ?? '—' }}
+                    </div>
+
+                    <div>
+                        <strong>Phone:</strong>
+                        {{ $member->next_of_kin_phone ?? '—' }}
+                    </div>
+                    <div>
+                        <strong>Address:</strong>
+                        {{ $member->next_of_kin_address ?? '—' }}
+                    </div>
 
                 </div>
 

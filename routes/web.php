@@ -8,9 +8,25 @@ use App\Http\Controllers\Admin\AnnouncementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AnnouncementFeedController;
+use App\Models\Member;
+use App\Models\Announcement;
 
 Route::get('/', function () {
-    return view('welcome');
+
+    return view('welcome', [
+
+        'totalMembers' => Member::count(),
+
+        'activeMembers' => Member::where('membership_status', 'active')->count(),
+
+        'totalAnnouncements' => Announcement::count(),
+
+        'totalBands' => Member::whereNotNull('band_name')
+            ->where('band_name', '!=', '')
+            ->distinct()
+            ->count('band_name'),
+
+    ]);
 });
 
 
@@ -26,17 +42,21 @@ Route::middleware(['auth', 'admin'])
 
         Route::resource('announcements', AnnouncementController::class)
             ->names('admin.announcements');
+        Route::post(
+            '/members/bulk',
+            [MemberManagementController::class, 'bulkAction']
+        )->name('admin.members.bulk');
     });
 
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/announcements', [AnnouncementFeedController::class, 'index'])
-    ->name('announcements.index');
+        ->name('announcements.index');
 
     Route::get(
-    '/announcements/{announcement}',
-    [AnnouncementFeedController::class, 'show']
-)->name('announcements.show');
+        '/announcements/{announcement}',
+        [AnnouncementFeedController::class, 'show']
+    )->name('announcements.show');
 
     Route::get('/member/profile', [MemberProfileController::class, 'edit'])
         ->name('member.profile');
@@ -58,4 +78,4 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

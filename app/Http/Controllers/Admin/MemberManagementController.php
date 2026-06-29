@@ -11,22 +11,82 @@ class MemberManagementController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->search;
+        $search = $request->input('search');
+        $status = $request->input('status');
+        $gender = $request->input('gender');
+        $baptized = $request->input('baptized');
 
         abort_unless(auth()->user()->role === 'admin', 403);
 
         $members = Member::query()
+
             ->when($search, function ($query) use ($search) {
+
                 $query->where('full_name', 'like', "%{$search}%")
                     ->orWhere('phone', 'like', "%{$search}%")
                     ->orWhere('occupation', 'like', "%{$search}%")
                     ->orWhere('membership_id', 'like', "%{$search}%")
-                    ->orWhere('band_name', 'like', "%{$search}%");
+                    ->orWhere('band_one', 'like', "%{$search}%")
+                    ->orWhere('band_two', 'like', "%{$search}%")
+                    ->orWhere('band_three', 'like', "%{$search}%");
             })
-            ->latest()
-            ->paginate(10);
 
-        return view('admin.members.index', compact('members'));
+            ->when($status, function ($query, $status) {
+                $query->where('membership_status', $status);
+            })
+
+            ->when($gender, function ($query, $gender) {
+                $query->where('gender', $gender);
+            })
+
+            ->when($request->filled('baptized'), function ($query) use ($baptized) {
+                $query->where('is_baptized', $baptized);
+            })
+
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+
+
+        return view('admin.members.index', [
+
+            'newestMember' => Member::latest()->first(),
+
+            'latestMemberId' => Member::latest()->value('membership_id'),
+
+            'displayedMembers' => $members->count(),
+
+            'members' => $members,
+
+            'totalMembers' => Member::count(),
+
+            'activeMembers' => Member::where(
+                'membership_status',
+                'active'
+            )->count(),
+
+            'inactiveMembers' => Member::where(
+                'membership_status',
+                'inactive'
+            )->count(),
+
+            'maleMembers' => Member::where(
+                'gender',
+                'male'
+            )->count(),
+
+            'femaleMembers' => Member::where(
+                'gender',
+                'female'
+            )->count(),
+
+            'baptizedMembers' => Member::where(
+                'is_baptized',
+                true
+            )->count(),
+
+        ]);
     }
 
     public function show(Member $member)
@@ -54,18 +114,21 @@ class MemberManagementController extends Controller
                 'max:2048',
             ],
 
-            'membership_id' => ['nullable', 'string'],
+            'membership_id' => ['nullable', 'string', 'max:30'],
 
             'next_of_kin_name' => ['nullable', 'string'],
             'next_of_kin_relationship' => ['nullable', 'string'],
-            'next_of_kin_phone' => ['nullable', 'string'],
+            'next_of_kin_phone' => ['nullable', 'string', 'max:30'],
             'next_of_kin_address' => ['nullable', 'string'],
 
-            'band_name' => ['nullable', 'string'],
+            'band_name' => ['nullable', 'string', 'max:30'],
+            'band_one' => ['nullable', 'string', 'max:50'],
+            'band_two' => ['nullable', 'string', 'max:50'],
+            'band_three' => ['nullable', 'string', 'max:50'],
 
-            'gender' => ['nullable', 'string'],
+            'gender' => ['nullable', 'string', 'max:30'],
             'date_of_birth' => ['nullable', 'date'],
-            'marital_status' => ['nullable', 'string'],
+            'marital_status' => ['nullable', 'string', 'max:30'],
             'is_baptized' => ['nullable', 'boolean'],
         ]);
 
@@ -90,6 +153,13 @@ class MemberManagementController extends Controller
         return redirect()
             ->route('admin.members.index')
             ->with('success', 'Member updated successfully.');
+    }
+    public function bulkAction(Request $request)
+    {
+        return back()->with(
+            'info',
+            'Bulk actions will be completed in a future update.'
+        );
     }
 
     public function destroy(Member $member)

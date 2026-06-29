@@ -1,23 +1,25 @@
 @php
-    $member = auth()->user()->member;
+$member = auth()->user()->member;
 
-    $fields = [
-    $member?->phone,
-    $member?->gender,
-    $member?->date_of_birth,
-    $member?->address,
-    $member?->occupation,
-    $member?->marital_status,
-    $member?->band_name,
-    $member?->next_of_kin_name,
-    $member?->next_of_kin_phone,
+$fields = [
+$member?->phone,
+$member?->gender,
+$member?->date_of_birth,
+$member?->address,
+$member?->occupation,
+$member?->marital_status,
+$member?->band_one,
+$member?->band_two,
+$member?->band_three,
+$member?->next_of_kin_name,
+$member?->next_of_kin_phone,
 ];
 
-    $completedFields = collect($fields)
-        ->filter()
-        ->count();
+$completedFields = collect($fields)
+->filter()
+->count();
 
-    $totalFields = count($fields);
+$totalFields = count($fields);
 @endphp
 
 <x-app-layout>
@@ -26,21 +28,21 @@
 
         <div class="max-w-7xl mx-auto px-4 space-y-8">
 
-        <div class="bg-white rounded-2xl shadow p-6">
+            <div class="bg-white rounded-2xl shadow p-6">
 
-    <h1 class="text-3xl font-bold text-gray-800">
-        Welcome, {{ auth()->user()->name }}
-    </h1>
+                <h1 class="text-3xl font-bold text-gray-800">
+                    Welcome, {{ auth()->user()->name }}
+                </h1>
 
-    <p class="text-gray-500 mt-2">
-        Stay connected with church activities and announcements.
-    </p>
+                <p class="text-gray-500 mt-2">
+                    Stay connected with church activities and announcements.
+                </p>
 
-    </div>
+            </div>
 
             <!-- Stats Cards -->
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <div class="bg-white rounded-2xl shadow p-6">
 
@@ -99,13 +101,39 @@
 
                 <div class="bg-white rounded-2xl shadow p-6">
 
-                    <div class="text-gray-500 text-sm mb-2">
-                        Band
+                    <div class="text-gray-500 text-sm mb-3">
+                        Ministry Bands
                     </div>
 
-                    <div class="text-2xl font-bold text-indigo-600">
-                        {{ $member->band_name ?? 'Not Assigned' }}
+                    @php
+                    $bands = array_filter([
+                    $member->band_one,
+                    $member->band_two,
+                    $member->band_three,
+                    ]);
+                    @endphp
+
+                    @if(count($bands))
+
+                    <div class="flex flex-wrap gap-2">
+
+                        @foreach($bands as $band)
+
+                        <span class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm">
+                            {{ $band }}
+                        </span>
+
+                        @endforeach
+
                     </div>
+
+                    @else
+
+                    <span class="text-gray-500">
+                        No ministry assigned
+                    </span>
+
+                    @endif
 
                 </div>
 
@@ -120,137 +148,137 @@
                     </div>
 
                     @if($member->next_of_kin_relationship)
-                        <div class="text-sm text-gray-500 mt-1">
-                            {{ $member->next_of_kin_relationship }}
-                        </div>
+                    <div class="text-sm text-gray-500 mt-1">
+                        {{ $member->next_of_kin_relationship }}
+                    </div>
                     @endif
 
                     @if($member->next_of_kin_phone)
-                        <div class="text-sm text-blue-600 mt-1">
-                            {{ $member->next_of_kin_phone }}
-                        </div>
+                    <div class="text-sm text-blue-600 mt-1">
+                        {{ $member->next_of_kin_phone }}
+                    </div>
                     @endif
 
                 </div>
 
             </div>
 
-                <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
+            <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
 
-                    <h2 class="text-xl font-bold text-blue-800 mb-2">
-                        Complete Your Profile
-                    </h2>
-
-                    <p class="text-blue-700 mb-4">
-                        Your profile completion is currently
-                        {{ $completedFields }}/{{ $totalFields }}.
-                    </p>
-
-                    <a href="{{ route('member.profile') }}"
-                        class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg">
-
-                        Update Profile
-
-                    </a>
-
-                </div>
-
-            </div>
-
-            <!-- Quick Actions -->
-
-            <div class="bg-white rounded-2xl shadow p-8">
-
-                <h2 class="text-3xl font-bold mb-8">
-                    Quick Actions
+                <h2 class="text-xl font-bold text-blue-800 mb-2">
+                    Complete Your Profile
                 </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <p class="text-blue-700 mb-4">
+                    Your profile completion is currently
+                    {{ $completedFields }}/{{ $totalFields }}.
+                </p>
 
-    <a href="{{ route('member.profile') }}"
-       class="bg-blue-600 hover:bg-blue-700 text-white p-6 rounded-2xl text-lg font-semibold transition">
+                <a href="{{ route('member.profile') }}"
+                    class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg">
 
-        My Profile
+                    Update Profile
 
-    </a>
-
-    <a href="{{ route('announcements.index') }}"
-       class="bg-purple-600 hover:bg-purple-700 text-white p-6 rounded-2xl text-lg font-semibold transition">
-
-        Announcements
-
-    </a>
-
-</div>
-
-            </div>
-
-            <!-- Latest Announcements -->
-
-            <div class="bg-white border rounded-2xl p-6">
-
-                <div class="flex items-center justify-between mb-4">
-
-                    <h3 class="text-xl font-bold text-gray-800">
-                        Latest Announcements
-                    </h3>
-
-                    <a href="{{ route('announcements.index') }}"
-                       class="text-sm text-blue-600 hover:text-blue-700 font-medium">
-
-                        View All
-
-                    </a>
-
-                </div>
-
-                <div class="space-y-4">
-
-                    @forelse(
-                        \App\Models\Announcement::where('is_active', true)
-                  
-                        ->latest()
-                            ->take(3)
-                            ->get()
-                        as $announcement
-                        )
-
-                        <div class="border rounded-xl p-4">
-
-                            <h4 class="font-semibold text-gray-800 mb-2">
-                                {{ $announcement->title }}
-                            </h4>
-
-                            <p class="text-sm text-gray-600 mb-3">
-
-                                {{ Str::limit($announcement->content, 120) }}
-
-                            </p>
-
-                            <div class="text-xs text-gray-400">
-
-                                Posted
-                                {{ $announcement->created_at->diffForHumans() }}
-
-                            </div>
-
-                        </div>
-
-                    @empty
-
-                        <div class="text-sm text-gray-500">
-
-                            No announcements available.
-
-                        </div>
-
-                    @endforelse
-
-                </div>
+                </a>
 
             </div>
 
         </div>
+
+        <!-- Quick Actions -->
+
+        <div class="bg-white rounded-2xl shadow p-8">
+
+            <h2 class="text-3xl font-bold mb-8">
+                Quick Actions
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <a href="{{ route('member.profile') }}"
+                    class="bg-blue-600 hover:bg-blue-700 text-white p-6 rounded-2xl text-lg font-semibold transition">
+
+                    My Profile
+
+                </a>
+
+                <a href="{{ route('announcements.index') }}"
+                    class="bg-purple-600 hover:bg-purple-700 text-white p-6 rounded-2xl text-lg font-semibold transition">
+
+                    Announcements
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Latest Announcements -->
+
+        <div class="bg-white border rounded-2xl p-6">
+
+            <div class="flex items-center justify-between mb-4">
+
+                <h3 class="text-xl font-bold text-gray-800">
+                    Latest Announcements
+                </h3>
+
+                <a href="{{ route('announcements.index') }}"
+                    class="text-sm text-blue-600 hover:text-blue-700 font-medium">
+
+                    View All
+
+                </a>
+
+            </div>
+
+            <div class="space-y-4">
+
+                @forelse(
+                \App\Models\Announcement::where('is_active', true)
+
+                ->latest()
+                ->take(3)
+                ->get()
+                as $announcement
+                )
+
+                <div class="border rounded-xl p-4">
+
+                    <h4 class="font-semibold text-gray-800 mb-2">
+                        {{ $announcement->title }}
+                    </h4>
+
+                    <p class="text-sm text-gray-600 mb-3">
+
+                        {{ Str::limit($announcement->content, 120) }}
+
+                    </p>
+
+                    <div class="text-xs text-gray-400">
+
+                        Posted
+                        {{ $announcement->created_at->diffForHumans() }}
+
+                    </div>
+
+                </div>
+
+                @empty
+
+                <div class="text-sm text-gray-500">
+
+                    No announcements available.
+
+                </div>
+
+                @endforelse
+
+            </div>
+
+        </div>
+
+    </div>
 
     </div>
 

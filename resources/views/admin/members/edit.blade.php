@@ -1,3 +1,6 @@
+@php
+$bands = config('church.bands');
+@endphp
 <x-app-layout>
 
     <div class="py-10">
@@ -10,9 +13,9 @@
                 </h1>
 
                 <form method="POST"
-                        action="{{ route('admin.members.update', $member) }}"
-                        enctype="multipart/form-data"
-                        class="space-y-6">
+                    action="{{ route('admin.members.update', $member) }}"
+                    enctype="multipart/form-data"
+                    class="space-y-6">
 
                     @csrf
                     @method('PUT')
@@ -21,9 +24,9 @@
                         <label class="block mb-2">Full Name</label>
 
                         <input type="text"
-                               name="full_name"
-                               value="{{ old('full_name', $member->full_name) }}"
-                               class="w-full rounded-lg border-gray-300">
+                            name="full_name"
+                            value="{{ old('full_name', $member->full_name) }}"
+                            class="w-full rounded-lg border-gray-300">
                     </div>
 
                     <div>
@@ -39,45 +42,86 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2">
-                            Band
-                        </label>
+                        <div>
+                            <label class="block mb-2">
+                                Band 1
+                            </label>
 
-                        <select name="band_name"
-                            class="w-full rounded-lg border-gray-300">
+                            <select
+                                name="band_one"
+                                class="w-full rounded-lg border-gray-300">
 
-                            <option value="">Select Band</option>
+                                <option value="">Select Band</option>
 
-                            @foreach([
-                                'Ruth',
-                                'Hope',
-                                'Rhoda',
-                                'Queen Sheba',
-                                'Deborah',
-                                'Elizabeth',
-                                'Rebecca',
-                                'Martha',
-                                'Dorcas',
-                                'Abigail',
-                                'Lydia',
-                                'Mary',
-                                'Queen Esther',
-                                'Samuel',
-                                'Joseph',
-                                'Early Morning Star',
-                                'Love Divine',
-                                'Show the Glory of God',
-                                'Soldiers of Christ',
-                                'King David'
-                                ] as $band)
+                                @foreach($bands as $band)
 
-                                <option value="{{ $band }}"
-                                    @selected($member->band_name === $band)>
+                                <option
+                                    value="{{ $band }}"
+                                    @selected(old('band_one', $member->band_one) === $band)>
+
                                     {{ $band }}
+
                                 </option>
 
-                            @endforeach
-                        </select>
+                                @endforeach
+
+                            </select>
+
+                        </div>
+                        <div>
+                            <label class="block mb-2">
+                                Band 2
+                            </label>
+
+                            <select
+                                name="band_two"
+                                class="w-full rounded-lg border-gray-300">
+
+                                <option value="">Select Band</option>
+
+                                @foreach($bands as $band)
+
+                                <option
+                                    value="{{ $band }}"
+                                    @selected(old('band_two', $member->band_two) === $band)>
+
+                                    {{ $band }}
+
+                                </option>
+
+                                @endforeach
+
+                            </select>
+
+                        </div>
+
+                        <div>
+                            <label class="block mb-2">
+                                Band 3
+                            </label>
+
+                            <select
+                                name="band_three"
+                                class="w-full rounded-lg border-gray-300">
+
+                                <option value="">Select Band</option>
+
+                                @foreach($bands as $band)
+
+                                <option
+                                    value="{{ $band }}"
+                                    @selected(old('band_three', $member->band_three) === $band)>
+
+                                    {{ $band }}
+
+                                </option>
+
+                                @endforeach
+
+                            </select>
+
+                        </div>
+
                     </div>
 
                     <hr>
@@ -87,9 +131,9 @@
                     </h2>
 
                     <div>
-                    <label class="block mb-2">
+                        <label class="block mb-2">
                             Next of Kin Name
-                    </label>
+                        </label>
 
                         <input type="text"
                             name="next_of_kin_name"
@@ -98,9 +142,9 @@
                     </div>
 
                     <div>
-                    <label class="block mb-2">
-                        Relationship
-                    </label>
+                        <label class="block mb-2">
+                            Relationship
+                        </label>
 
                         <input type="text"
                             name="next_of_kin_relationship"
@@ -114,37 +158,37 @@
                         </label>
 
                         <input type="text"
-                                name="next_of_kin_phone"
-                                value="{{ old('next_of_kin_phone', $member->next_of_kin_phone) }}"
-                                class="w-full rounded-lg border-gray-300">
+                            name="next_of_kin_phone"
+                            value="{{ old('next_of_kin_phone', $member->next_of_kin_phone) }}"
+                            class="w-full rounded-lg border-gray-300">
                     </div>
 
                     <div>
-                    <label class="block mb-2">
-                        Next of Kin Address
-                    </label>
+                        <label class="block mb-2">
+                            Next of Kin Address
+                        </label>
 
-                    <textarea
-                        name="next_of_kin_address"
-                        class="w-full rounded-lg border-gray-300">{{ old('next_of_kin_address', $member->next_of_kin_address) }}</textarea>
+                        <textarea
+                            name="next_of_kin_address"
+                            class="w-full rounded-lg border-gray-300">{{ old('next_of_kin_address', $member->next_of_kin_address) }}</textarea>
                     </div>
 
                     <div>
                         <label class="block mb-2">Phone</label>
 
                         <input type="text"
-                               name="phone"
-                               value="{{ old('phone', $member->phone) }}"
-                               class="w-full rounded-lg border-gray-300">
+                            name="phone"
+                            value="{{ old('phone', $member->phone) }}"
+                            class="w-full rounded-lg border-gray-300">
                     </div>
 
                     <div>
                         <label class="block mb-2">Occupation</label>
 
                         <input type="text"
-                               name="occupation"
-                               value="{{ old('occupation', $member->occupation) }}"
-                               class="w-full rounded-lg border-gray-300">
+                            name="occupation"
+                            value="{{ old('occupation', $member->occupation) }}"
+                            class="w-full rounded-lg border-gray-300">
                     </div>
 
                     <div>
@@ -153,7 +197,7 @@
                         </label>
 
                         <select name="gender"
-                                class="w-full rounded-lg border-gray-300">
+                            class="w-full rounded-lg border-gray-300">
 
                             <option value="">Select Gender</option>
 
@@ -176,9 +220,9 @@
                         </label>
 
                         <input type="date"
-                               name="date_of_birth"
-                               value="{{ old('date_of_birth', optional($member->date_of_birth)->format('Y-m-d')) }}"
-                               class="w-full rounded-lg border-gray-300">
+                            name="date_of_birth"
+                            value="{{ old('date_of_birth', optional($member->date_of_birth)->format('Y-m-d')) }}"
+                            class="w-full rounded-lg border-gray-300">
                     </div>
 
                     <div>
@@ -198,7 +242,7 @@
                         </label>
 
                         <textarea name="address"
-                                class="w-full rounded-lg border-gray-300">{{ old('address', $member->address) }}</textarea>
+                            class="w-full rounded-lg border-gray-300">{{ old('address', $member->address) }}</textarea>
                     </div>
 
                     <div>
@@ -207,7 +251,7 @@
                         </label>
 
                         <select name="marital_status"
-                                class="w-full rounded-lg border-gray-300">
+                            class="w-full rounded-lg border-gray-300">
 
                             <option value="">Select Status</option>
 
@@ -227,9 +271,9 @@
                     <div class="flex items-center gap-3">
 
                         <input type="checkbox"
-                               name="is_baptized"
-                               value="1"
-                               @checked($member->is_baptized)>
+                            name="is_baptized"
+                            value="1"
+                            @checked($member->is_baptized)>
 
                         <label>
                             Baptized
@@ -243,23 +287,23 @@
                         </label>
 
                         <input type="file"
-                               name="profile_picture"
-                               class="w-full rounded-lg border-gray-300">
+                            name="profile_picture"
+                            class="w-full rounded-lg border-gray-300">
                     </div>
 
-                        @if ($member->profile_picture)
+                    @if ($member->profile_picture)
 
-                            <img src="{{ asset('storage/' . $member->profile_picture) }}"
-                                class="w-24 h-24 rounded-full object-cover border">
+                    <img src="{{ asset('storage/' . $member->profile_picture) }}"
+                        class="w-24 h-24 rounded-full object-cover border">
 
-                        @endif
+                    @endif
                     <div>
                         <label class="block mb-2">
                             Membership Status
                         </label>
 
                         <select name="membership_status"
-                                class="w-full rounded-lg border-gray-300">
+                            class="w-full rounded-lg border-gray-300">
 
                             <option value="active"
                                 @selected($member->membership_status === 'active')>
@@ -276,7 +320,7 @@
                     </div>
 
                     <button type="submit"
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
 
                         Update Member
 

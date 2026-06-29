@@ -41,6 +41,9 @@ class MemberProfileController extends Controller
             'next_of_kin_phone' => ['nullable', 'string'],
             'next_of_kin_address' => ['nullable', 'string'],
             'band_name' => ['nullable', 'string'],
+            'band_one' => ['nullable', 'string', 'max:50'],
+            'band_two' => ['nullable', 'string', 'max:50'],
+            'band_three' => ['nullable', 'string', 'max:50'],
         ]);
 
         if ($request->hasFile('profile_picture')) {
