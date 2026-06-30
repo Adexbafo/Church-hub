@@ -251,6 +251,27 @@ $bands = config('church.bands');
                                 <strong>Baptized:</strong>
                                 {{ $member->is_baptized ? 'Yes' : 'No' }}
                             </p>
+                            <p>
+                                <strong>Bands:</strong>
+                            </p>
+
+                            <div class="flex flex-wrap gap-2 mt-2">
+
+                                @foreach(array_filter([
+                                $member->band_one,
+                                $member->band_two,
+                                $member->band_three,
+                                ]) as $band)
+
+                                <span class="px-2 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs">
+
+                                    {{ $band }}
+
+                                </span>
+
+                                @endforeach
+
+                            </div>
 
                         </div>
 
@@ -287,17 +308,21 @@ $bands = config('church.bands');
 
                 </div>
 
-                <form method="POST" action="{{ route('admin.members.bulk') }}">
+                <form id="bulk-form" method="POST" action="{{ route('admin.members.bulk') }}">
                     @csrf
+
+                    <input
+                        type="hidden"
+                        name="action"
+                        id="bulk-action">
 
                     <div class="hidden md:block overflow-x-auto rounded-xl border">
 
                         <div class="flex flex-wrap gap-3 mb-4">
 
                             <button
-                                type="submit"
-                                name="action"
-                                value="activate"
+                                type="button"
+                                id="activate-selected"
                                 class="bg-green-600 text-white px-4 py-2 rounded-lg">
 
                                 Activate Selected
@@ -305,9 +330,8 @@ $bands = config('church.bands');
                             </button>
 
                             <button
-                                type="submit"
-                                name="action"
-                                value="deactivate"
+                                type="button"
+                                id="deactivate-selected"
                                 class="bg-yellow-500 text-white px-4 py-2 rounded-lg">
 
                                 Deactivate Selected
@@ -315,14 +339,28 @@ $bands = config('church.bands');
                             </button>
 
                             <button
-                                type="submit"
-                                name="action"
-                                value="delete"
+                                type="button"
+                                id="delete-selected"
                                 class="bg-red-600 text-white px-4 py-2 rounded-lg">
 
                                 Delete Selected
 
                             </button>
+
+                            <a
+                                href="{{ route('admin.members.export', request()->query()) }}"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">
+
+                                Export CSV
+
+                            </a>
+                            <a href="{{ route('admin.members.print') }}"
+                                target="_blank"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">
+
+                                Print Members
+
+                            </a>
 
                         </div>
 
@@ -539,16 +577,85 @@ $bands = config('church.bands');
         </div>
     </div>
     <script>
-        document.getElementById('select-all')
-            ?.addEventListener('change', function() {
+        function hasSelection() {
 
-                document
-                    .querySelectorAll('.member-checkbox')
-                    .forEach(box => {
+            return document.querySelectorAll(
+                '.member-checkbox:checked'
+            ).length > 0;
 
-                        box.checked = this.checked;
+        }
+        const bulkForm = document.getElementById('bulk-form');
+        const actionInput = document.getElementById('bulk-action');
 
-                    });
+        const selectAll = document.getElementById('select-all');
+
+        selectAll?.addEventListener('change', function() {
+
+            document
+                .querySelectorAll('.member-checkbox')
+                .forEach(function(checkbox) {
+
+                    checkbox.checked = selectAll.checked;
+
+                });
+
+        });
+
+        document
+            .getElementById('activate-selected')
+            .addEventListener('click', () => {
+
+                if (!hasSelection()) {
+
+                    alert('Please select at least one member.');
+
+                    return;
+
+                }
+
+                actionInput.value = 'activate';
+
+                bulkForm.submit();
+
+            });
+
+        document
+            .getElementById('deactivate-selected')
+            .addEventListener('click', () => {
+
+                if (!hasSelection()) {
+
+                    alert('Please select at least one member.');
+
+                    return;
+
+                }
+
+                actionInput.value = 'deactivate';
+
+                bulkForm.submit();
+
+            });
+
+        document
+            .getElementById('delete-selected')
+            .addEventListener('click', () => {
+
+                if (!hasSelection()) {
+
+                    alert('Please select at least one member.');
+
+                    return;
+
+                }
+
+                if (!confirm('Delete selected members?')) {
+                    return;
+                }
+
+                actionInput.value = 'delete';
+
+                bulkForm.submit();
 
             });
     </script>

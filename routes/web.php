@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AnnouncementFeedController;
 use App\Models\Member;
 use App\Models\Announcement;
+use Illuminate\Support\Collection;
 
 Route::get('/', function () {
 
@@ -21,10 +22,22 @@ Route::get('/', function () {
 
         'totalAnnouncements' => Announcement::count(),
 
-        'totalBands' => Member::whereNotNull('band_name')
-            ->where('band_name', '!=', '')
-            ->distinct()
-            ->count('band_name'),
+        'totalBands' => collect(
+
+            Member::select('band_one', 'band_two', 'band_three')->get()
+
+        )
+            ->flatMap(function ($member) {
+
+                return [
+                    $member->band_one,
+                    $member->band_two,
+                    $member->band_three,
+                ];
+            })
+            ->filter()
+            ->unique()
+            ->count(),
 
     ]);
 });
@@ -36,6 +49,16 @@ Route::middleware(['auth', 'admin'])
 
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])
             ->name('admin.dashboard');
+
+        Route::get(
+            '/members/print',
+            [MemberManagementController::class, 'print']
+        )->name('admin.members.print');
+
+        Route::get(
+            '/members/export',
+            [MemberManagementController::class, 'export']
+        )->name('admin.members.export');
 
         Route::resource('members', MemberManagementController::class)
             ->names('admin.members');

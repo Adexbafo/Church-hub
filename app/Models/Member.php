@@ -25,7 +25,6 @@ class Member extends Model
         'next_of_kin_relationship',
         'next_of_kin_phone',
         'next_of_kin_address',
-        'band_name',
         'band_one',
         'band_two',
         'band_three',
