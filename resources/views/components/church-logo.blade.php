@@ -1,0 +1,1 @@
+<img src="{{ asset('pwa-192x192.png') }}" alt="{{ config('app.name') }}" {{ $attributes }}>
