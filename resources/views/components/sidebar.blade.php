@@ -13,74 +13,111 @@
 
     <nav class="p-4 space-y-2">
 
-@if(auth()->user()->role === 'admin')
+        @if(auth()->user()->role === 'admin')
 
-    <a href="{{ route('admin.dashboard') }}"
-       class="block px-4 py-3 rounded-lg
+        <a href="{{ route('admin.dashboard') }}"
+            class="block px-4 py-3 rounded-lg
        {{ request()->routeIs('admin.dashboard')
            ? 'bg-blue-100 text-blue-700'
            : 'text-gray-700 hover:bg-blue-50' }}">
-        Dashboard
-    </a>
+            Dashboard
+        </a>
 
-    <a href="{{ route('admin.members.index') }}"
-       class="block px-4 py-3 rounded-lg
+        <a href="{{ route('admin.members.index') }}"
+            class="block px-4 py-3 rounded-lg
        {{ request()->routeIs('admin.members.*')
            ? 'bg-blue-100 text-blue-700'
            : 'text-gray-700 hover:bg-blue-50' }}">
-        Members
-    </a>
+            Members
+        </a>
 
-    <a href="{{ route('admin.announcements.index') }}"
-       class="block px-4 py-3 rounded-lg
+        <a href="{{ route('admin.announcements.index') }}"
+            class="block px-4 py-3 rounded-lg
        {{ request()->routeIs('admin.announcements.*')
            ? 'bg-blue-100 text-blue-700'
            : 'text-gray-700 hover:bg-blue-50' }}">
-        Announcements
-    </a>
+            Announcements
+        </a>
+        <a href="{{ route('admin.notifications.index') }}"
+            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
 
-@else
+            🔔
 
-    <a href="{{ route('dashboard') }}"
-   class="block px-4 py-3 rounded-lg
+            <span class="ml-3">
+                Notifications
+            </span>
+
+        </a>
+
+
+        @else
+
+        <a href="{{ route('dashboard') }}"
+            class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('dashboard')
        ? 'bg-blue-100 text-blue-700'
        : 'text-gray-700 hover:bg-blue-50' }}">
-    Dashboard
-    </a>
+            Dashboard
+        </a>
 
-    <a href="{{ route('member.profile') }}"
-       class="block px-4 py-3 rounded-lg
+        <a href="{{ route('member.profile') }}"
+            class="block px-4 py-3 rounded-lg
        {{ request()->routeIs('member.profile')
            ? 'bg-blue-100 text-blue-700'
            : 'text-gray-700 hover:bg-blue-50' }}">
-        My Profile
-    </a>
+            My Profile
+        </a>
 
-    <a href="{{ route('announcements.index') }}"
-       class="block px-4 py-3 rounded-lg
+        <a href="{{ route('announcements.index') }}"
+            class="block px-4 py-3 rounded-lg
        {{ request()->routeIs('announcements.index')
            ? 'bg-blue-100 text-blue-700'
            : 'text-gray-700 hover:bg-blue-50' }}">
-        Announcements
-    </a>
+            Announcements
+        </a>
+        <a href="{{ route('notifications.index') }}"
+            class="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-100">
 
-@endif
+            <div class="flex items-center">
 
-<div class="pt-6 border-t mt-6">
+                <span>🔔</span>
 
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
+                <span class="ml-3">
 
-        <button type="submit"
-                class="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg">
-            Logout
-        </button>
+                    Notifications
 
-    </form>
+                </span>
 
-</div>
+            </div>
 
-</nav>
+            @if(($unreadNotifications ?? 0) > 0)
+
+            <span
+                class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+
+                {{ $unreadNotifications }}
+
+            </span>
+
+            @endif
+
+        </a>
+        @endif
+
+        <div class="pt-6 border-t mt-6">
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+
+                <button type="submit"
+                    class="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg">
+                    Logout
+                </button>
+
+            </form>
+
+        </div>
+
+    </nav>
 
 </aside>

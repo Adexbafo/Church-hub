@@ -11,6 +11,8 @@ use App\Http\Controllers\AnnouncementFeedController;
 use App\Models\Member;
 use App\Models\Announcement;
 use Illuminate\Support\Collection;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\NotificationFeedController;
 
 Route::get('/', function () {
 
@@ -65,6 +67,10 @@ Route::middleware(['auth', 'admin'])
 
         Route::resource('announcements', AnnouncementController::class)
             ->names('admin.announcements');
+
+        Route::resource('notifications', NotificationController::class)
+            ->names('admin.notifications');
+
         Route::post(
             '/members/bulk',
             [MemberManagementController::class, 'bulkAction']
@@ -80,6 +86,12 @@ Route::middleware(['auth'])->group(function () {
         '/announcements/{announcement}',
         [AnnouncementFeedController::class, 'show']
     )->name('announcements.show');
+
+    Route::get('/notifications', [NotificationFeedController::class, 'index'])
+        ->name('notifications.index');
+
+    Route::get('/notifications/{notification}', [NotificationFeedController::class, 'show'])
+        ->name('notifications.show');
 
     Route::get('/member/profile', [MemberProfileController::class, 'edit'])
         ->name('member.profile');

@@ -11,7 +11,7 @@
                 </h1>
 
                 <form method="POST"
-                      action="{{ route('admin.announcements.store') }}">
+                    action="{{ route('admin.announcements.store') }}">
 
                     @csrf
 
@@ -22,9 +22,9 @@
                         </label>
 
                         <input type="text"
-                               name="title"
-                               class="w-full border rounded-lg px-4 py-3"
-                               required>
+                            name="title"
+                            class="w-full border rounded-lg px-4 py-3"
+                            required>
 
                     </div>
 
@@ -35,14 +35,34 @@
                         </label>
 
                         <textarea name="content"
-                                  rows="6"
-                                  class="w-full border rounded-lg px-4 py-3"
-                                  required></textarea>
+                            rows="6"
+                            class="w-full border rounded-lg px-4 py-3"
+                            required></textarea>
+
+                    </div>
+
+                    <div class="mb-6">
+
+                        <label class="flex items-center gap-3">
+
+                            <input
+                                type="checkbox"
+                                name="send_notification"
+                                value="1"
+                                @checked(old('send_notification'))>
+
+                            Notify members immediately
+
+                        </label>
+
+                        <p class="text-sm text-gray-500 ml-7 mt-1">
+                            Automatically create a notification when this announcement is published.
+                        </p>
 
                     </div>
 
                     <button type="submit"
-                            class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+                        class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
 
                         Publish Announcement
 
