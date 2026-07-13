@@ -58,9 +58,14 @@ class FundCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(FundCategory $fundCategory)
     {
-        //
+        return view(
+            'admin.fund-categories.show',
+            [
+                'category' => $fundCategory,
+            ]
+        );
     }
 
     /**
@@ -70,7 +75,9 @@ class FundCategoryController extends Controller
     {
         return view(
             'admin.fund-categories.edit',
-            compact('fundCategory')
+            [
+                'category' => $fundCategory,
+            ]
         );
     }
 
