@@ -25,10 +25,17 @@ return new class extends Migration
                 ->constrained()
                 ->nullOnDelete();
 
+            $table->string('donor_name')
+                ->nullable();
+
             $table->decimal('amount', 15, 2);
 
-            $table->string('payment_method')
-                ->nullable();
+            $table->enum('payment_method', [
+                'cash',
+                'bank_transfer',
+                'pos',
+                'online',
+            ])->nullable();
 
             $table->string('reference')
                 ->nullable();

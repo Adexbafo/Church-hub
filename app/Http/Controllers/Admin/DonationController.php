@@ -50,6 +50,12 @@ class DonationController extends Controller
 
             'user_id' => 'nullable|exists:users,id',
 
+            'donor_name' => [
+                'nullable',
+                'string',
+                'max:255'
+            ],
+
             'fund_category_id' => [
                 'required',
                 'exists:fund_categories,id'
@@ -82,6 +88,15 @@ class DonationController extends Controller
             ],
 
         ]);
+
+        if (auth()->check()) {
+            $validated['user_id'] = auth()->id();
+        }
+
+        $validated['receipt_number'] =
+            'REC-' . now()->format('YmdHis');
+
+        $validated['reference'] = $validated['receipt_number'];
 
         $donation = Donation::create($validated);
 
@@ -157,7 +172,9 @@ class DonationController extends Controller
         Request $request,
         Donation $donation
     ) {
+
         $validated = $request->validate([
+            'donor_name' => 'nullable|string|max:255',
 
             'fund_category_id' => 'required|exists:fund_categories,id',
             'amount' => 'required|numeric|min:0',

@@ -16,6 +16,7 @@ use App\Http\Controllers\NotificationFeedController;
 use App\Http\Controllers\Admin\FinancialDashboardController;
 use App\Http\Controllers\Admin\FundCategoryController;
 use App\Http\Controllers\Admin\DonationController;
+use App\Http\Controllers\Admin\ExpenseController;
 
 Route::get('/', function () {
 
@@ -90,6 +91,10 @@ Route::middleware(['auth', 'admin'])
             'donations',
             DonationController::class
         )->names('admin.donations');
+        Route::resource(
+            'expenses',
+            ExpenseController::class
+        );
     });
 
 Route::middleware(['auth'])->group(function () {

@@ -15,16 +15,22 @@ return new class extends Migration
 
             $table->id();
 
-            $table->string('title');
-
-            $table->string('category');
+            $table->foreignId('fund_category_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
 
             $table->decimal('amount', 15, 2);
 
-            $table->string('reference')
-                ->nullable();
+            $table->string('expense_title');
 
             $table->text('description')
+                ->nullable();
+
+            $table->string('payment_method')
+                ->nullable();
+
+            $table->string('reference')
                 ->nullable();
 
             $table->date('expense_date');

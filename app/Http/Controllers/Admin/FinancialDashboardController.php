@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Donation;
 use App\Models\Expense;
 use App\Models\FinancialTransaction;
+use Illuminate\Support\Facades\DB;
 
 class FinancialDashboardController extends Controller
 {
@@ -45,6 +46,24 @@ class FinancialDashboardController extends Controller
             ->take(5)
             ->get();
 
+        $incomeByCategory = FinancialTransaction::select(
+            'fund_category_id',
+            DB::raw('SUM(amount) as total')
+        )
+            ->where('transaction_type', 'income')
+            ->groupBy('fund_category_id')
+            ->with('fundCategory')
+            ->get();
+
+        $expenseByCategory = FinancialTransaction::select(
+            'fund_category_id',
+            DB::raw('SUM(amount) as total')
+        )
+            ->where('transaction_type', 'expense')
+            ->groupBy('fund_category_id')
+            ->with('fundCategory')
+            ->get();
+
         return view(
             'admin.financial.dashboard',
             compact(
@@ -54,7 +73,9 @@ class FinancialDashboardController extends Controller
                 'thisMonthGiving',
                 'recentTransactions',
                 'recentDonations',
-                'recentExpenses'
+                'recentExpenses',
+                'incomeByCategory',
+                'expenseByCategory'
             )
         );
     }

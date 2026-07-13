@@ -9,6 +9,7 @@ class Donation extends Model
     protected $fillable = [
         'user_id',
         'fund_category_id',
+        'donor_name',
         'amount',
         'payment_method',
         'reference',
@@ -19,6 +20,7 @@ class Donation extends Model
 
     protected $casts = [
         'donation_date' => 'date',
+        'amount' => 'decimal:2',
     ];
 
     public function user()

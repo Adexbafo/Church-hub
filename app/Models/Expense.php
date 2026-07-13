@@ -7,18 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 class Expense extends Model
 {
     protected $fillable = [
-        'title',
-        'category',
+        'fund_category_id',
         'amount',
-        'reference',
+        'expense_title',
         'description',
+        'payment_method',
+        'reference',
         'expense_date',
         'recorded_by',
     ];
 
     protected $casts = [
         'expense_date' => 'date',
+        'amount' => 'decimal:2',
     ];
+
+    public function fundCategory()
+    {
+        return $this->belongsTo(FundCategory::class);
+    }
 
     public function recorder()
     {

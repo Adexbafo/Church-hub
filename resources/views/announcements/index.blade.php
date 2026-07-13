@@ -11,42 +11,42 @@
 
                 @forelse ($announcements as $announcement)
 
-                    <div class="bg-white shadow rounded-xl p-6">
+                <div class="bg-white shadow rounded-xl p-6">
 
-                        <h2 class="text-xl font-semibold mb-3">
-                            {{ $announcement->title }}
-                        </h2>
+                    <h2 class="text-xl font-semibold mb-3">
+                        {{ $announcement->title }}
+                    </h2>
 
-                        <p class="text-gray-700 whitespace-pre-line">
-                            {{ $announcement->content }}
-                        </p>
+                    <p class="text-gray-700 whitespace-pre-line">
+                        {{ $announcement->content }}
+                    </p>
 
-                        <div class="mt-4 text-sm text-gray-500">
-                            {{ $announcement->created_at->format('F d, Y') }}
-                        </div>
+                    <div class="mt-4 text-sm text-gray-500">
+                        {{ $announcement->created_at->format('F d, Y') }}
+                    </div>
+
+                    <div class="mt-4">
+
+                        <a
+                            href="{{ route('announcements.show', $announcement) }}"
+                            class="text-blue-600 hover:text-blue-700 font-medium">
+
+                            Read More →
+
+                        </a>
 
                     </div>
+
+                </div>
 
                 @empty
 
-                    <div class="bg-white shadow rounded-xl p-6">
-                        No announcements available.
-                    </div>
+                <div class="bg-white shadow rounded-xl p-6">
+                    No announcements available.
+                </div>
 
                 @endforelse
-
             </div>
-            <div class="mt-4">
-
-    <a href="{{ route('announcements.show', $announcement) }}"
-       class="text-blue-600 hover:text-blue-700 font-medium">
-
-        Read More →
-
-    </a>
-
-    </div>
-
         </div>
     </div>
 
