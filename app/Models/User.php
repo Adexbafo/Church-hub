@@ -34,4 +34,17 @@ class User extends Authenticatable
     {
         return $this->hasOne(Member::class);
     }
+
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
+    }
+
+    public function financialTransactions()
+    {
+        return $this->hasMany(
+            FinancialTransaction::class,
+            'recorded_by'
+        );
+    }
 }

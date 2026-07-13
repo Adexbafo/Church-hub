@@ -48,15 +48,47 @@
             </span>
 
         </a>
+        <a href="{{ route('admin.financial.dashboard') }}"
+            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
+
+            💰
+
+            <span class="ml-3">
+                Financial Dashboard
+            </span>
+
+        </a>
+        <a
+            href="{{ route('admin.fund-categories.index') }}"
+            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
+
+            🗂️
+
+            <span class="ml-3">
+                Fund Categories
+            </span>
+
+        </a>
+        <a
+            href="{{ route('admin.donations.index') }}"
+            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
+
+            💵
+
+            <span class="ml-3">
+                Donations
+            </span>
+
+        </a>
 
 
         @else
 
         <a href="{{ route('dashboard') }}"
             class="block px-4 py-3 rounded-lg
-   {{ request()->routeIs('dashboard')
-       ? 'bg-blue-100 text-blue-700'
-       : 'text-gray-700 hover:bg-blue-50' }}">
+        {{ request()->routeIs('dashboard')
+           ? 'bg-blue-100 text-blue-700'
+           : 'text-gray-700 hover:bg-blue-50' }}">
             Dashboard
         </a>
 

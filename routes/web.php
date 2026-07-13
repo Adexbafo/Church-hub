@@ -13,6 +13,9 @@ use App\Models\Announcement;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\NotificationFeedController;
+use App\Http\Controllers\Admin\FinancialDashboardController;
+use App\Http\Controllers\Admin\FundCategoryController;
+use App\Http\Controllers\Admin\DonationController;
 
 Route::get('/', function () {
 
@@ -75,6 +78,18 @@ Route::middleware(['auth', 'admin'])
             '/members/bulk',
             [MemberManagementController::class, 'bulkAction']
         )->name('admin.members.bulk');
+        Route::get(
+            '/financial-dashboard',
+            [FinancialDashboardController::class, 'index']
+        )->name('admin.financial.dashboard');
+        Route::resource(
+            'fund-categories',
+            FundCategoryController::class
+        )->names('admin.fund-categories');
+        Route::resource(
+            'donations',
+            DonationController::class
+        )->names('admin.donations');
     });
 
 Route::middleware(['auth'])->group(function () {
