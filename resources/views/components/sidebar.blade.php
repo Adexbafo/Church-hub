@@ -89,6 +89,27 @@
         </a>
 
 
+        <a href="{{ route('admin.financial-reports.index') }}"
+            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
+
+            📊
+
+            <span class="ml-3">
+                Financial Reports
+            </span>
+        </a>
+
+        <a href="{{ route('admin.audit-logs.index') }}"
+            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
+
+            📋
+
+            <span class="ml-3">
+                Audit Logs
+            </span>
+        </a>
+
+
         @else
 
         <a href="{{ route('dashboard') }}"

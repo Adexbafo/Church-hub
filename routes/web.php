@@ -17,6 +17,8 @@ use App\Http\Controllers\Admin\FinancialDashboardController;
 use App\Http\Controllers\Admin\FundCategoryController;
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\ExpenseController;
+use App\Http\Controllers\Admin\FinancialReportController;
+use App\Http\Controllers\Admin\AuditLogController;
 
 Route::get('/', function () {
 
@@ -95,6 +97,25 @@ Route::middleware(['auth', 'admin'])
             'expenses',
             ExpenseController::class
         );
+        Route::get(
+            '/financial-reports',
+            [FinancialReportController::class, 'index']
+        )
+            ->name('admin.financial-reports.index');
+
+        Route::get(
+            '/audit-logs',
+            [AuditLogController::class, 'index']
+        )->name('admin.audit-logs.index');
+        Route::get(
+            '/financial-reports/export/csv',
+            [FinancialReportController::class, 'exportCsv']
+        )->name('admin.financial-reports.export.csv');
+
+        Route::get(
+            '/financial-reports/export/pdf',
+            [FinancialReportController::class, 'exportPdf']
+        )->name('admin.financial-reports.export.pdf');
     });
 
 Route::middleware(['auth'])->group(function () {

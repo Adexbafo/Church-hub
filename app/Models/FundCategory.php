@@ -12,7 +12,7 @@ class FundCategory extends Model
         'is_active',
     ];
 
-    public function transactions()
+    public function financialTransactions()
     {
         return $this->hasMany(FinancialTransaction::class);
     }

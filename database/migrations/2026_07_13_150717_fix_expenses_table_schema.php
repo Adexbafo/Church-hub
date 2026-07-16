@@ -3,40 +3,57 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('expenses', function (Blueprint $table) {
-            $table->renameColumn('title', 'expense_title');
-        });
+        if (
+            Schema::hasColumn('expenses', 'title') &&
+            ! Schema::hasColumn('expenses', 'expense_title')
+        ) {
+            Schema::table('expenses', function (Blueprint $table) {
+                $table->renameColumn('title', 'expense_title');
+            });
+        }
 
-        Schema::table('expenses', function (Blueprint $table) {
-            $table->dropColumn('category');
-        });
+        if (Schema::hasColumn('expenses', 'category')) {
+            Schema::table('expenses', function (Blueprint $table) {
+                $table->dropColumn('category');
+            });
+        }
 
-        Schema::table('expenses', function (Blueprint $table) {
-            $table->string('payment_method')
-                ->nullable()
-                ->after('description');
-        });
+        if (! Schema::hasColumn('expenses', 'payment_method')) {
+            Schema::table('expenses', function (Blueprint $table) {
+                $table->string('payment_method')
+                    ->nullable()
+                    ->after('description');
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('expenses', function (Blueprint $table) {
-            $table->renameColumn('expense_title', 'title');
-        });
+        if (
+            Schema::hasColumn('expenses', 'expense_title') &&
+            ! Schema::hasColumn('expenses', 'title')
+        ) {
+            Schema::table('expenses', function (Blueprint $table) {
+                $table->renameColumn('expense_title', 'title');
+            });
+        }
 
-        Schema::table('expenses', function (Blueprint $table) {
-            $table->string('category')
-                ->nullable();
-        });
+        if (! Schema::hasColumn('expenses', 'category')) {
+            Schema::table('expenses', function (Blueprint $table) {
+                $table->string('category')
+                    ->nullable();
+            });
+        }
 
-        Schema::table('expenses', function (Blueprint $table) {
-            $table->dropColumn('payment_method');
-        });
+        if (Schema::hasColumn('expenses', 'payment_method')) {
+            Schema::table('expenses', function (Blueprint $table) {
+                $table->dropColumn('payment_method');
+            });
+        }
     }
 };

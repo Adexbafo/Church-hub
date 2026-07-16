@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Donation;
 use App\Models\FundCategory;
 use App\Models\FinancialTransaction;
+use App\Helpers\AuditHelper;
 
 class DonationController extends Controller
 {
@@ -100,6 +101,12 @@ class DonationController extends Controller
 
         $donation = Donation::create($validated);
 
+        AuditHelper::log(
+            'create',
+            'Created donation: ' . $donation->donor_name,
+            $donation
+        );
+
         FinancialTransaction::create([
 
             'fund_category_id' => $donation->fund_category_id,
@@ -187,6 +194,12 @@ class DonationController extends Controller
 
         $donation->update($validated);
 
+        AuditHelper::log(
+            'update',
+            'Updated donation: ' . $donation->donor_name,
+            $donation
+        );
+
         FinancialTransaction::where(
             'reference',
             $donation->reference
@@ -225,6 +238,12 @@ class DonationController extends Controller
             'reference',
             $donation->reference
         )->delete();
+
+        AuditHelper::log(
+            'delete',
+            'Deleted donation: ' . $donation->donor_name,
+            $donation
+        );
 
         $donation->delete();
 

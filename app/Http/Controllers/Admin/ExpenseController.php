@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Expense;
 use App\Models\FundCategory;
 use App\Models\FinancialTransaction;
+use App\Helpers\AuditHelper;
 
 class ExpenseController extends Controller
 {
@@ -89,6 +90,12 @@ class ExpenseController extends Controller
         $validated['recorded_by'] = auth()->id();
 
         $expense = Expense::create($validated);
+
+        AuditHelper::log(
+            'create',
+            'Created expense: ' . $expense->expense_title,
+            $expense
+        );
 
         FinancialTransaction::create([
 
@@ -207,6 +214,13 @@ class ExpenseController extends Controller
 
         $expense->update($validated);
 
+        AuditHelper::log(
+            'update',
+            'Updated expense: ' . $expense->expense_title,
+            $expense
+        );
+
+
         FinancialTransaction::where(
             'reference',
             $expense->reference
@@ -244,6 +258,12 @@ class ExpenseController extends Controller
             'reference',
             $expense->reference
         )->delete();
+
+        AuditHelper::log(
+            'delete',
+            'Deleted expense: ' . $expense->expense_title,
+            $expense
+        );
 
         $expense->delete();
 
