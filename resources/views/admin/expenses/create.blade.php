@@ -10,7 +10,7 @@
                 </h1>
 
                 <form method="POST"
-                    action="{{ route('expenses.store') }}">
+                    action="{{ route('admin.expenses.store') }}">
 
                     @csrf
 

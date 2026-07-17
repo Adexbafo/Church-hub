@@ -11,7 +11,7 @@
 
                 <form
                     method="POST"
-                    action="{{ route('expenses.update', $expense) }}">
+                    action="{{ route('admin.expenses.update', $expense) }}">
 
                     @csrf
                     @method('PUT')
@@ -153,7 +153,7 @@
                     <div class="flex justify-end gap-4">
 
                         <a
-                            href="{{ route('expenses.index') }}"
+                            href="{{ route('admin.expenses.index') }}"
                             class="px-6 py-2 border rounded-lg">
 
                             Cancel

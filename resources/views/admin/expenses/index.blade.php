@@ -10,7 +10,7 @@
                 </h1>
 
                 <a
-                    href="{{ route('expenses.create') }}"
+                    href="{{ route('admin.expenses.create') }}"
                     class="bg-red-600 text-white px-5 py-2 rounded-lg">
 
                     Add Expense
@@ -61,7 +61,7 @@
                                 <div class="flex gap-3">
 
                                     <a
-                                        href="{{ route('expenses.show', $expense) }}"
+                                        href="{{ route('admin.expenses.show', $expense) }}"
                                         class="text-blue-600">
 
                                         View
@@ -69,7 +69,7 @@
                                     </a>
 
                                     <a
-                                        href="{{ route('expenses.edit', $expense) }}"
+                                        href="{{ route('admin.expenses.edit', $expense) }}"
                                         class="text-green-600">
 
                                         Edit
@@ -77,7 +77,7 @@
                                     </a>
 
                                     <form
-                                        action="{{ route('expenses.destroy', $expense) }}"
+                                        action="{{ route('admin.expenses.destroy', $expense) }}"
                                         method="POST">
 
                                         @csrf

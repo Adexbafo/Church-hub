@@ -126,7 +126,7 @@ class ExpenseController extends Controller
         ]);
 
         return redirect()
-            ->route('expenses.index')
+            ->route('admin.expenses.index')
             ->with(
                 'success',
                 'Expense recorded successfully.'
@@ -241,7 +241,7 @@ class ExpenseController extends Controller
         ]);
 
         return redirect()
-            ->route('expenses.index')
+            ->route('admin.expenses.index')
             ->with(
                 'success',
                 'Expense updated successfully.'
@@ -268,7 +268,7 @@ class ExpenseController extends Controller
         $expense->delete();
 
         return redirect()
-            ->route('expenses.index')
+            ->route('admin.expenses.index')
             ->with(
                 'success',
                 'Expense deleted successfully.'

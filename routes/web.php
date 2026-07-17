@@ -81,41 +81,67 @@ Route::middleware(['auth', 'admin'])
             '/members/bulk',
             [MemberManagementController::class, 'bulkAction']
         )->name('admin.members.bulk');
+    });
+
+Route::middleware(['auth'])
+    ->prefix('admin')
+    ->group(function () {
+
         Route::get(
             '/financial-dashboard',
             [FinancialDashboardController::class, 'index']
-        )->name('admin.financial.dashboard');
+        )
+            ->middleware('financial:dashboard')
+            ->name('admin.financial.dashboard');
+
         Route::resource(
             'fund-categories',
             FundCategoryController::class
-        )->names('admin.fund-categories');
+        )
+            ->middleware('financial:dashboard')
+            ->names('admin.fund-categories');
+
         Route::resource(
             'donations',
             DonationController::class
-        )->names('admin.donations');
+        )
+            ->middleware('financial:donations')
+            ->names('admin.donations');
+
         Route::resource(
             'expenses',
             ExpenseController::class
-        );
+        )
+            ->middleware('financial:expenses')
+            ->names('admin.expenses');
+
         Route::get(
             '/financial-reports',
             [FinancialReportController::class, 'index']
         )
+            ->middleware('financial:reports')
             ->name('admin.financial-reports.index');
 
         Route::get(
             '/audit-logs',
             [AuditLogController::class, 'index']
-        )->name('admin.audit-logs.index');
+        )
+            ->middleware('financial:audit')
+            ->name('admin.audit-logs.index');
+
         Route::get(
             '/financial-reports/export/csv',
             [FinancialReportController::class, 'exportCsv']
-        )->name('admin.financial-reports.export.csv');
+        )
+            ->middleware('financial:exports')
+            ->name('admin.financial-reports.export.csv');
 
         Route::get(
             '/financial-reports/export/pdf',
             [FinancialReportController::class, 'exportPdf']
-        )->name('admin.financial-reports.export.pdf');
+        )
+            ->middleware('financial:exports')
+            ->name('admin.financial-reports.export.pdf');
     });
 
 Route::middleware(['auth'])->group(function () {

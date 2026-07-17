@@ -51,7 +51,7 @@ $totalFields = count($fields);
                     </div>
 
                     <div class="text-2xl font-bold text-blue-600">
-                        {{ $member->membership_id }}
+                        {{ $member?->membership_id ?? 'N/A' }}
                     </div>
 
                 </div>
@@ -69,7 +69,8 @@ $totalFields = count($fields);
                     <div class="w-full bg-gray-200 rounded-full h-3">
                         <div
                             class="bg-green-500 h-3 rounded-full"
-                            style="width: {{ ($completedFields / $totalFields) * 100 }}%">
+                            @style([ 'width: ' . (($completedFields / $totalFields) * 100) . '%'
+                            ])>
                         </div>
                     </div>
 
@@ -82,7 +83,7 @@ $totalFields = count($fields);
                     </div>
 
                     <div class="text-2xl font-bold text-green-600">
-                        {{ ucfirst($member->membership_status) }}
+                        {{ ucfirst($member?->membership_status ?? 'N/A') }}
                     </div>
 
                 </div>
@@ -94,7 +95,7 @@ $totalFields = count($fields);
                     </div>
 
                     <div class="text-2xl font-bold text-purple-600">
-                        {{ $member->is_baptized ? 'Yes' : 'No' }}
+                        {{ $member?->is_baptized ? 'Yes' : 'No' }}
                     </div>
 
                 </div>
@@ -107,9 +108,9 @@ $totalFields = count($fields);
 
                     @php
                     $bands = array_filter([
-                    $member->band_one,
-                    $member->band_two,
-                    $member->band_three,
+                    $member?->band_one,
+                    $member?->band_two,
+                    $member?->band_three,
                     ]);
                     @endphp
 
@@ -147,13 +148,13 @@ $totalFields = count($fields);
                         {{ $member->next_of_kin_name ?? 'Not Provided' }}
                     </div>
 
-                    @if($member->next_of_kin_relationship)
+                    @if($member?->next_of_kin_relationship)
                     <div class="text-sm text-gray-500 mt-1">
                         {{ $member->next_of_kin_relationship }}
                     </div>
                     @endif
 
-                    @if($member->next_of_kin_phone)
+                    @if($member?->next_of_kin_phone)
                     <div class="text-sm text-blue-600 mt-1">
                         {{ $member->next_of_kin_phone }}
                     </div>
