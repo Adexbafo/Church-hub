@@ -130,4 +130,24 @@ class User extends Authenticatable
             ]
         );
     }
+
+    public function mediaAlbums()
+    {
+        return $this->hasMany(MediaAlbum::class, 'created_by');
+    }
+
+    public function mediaUploads()
+    {
+        return $this->hasMany(MediaItem::class, 'uploaded_by');
+    }
+
+    public function mediaTeamMemberships()
+    {
+        return $this->hasMany(MediaTeam::class);
+    }
+
+    public function livestreams()
+    {
+        return $this->hasMany(Livestream::class, 'created_by');
+    }
 }
