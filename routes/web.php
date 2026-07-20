@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\FinancialReportController;
 use App\Http\Controllers\Admin\AuditLogController;
+use App\Http\Controllers\Admin\MediaCategoryController;
 
 Route::get('/', function () {
 
@@ -81,6 +82,9 @@ Route::middleware(['auth', 'admin'])
             '/members/bulk',
             [MemberManagementController::class, 'bulkAction']
         )->name('admin.members.bulk');
+
+        Route::resource('media-categories', MediaCategoryController::class)
+            ->names('admin.media-categories');
     });
 
 Route::middleware(['auth'])

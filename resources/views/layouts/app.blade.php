@@ -46,10 +46,20 @@
 
                 </button>
 
-                <div>
+                <div class="flex-1 px-4">
+
+                    @isset($header)
+
+                    {{ $header }}
+
+                    @else
+
                     <h2 class="hidden md:block text-2xl font-bold text-gray-800">
                         {{ config('church.short_name') }} Dashboard
                     </h2>
+
+                    @endisset
+
                 </div>
 
                 <div class="flex items-center gap-4">
@@ -75,7 +85,31 @@
 
             </header>
 
-            @if(session('success'))
+            @php
+            $flash = null;
+
+            if (session('success')) {
+            $flash = [
+            'message' => session('success'),
+            'bg' => 'bg-green-500',
+            'icon' => '✅',
+            ];
+            } elseif (session('error')) {
+            $flash = [
+            'message' => session('error'),
+            'bg' => 'bg-red-500',
+            'icon' => '❌',
+            ];
+            } elseif (session('warning')) {
+            $flash = [
+            'message' => session('warning'),
+            'bg' => 'bg-yellow-500',
+            'icon' => '⚠️',
+            ];
+            }
+            @endphp
+
+            @if($flash)
 
             <div
                 x-data="{ show: true }"
@@ -84,12 +118,14 @@
                 x-transition.opacity.duration.500ms
                 class="fixed top-5 right-5 z-50">
 
-                <div class="bg-green-500 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
+                <div class="{{ $flash['bg'] }} text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
 
-                    <span class="text-lg">✅</span>
+                    <span class="text-lg">
+                        {{ $flash['icon'] }}
+                    </span>
 
                     <span class="font-medium">
-                        {{ session('success') }}
+                        {{ $flash['message'] }}
                     </span>
 
                 </div>
