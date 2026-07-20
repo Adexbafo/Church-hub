@@ -29,9 +29,18 @@ return new class extends Migration
 
             $table->string('file_name');
 
+            $table->string('original_name');
+
             $table->string('file_path');
 
             $table->string('mime_type');
+
+            $table->enum('media_type', [
+                'image',
+                'video',
+                'audio',
+                'document',
+            ]);
 
             $table->unsignedBigInteger('file_size');
 

@@ -48,8 +48,6 @@ class MemberManagementController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-
-
         return view('admin.members.index', [
 
             'newestMember' => Member::latest()->first(),
@@ -99,6 +97,7 @@ class MemberManagementController extends Controller
     {
         return view('admin.members.edit', compact('member'));
     }
+
     public function update(Request $request, Member $member)
     {
         $validated = $request->validate([
@@ -121,7 +120,6 @@ class MemberManagementController extends Controller
             'next_of_kin_relationship' => ['nullable', 'string'],
             'next_of_kin_phone' => ['nullable', 'string', 'max:30'],
             'next_of_kin_address' => ['nullable', 'string'],
-
 
             'band_one' => ['nullable', 'string', 'max:50'],
             'band_two' => ['nullable', 'string', 'max:50'],
@@ -155,6 +153,7 @@ class MemberManagementController extends Controller
             ->route('admin.members.index')
             ->with('success', 'Member updated successfully.');
     }
+
     public function bulkAction(Request $request)
     {
         $validated = $request->validate([
@@ -192,6 +191,7 @@ class MemberManagementController extends Controller
 
         return back()->with('success', $message);
     }
+
     public function export(Request $request): StreamedResponse
     {
         $members = Member::query()
@@ -287,6 +287,7 @@ class MemberManagementController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
     public function print()
     {
         $members = Member::orderBy('full_name')->get();

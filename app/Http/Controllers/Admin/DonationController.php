@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Donation;
-use App\Models\FundCategory;
-use App\Models\FinancialTransaction;
 use App\Helpers\AuditHelper;
+use App\Http\Controllers\Controller;
+use App\Models\Donation;
+use App\Models\FinancialTransaction;
+use App\Models\FundCategory;
+use Illuminate\Http\Request;
 
 class DonationController extends Controller
 {
@@ -54,38 +54,38 @@ class DonationController extends Controller
             'donor_name' => [
                 'nullable',
                 'string',
-                'max:255'
+                'max:255',
             ],
 
             'fund_category_id' => [
                 'required',
-                'exists:fund_categories,id'
+                'exists:fund_categories,id',
             ],
 
             'amount' => [
                 'required',
                 'numeric',
-                'min:0'
+                'min:0',
             ],
 
             'payment_method' => [
                 'required',
-                'string'
+                'string',
             ],
 
             'reference' => [
                 'nullable',
-                'string'
+                'string',
             ],
 
             'notes' => [
                 'nullable',
-                'string'
+                'string',
             ],
 
             'donation_date' => [
                 'required',
-                'date'
+                'date',
             ],
 
         ]);
@@ -95,7 +95,7 @@ class DonationController extends Controller
         }
 
         $validated['receipt_number'] =
-            'REC-' . now()->format('YmdHis');
+            'REC-'.now()->format('YmdHis');
 
         $validated['reference'] = $validated['receipt_number'];
 
@@ -103,7 +103,7 @@ class DonationController extends Controller
 
         AuditHelper::log(
             'create',
-            'Created donation: ' . $donation->donor_name,
+            'Created donation: '.$donation->donor_name,
             $donation
         );
 
@@ -121,12 +121,10 @@ class DonationController extends Controller
 
             'reference' => $donation->reference,
 
-            'description' =>
-            'Donation - ' .
+            'description' => 'Donation - '.
                 $donation->fundCategory->name,
 
-            'transaction_date' =>
-            $donation->donation_date,
+            'transaction_date' => $donation->donation_date,
 
             'recorded_by' => auth()->id(),
 
@@ -196,7 +194,7 @@ class DonationController extends Controller
 
         AuditHelper::log(
             'update',
-            'Updated donation: ' . $donation->donor_name,
+            'Updated donation: '.$donation->donor_name,
             $donation
         );
 
@@ -205,17 +203,13 @@ class DonationController extends Controller
             $donation->reference
         )->update([
 
-            'fund_category_id' =>
-            $donation->fund_category_id,
+            'fund_category_id' => $donation->fund_category_id,
 
-            'amount' =>
-            $donation->amount,
+            'amount' => $donation->amount,
 
-            'transaction_date' =>
-            $donation->donation_date,
+            'transaction_date' => $donation->donation_date,
 
-            'description' =>
-            'Donation - ' .
+            'description' => 'Donation - '.
                 $donation->fundCategory->name,
 
         ]);
@@ -241,7 +235,7 @@ class DonationController extends Controller
 
         AuditHelper::log(
             'delete',
-            'Deleted donation: ' . $donation->donor_name,
+            'Deleted donation: '.$donation->donor_name,
             $donation
         );
 

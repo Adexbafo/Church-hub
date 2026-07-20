@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
-use Illuminate\Http\Request;
 
 class NotificationFeedController extends Controller
 {
@@ -23,7 +22,7 @@ class NotificationFeedController extends Controller
 
     public function show(Notification $notification)
     {
-        if (!$notification->read_at) {
+        if (! $notification->read_at) {
             $notification->update([
                 'read_at' => now(),
             ]);

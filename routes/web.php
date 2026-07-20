@@ -1,25 +1,26 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\MemberProfileController;
 use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\MemberManagementController;
 use App\Http\Controllers\Admin\AnnouncementController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\AnnouncementFeedController;
-use App\Models\Member;
-use App\Models\Announcement;
-use Illuminate\Support\Collection;
-use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\NotificationFeedController;
-use App\Http\Controllers\Admin\FinancialDashboardController;
-use App\Http\Controllers\Admin\FundCategoryController;
+use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\ExpenseController;
+use App\Http\Controllers\Admin\FinancialDashboardController;
 use App\Http\Controllers\Admin\FinancialReportController;
-use App\Http\Controllers\Admin\AuditLogController;
+use App\Http\Controllers\Admin\FundCategoryController;
+use App\Http\Controllers\Admin\MediaAlbumController;
 use App\Http\Controllers\Admin\MediaCategoryController;
+use App\Http\Controllers\Admin\MediaItemController;
+use App\Http\Controllers\Admin\MemberManagementController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\AnnouncementFeedController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MemberProfileController;
+use App\Http\Controllers\NotificationFeedController;
+use App\Http\Controllers\ProfileController;
+use App\Models\Announcement;
+use App\Models\Member;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
@@ -50,7 +51,6 @@ Route::get('/', function () {
 
     ]);
 });
-
 
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
@@ -83,8 +83,17 @@ Route::middleware(['auth', 'admin'])
             [MemberManagementController::class, 'bulkAction']
         )->name('admin.members.bulk');
 
+        Route::get(
+            'media-items/{media_item}/download',
+            [MediaItemController::class, 'download']
+        )->name('admin.media-items.download');
+
         Route::resource('media-categories', MediaCategoryController::class)
             ->names('admin.media-categories');
+        Route::resource('media-albums', MediaAlbumController::class)
+            ->names('admin.media-albums');
+        Route::resource('media-items', MediaItemController::class)
+            ->names('admin.media-items');
     });
 
 Route::middleware(['auth'])
@@ -184,4 +193,4 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

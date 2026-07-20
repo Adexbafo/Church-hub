@@ -15,6 +15,7 @@ class AnnouncementFeedController extends Controller
             compact('announcements')
         );
     }
+
     public function show(Announcement $announcement)
     {
         return view(

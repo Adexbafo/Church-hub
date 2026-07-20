@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\FundCategory;
-use App\Models\FinancialTransaction;
+use Illuminate\Http\Request;
 
 class FundCategoryController extends Controller
 {
@@ -89,7 +88,7 @@ class FundCategoryController extends Controller
         FundCategory $fundCategory
     ) {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:fund_categories,name,' . $fundCategory->id,
+            'name' => 'required|string|max:255|unique:fund_categories,name,'.$fundCategory->id,
             'description' => 'nullable|string',
             'is_active' => 'nullable|boolean',
         ]);

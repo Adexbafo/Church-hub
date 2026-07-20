@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Member;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
-use App\Models\Member;
 
 class RegisteredUserController extends Controller
 {
@@ -45,7 +45,7 @@ class RegisteredUserController extends Controller
 
         $memberCount = Member::count() + 1;
 
-        $membershipId = 'VDC-' . now()->year . '-' . str_pad(
+        $membershipId = 'VDC-'.now()->year.'-'.str_pad(
             $memberCount,
             4,
             '0',

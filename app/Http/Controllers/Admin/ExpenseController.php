@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Expense;
-use App\Models\FundCategory;
-use App\Models\FinancialTransaction;
 use App\Helpers\AuditHelper;
+use App\Http\Controllers\Controller;
+use App\Models\Expense;
+use App\Models\FinancialTransaction;
+use App\Models\FundCategory;
+use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
 {
@@ -51,39 +51,39 @@ class ExpenseController extends Controller
 
             'fund_category_id' => [
                 'required',
-                'exists:fund_categories,id'
+                'exists:fund_categories,id',
             ],
 
             'expense_title' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
 
             'amount' => [
                 'required',
                 'numeric',
-                'min:0'
+                'min:0',
             ],
 
             'payment_method' => [
                 'nullable',
-                'string'
+                'string',
             ],
 
             'reference' => [
                 'nullable',
-                'string'
+                'string',
             ],
 
             'description' => [
                 'nullable',
-                'string'
+                'string',
             ],
 
             'expense_date' => [
                 'required',
-                'date'
+                'date',
             ],
         ]);
 
@@ -93,36 +93,28 @@ class ExpenseController extends Controller
 
         AuditHelper::log(
             'create',
-            'Created expense: ' . $expense->expense_title,
+            'Created expense: '.$expense->expense_title,
             $expense
         );
 
         FinancialTransaction::create([
 
-            'fund_category_id' =>
-            $expense->fund_category_id,
+            'fund_category_id' => $expense->fund_category_id,
 
-            'amount' =>
-            $expense->amount,
+            'amount' => $expense->amount,
 
-            'transaction_type' =>
-            'expense',
+            'transaction_type' => 'expense',
 
-            'status' =>
-            'completed',
+            'status' => 'completed',
 
-            'reference' =>
-            $expense->reference,
+            'reference' => $expense->reference,
 
-            'description' =>
-            'Expense - ' .
+            'description' => 'Expense - '.
                 $expense->expense_title,
 
-            'transaction_date' =>
-            $expense->expense_date,
+            'transaction_date' => $expense->expense_date,
 
-            'recorded_by' =>
-            auth()->id(),
+            'recorded_by' => auth()->id(),
         ]);
 
         return redirect()
@@ -177,38 +169,38 @@ class ExpenseController extends Controller
             'expense_title' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
 
             'fund_category_id' => [
                 'required',
-                'exists:fund_categories,id'
+                'exists:fund_categories,id',
             ],
 
             'amount' => [
                 'required',
                 'numeric',
-                'min:0'
+                'min:0',
             ],
 
             'payment_method' => [
                 'required',
-                'string'
+                'string',
             ],
 
             'reference' => [
                 'nullable',
-                'string'
+                'string',
             ],
 
             'description' => [
                 'nullable',
-                'string'
+                'string',
             ],
 
             'expense_date' => [
                 'required',
-                'date'
+                'date',
             ],
         ]);
 
@@ -216,27 +208,22 @@ class ExpenseController extends Controller
 
         AuditHelper::log(
             'update',
-            'Updated expense: ' . $expense->expense_title,
+            'Updated expense: '.$expense->expense_title,
             $expense
         );
-
 
         FinancialTransaction::where(
             'reference',
             $expense->reference
         )->update([
 
-            'fund_category_id' =>
-            $expense->fund_category_id,
+            'fund_category_id' => $expense->fund_category_id,
 
-            'amount' =>
-            $expense->amount,
+            'amount' => $expense->amount,
 
-            'transaction_date' =>
-            $expense->expense_date,
+            'transaction_date' => $expense->expense_date,
 
-            'description' =>
-            'Expense - ' .
+            'description' => 'Expense - '.
                 $expense->expense_title,
         ]);
 
@@ -261,7 +248,7 @@ class ExpenseController extends Controller
 
         AuditHelper::log(
             'delete',
-            'Deleted expense: ' . $expense->expense_title,
+            'Deleted expense: '.$expense->expense_title,
             $expense
         );
 

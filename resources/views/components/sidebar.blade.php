@@ -46,59 +46,116 @@
             Announcements
         </a>
         <a href="{{ route('admin.notifications.index') }}"
-            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
+            class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.notifications.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
 
             <span class="mr-3">🔔</span>
             Notifications
 
         </a>
-        <a href="{{ route('admin.financial.dashboard') }}"
-            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
 
-            <span class="mr-3">💰</span>
-            Financial Dashboard
+        <div class="pt-4 mt-4 border-t">
+            <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Media Management
+            </p>
+
+            <a href="{{ route('admin.media-categories.index') }}"
+                class="block px-4 py-3 rounded-lg
+        {{ request()->routeIs('admin.media-categories.*')
+            ? 'bg-blue-100 text-blue-700'
+            : 'text-gray-700 hover:bg-blue-50' }}">
+
+                <span class="mr-3">📂</span>
+                Media Categories
+            </a>
+
+            <a href="{{ route('admin.media-albums.index') }}"
+                class="block px-4 py-3 rounded-lg
+        {{ request()->routeIs('admin.media-albums.*')
+            ? 'bg-blue-100 text-blue-700'
+            : 'text-gray-700 hover:bg-blue-50' }}">
+
+                <span class="mr-3">🎞️</span>
+                Media Albums
+            </a>
+
+            <a href="{{ route('admin.media-items.index') }}"
+                class="block px-4 py-3 rounded-lg
+        {{ request()->routeIs('admin.media-items.*')
+            ? 'bg-blue-100 text-blue-700'
+            : 'text-gray-700 hover:bg-blue-50' }}">
+                <span class="mr-3">📚</span>
+                Media Library
+            </a>
+        </div>
+        <div class="pt-4 mt-4 border-t">
+            <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Financial Management
+            </p>
+            <a href="{{ route('admin.financial.dashboard') }}"
+                class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.financial.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
+
+                <span class="mr-3">💰</span>
+                Financial Dashboard
+
+            </a>
+            <a href="{{ route('admin.fund-categories.index') }}"
+                class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.fund-categories.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
+
+                <span class="mr-3">🗂️</span>
+                Fund Categories
+
+            </a>
+            <a href="{{ route('admin.donations.index') }}"
+                class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.donations.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
+
+                <span class="mr-3">💵</span>
+                Donations
+
+            </a>
+            <a href="{{ route('admin.expenses.index') }}"
+                class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.expenses.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
+
+                <span class="mr-3">💸</span>
+                Expenses
+
+            </a>
 
 
-        </a>
-        <a
-            href="{{ route('admin.fund-categories.index') }}"
-            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
+            <a href="{{ route('admin.financial-reports.index') }}"
+                class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.financial-reports.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
 
-            <span class="mr-3">🗂️</span>
-            Fund Categories
+                <span class="mr-3">📊</span>
+                Financial Reports
+            </a>
 
-        </a>
-        <a
-            href="{{ route('admin.donations.index') }}"
-            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
+            <a href="{{ route('admin.audit-logs.index') }}"
+                class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.audit-logs.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
 
-            <span class="mr-3">💵</span>
-            Donations
-
-        </a>
-        <a href="{{ route('admin.expenses.index') }}"
-            class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 rounded-lg">
-
-            <span>💸</span>
-            <span>Expenses</span>
-
-        </a>
-
-
-        <a href="{{ route('admin.financial-reports.index') }}"
-            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
-
-            <span class="mr-3">📊</span>
-            Financial Reports
-        </a>
-
-        <a href="{{ route('admin.audit-logs.index') }}"
-            class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-100">
-
-            <span class="mr-3">📋</span>
-            Audit Logs
-        </a>
-
+                <span class="mr-3">📋</span>
+                Audit Logs
+            </a>
+        </div>
 
         @else
 
@@ -110,6 +167,7 @@
             <span class="mr-3">🏠</span>
             Dashboard
         </a>
+
 
         @if($user->hasFinancialAccess())
         <a href="{{ route('admin.financial.dashboard') }}"
@@ -165,7 +223,6 @@
             Audit Logs
         </a>
         @endif
-
         @if($user->hasFinancialAccess())
         <a href="{{ route('admin.fund-categories.index') }}"
             class="block px-4 py-3 rounded-lg

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateMediaCategoryRequest extends FormRequest
+class UpdateMediaAlbumRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,22 +24,26 @@ class UpdateMediaCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
+            'title' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('media_categories', 'name')
-                    ->ignore($this->route('media_category')),
+                Rule::unique('media_albums', 'title')
+                    ->ignore($this->route('media_album')),
             ],
 
             'description' => [
                 'nullable',
                 'string',
-                'max:1000',
             ],
 
-            'is_active' => [
-                'required',
+            'event_date' => [
+                'nullable',
+                'date',
+            ],
+
+            'is_published' => [
+                'nullable',
                 'boolean',
             ],
         ];
@@ -48,13 +52,8 @@ class UpdateMediaCategoryRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'The category name is required.',
-            'name.unique' => 'A media category with this name already exists.',
-            'name.max' => 'The category name may not exceed 255 characters.',
-
-            'description.max' => 'The description may not exceed 1000 characters.',
-
-            'is_active.required' => 'Please specify whether the category is active.',
+            'title.required' => 'Please enter an album title.',
+            'title.unique' => 'An album with this title already exists.',
         ];
     }
 }

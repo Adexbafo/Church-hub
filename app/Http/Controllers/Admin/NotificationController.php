@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Notification;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class NotificationController extends Controller
@@ -16,7 +16,7 @@ class NotificationController extends Controller
     {
         $search = $request->input('search');
 
-        $notifications = \App\Models\Notification::query()
+        $notifications = Notification::query()
 
             ->when($search, function ($query) use ($search) {
 
@@ -32,13 +32,13 @@ class NotificationController extends Controller
 
             'notifications' => $notifications,
 
-            'totalNotifications' => \App\Models\Notification::count(),
+            'totalNotifications' => Notification::count(),
 
-            'activeNotifications' => \App\Models\Notification::active()->count(),
+            'activeNotifications' => Notification::active()->count(),
 
-            'pinnedNotifications' => \App\Models\Notification::pinned()->count(),
+            'pinnedNotifications' => Notification::pinned()->count(),
 
-            'unreadNotifications' => \App\Models\Notification::unread()->count(),
+            'unreadNotifications' => Notification::unread()->count(),
 
         ]);
     }
@@ -79,7 +79,7 @@ class NotificationController extends Controller
 
         $validated['is_active'] = true;
 
-        \App\Models\Notification::create($validated);
+        Notification::create($validated);
 
         return redirect()
             ->route('admin.notifications.index')
@@ -89,7 +89,7 @@ class NotificationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(\App\Models\Notification $notification)
+    public function show(Notification $notification)
     {
         return view(
             'admin.notifications.show',
@@ -100,7 +100,7 @@ class NotificationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(\App\Models\Notification $notification)
+    public function edit(Notification $notification)
     {
         return view(
             'admin.notifications.edit',

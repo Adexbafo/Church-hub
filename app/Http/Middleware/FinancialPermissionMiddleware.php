@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class FinancialPermissionMiddleware
         Closure $next,
         string $permission
     ): Response {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
 
         if (! $user) {

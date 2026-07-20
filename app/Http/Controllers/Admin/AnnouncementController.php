@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
-use Illuminate\Http\Request;
 use App\Models\Notification;
+use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
 {
@@ -47,28 +47,29 @@ class AnnouncementController extends Controller
 
             Notification::create([
 
-                'created_by'   => auth()->id(),
+                'created_by' => auth()->id(),
 
-                'title'        => $announcement->title,
+                'title' => $announcement->title,
 
-                'message'      => $announcement->content,
+                'message' => $announcement->content,
 
-                'category'     => 'announcement',
+                'category' => 'announcement',
 
-                'type'         => 'announcement',
+                'type' => 'announcement',
 
-                'audience'     => 'all',
+                'audience' => 'all',
 
-                'priority'     => 'normal',
+                'priority' => 'normal',
 
-                'is_active'    => true,
+                'is_active' => true,
 
-                'is_pinned'    => false,
+                'is_pinned' => false,
 
                 'published_at' => now(),
 
             ]);
         }
+
         return redirect()
             ->route('admin.announcements.index')
             ->with('success', 'Announcement created successfully.');

@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Donation;
-use App\Models\Expense;
 use App\Models\FinancialTransaction;
+use App\Models\FundCategory;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Barryvdh\DomPDF\Facade\Pdf;
-use App\Models\FundCategory;
 
 class FinancialReportController extends Controller
 {
@@ -63,7 +60,7 @@ class FinancialReportController extends Controller
                         'transaction_type',
                         'income'
                     );
-                }
+                },
             ],
             'amount'
         )
@@ -74,7 +71,7 @@ class FinancialReportController extends Controller
                             'transaction_type',
                             'expense'
                         );
-                    }
+                    },
                 ],
                 'amount'
             )
@@ -125,6 +122,7 @@ class FinancialReportController extends Controller
             )
         );
     }
+
     public function exportCsv(Request $request)
     {
         $from = $request->from
@@ -140,7 +138,7 @@ class FinancialReportController extends Controller
             ->latest()
             ->get();
 
-        $filename = 'financial-report-' . now()->format('Y-m-d-His') . '.csv';
+        $filename = 'financial-report-'.now()->format('Y-m-d-His').'.csv';
 
         $headers = [
             'Content-Type' => 'text/csv',
@@ -173,6 +171,7 @@ class FinancialReportController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
     public function exportPdf(Request $request)
     {
         $from = $request->from
@@ -214,8 +213,8 @@ class FinancialReportController extends Controller
         );
 
         return $pdf->download(
-            'financial-report-' .
-                now()->format('Y-m-d-His') .
+            'financial-report-'.
+                now()->format('Y-m-d-His').
                 '.pdf'
         );
     }

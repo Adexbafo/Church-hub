@@ -12,6 +12,8 @@ class MediaItem extends Model
         'title',
         'description',
         'file_name',
+        'original_name',
+        'media_type',
         'file_path',
         'mime_type',
         'file_size',
@@ -64,5 +66,38 @@ class MediaItem extends Model
             'is_featured' => 'boolean',
             'is_published' => 'boolean',
         ];
+    }
+
+    public function getFormattedFileSizeAttribute(): string
+    {
+        $bytes = $this->file_size;
+
+        if ($bytes >= 1073741824) {
+            return number_format($bytes / 1073741824, 2).' GB';
+        }
+
+        if ($bytes >= 1048576) {
+            return number_format($bytes / 1048576, 2).' MB';
+        }
+
+        if ($bytes >= 1024) {
+            return number_format($bytes / 1024, 2).' KB';
+        }
+
+        return $bytes.' B';
+    }
+
+    public function getMediaTypeBadgeAttribute(): string
+    {
+        return match ($this->media_type) {
+
+            'image' => '🖼️ Image',
+
+            'video' => '🎥 Video',
+
+            'audio' => '🎵 Audio',
+
+            default => '📄 Document',
+        };
     }
 }
