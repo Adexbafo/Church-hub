@@ -142,11 +142,10 @@ class User extends Authenticatable
         return $this->hasMany(MediaItem::class, 'uploaded_by');
     }
 
-    public function mediaTeamMemberships()
+    public function mediaTeams()
     {
         return $this->hasMany(MediaTeam::class);
     }
-
     public function livestreams()
     {
         return $this->hasMany(Livestream::class, 'created_by');

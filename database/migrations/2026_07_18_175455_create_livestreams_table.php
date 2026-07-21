@@ -23,7 +23,7 @@ return new class extends Migration
                 'Other',
             ]);
 
-            $table->string('stream_url');
+            $table->string('stream_url')->nullable();
 
             $table->dateTime('scheduled_at');
 

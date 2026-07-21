@@ -22,6 +22,8 @@ use App\Models\Announcement;
 use App\Models\Member;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SermonController;
+use App\Http\Controllers\Admin\LivestreamController;
+use App\Http\Controllers\Admin\MediaTeamController;
 
 Route::get('/', function () {
 
@@ -95,9 +97,15 @@ Route::middleware(['auth', 'admin'])
             ->names('admin.media-albums');
         Route::resource('media-items', MediaItemController::class)
             ->names('admin.media-items');
+        Route::resource(
+            'media-teams',
+            MediaTeamController::class
+        )->names('admin.media-teams');
         Route::resource('sermons', SermonController::class)
             ->except('show')
             ->names('admin.sermons');
+        Route::resource('livestreams', LivestreamController::class)
+            ->names('admin.livestreams');
     });
 
 Route::middleware(['auth'])

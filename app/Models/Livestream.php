@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Livestream extends Model
 {
@@ -18,21 +19,21 @@ class Livestream extends Model
         'is_published',
     ];
 
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function recording()
-    {
-        return $this->belongsTo(MediaItem::class, 'recording_media_item_id');
-    }
-
     protected function casts(): array
     {
         return [
             'scheduled_at' => 'datetime',
             'is_published' => 'boolean',
         ];
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function recording(): BelongsTo
+    {
+        return $this->belongsTo(MediaItem::class, 'recording_media_item_id');
     }
 }

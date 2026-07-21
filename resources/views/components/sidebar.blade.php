@@ -86,7 +86,7 @@
         {{ request()->routeIs('admin.media-items.*')
             ? 'bg-blue-100 text-blue-700'
             : 'text-gray-700 hover:bg-blue-50' }}">
-                <span class="mr-3">📚</span>
+                <span class="mr-3">🎬</span>
                 Media Library
             </a>
 
@@ -95,8 +95,30 @@
     {{ request()->routeIs('admin.sermons.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
-                <span class="mr-3">📖</span>
+                <span class="mr-3">🎤</span>
                 Sermons
+            </a>
+
+            <a href="{{ route('admin.livestreams.index') }}"
+                class="block px-4 py-3 rounded-lg
+   {{ request()->routeIs('admin.livestreams.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
+
+                <span class="mr-3">📺</span>
+
+                Livestreams
+            </a>
+
+            <a href="{{ route('admin.media-teams.index') }}"
+                class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.media-teams.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
+
+                <span class="mr-3">👥</span>
+
+                Media Team
             </a>
         </div>
         <div class="pt-4 mt-4 border-t">

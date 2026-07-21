@@ -73,18 +73,18 @@ class MediaItem extends Model
         $bytes = $this->file_size;
 
         if ($bytes >= 1073741824) {
-            return number_format($bytes / 1073741824, 2).' GB';
+            return number_format($bytes / 1073741824, 2) . ' GB';
         }
 
         if ($bytes >= 1048576) {
-            return number_format($bytes / 1048576, 2).' MB';
+            return number_format($bytes / 1048576, 2) . ' MB';
         }
 
         if ($bytes >= 1024) {
-            return number_format($bytes / 1024, 2).' KB';
+            return number_format($bytes / 1024, 2) . ' KB';
         }
 
-        return $bytes.' B';
+        return $bytes . ' B';
     }
 
     public function getMediaTypeBadgeAttribute(): string
@@ -99,5 +99,10 @@ class MediaItem extends Model
 
             default => '📄 Document',
         };
+    }
+
+    public function livestreamRecordings()
+    {
+        return $this->hasMany(Livestream::class, 'recording_media_item_id');
     }
 }
