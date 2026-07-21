@@ -89,6 +89,15 @@
                 <span class="mr-3">📚</span>
                 Media Library
             </a>
+
+            <a href="{{ route('admin.sermons.index') }}"
+                class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.sermons.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
+                <span class="mr-3">📖</span>
+                Sermons
+            </a>
         </div>
         <div class="pt-4 mt-4 border-t">
             <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">

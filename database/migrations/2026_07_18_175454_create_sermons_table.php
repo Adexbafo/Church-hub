@@ -39,6 +39,10 @@ return new class extends Migration
                 ->constrained('media_items')
                 ->nullOnDelete();
 
+            $table->foreignId('created_by')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
             $table->boolean('is_featured')->default(false);
 
             $table->boolean('is_published')->default(true);

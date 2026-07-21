@@ -15,6 +15,7 @@ class Sermon extends Model
         'audio_media_item_id',
         'video_media_item_id',
         'notes_media_item_id',
+        'created_by',
         'is_featured',
         'is_published',
     ];
@@ -32,6 +33,11 @@ class Sermon extends Model
     public function notes()
     {
         return $this->belongsTo(MediaItem::class, 'notes_media_item_id');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     protected function casts(): array

@@ -151,4 +151,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Livestream::class, 'created_by');
     }
+
+    public function sermons()
+    {
+        return $this->hasMany(Sermon::class, 'created_by');
+    }
 }

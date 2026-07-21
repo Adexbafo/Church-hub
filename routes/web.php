@@ -21,6 +21,7 @@ use App\Http\Controllers\ProfileController;
 use App\Models\Announcement;
 use App\Models\Member;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\SermonController;
 
 Route::get('/', function () {
 
@@ -94,6 +95,9 @@ Route::middleware(['auth', 'admin'])
             ->names('admin.media-albums');
         Route::resource('media-items', MediaItemController::class)
             ->names('admin.media-items');
+        Route::resource('sermons', SermonController::class)
+            ->except('show')
+            ->names('admin.sermons');
     });
 
 Route::middleware(['auth'])
@@ -193,4 +197,4 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
