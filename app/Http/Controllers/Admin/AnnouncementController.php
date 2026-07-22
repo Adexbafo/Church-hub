@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Role as RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\Notification;
@@ -13,7 +14,10 @@ class AnnouncementController extends Controller
     {
         $announcements = Announcement::latest()->get();
 
-        abort_unless(auth()->user()->role === 'admin', 403);
+        abort_unless(
+            auth()->user()->hasRole(RoleEnum::SUPER_ADMIN->value),
+            403
+        );
 
         return view(
             'admin.announcements.index',

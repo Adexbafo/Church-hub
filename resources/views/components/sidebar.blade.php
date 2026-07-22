@@ -1,3 +1,10 @@
+@php
+use App\Enums\Role as RoleEnum;
+
+$user = auth()->user();
+@endphp
+
+
 <aside id="sidebar"
     class="fixed inset-y-0 left-0 z-50
            w-72 max-w-[85vw] bg-white shadow-lg min-h-screen
@@ -17,7 +24,7 @@
         $user = auth()->user();
         @endphp
 
-        @if($user->isAdmin())
+        @if($user->hasRole(RoleEnum::SUPER_ADMIN->value))
 
         <a href="{{ route('admin.dashboard') }}"
             class="block px-4 py-3 rounded-lg
