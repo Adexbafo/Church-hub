@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             FundCategorySeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
-            DevelopmentAdminSeeder::class,
+            DevelopmentUsersSeeder::class,
         ]);
     }
 }

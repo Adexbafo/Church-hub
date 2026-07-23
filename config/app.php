@@ -106,6 +106,24 @@ return [
     ],
 
     /*
+|--------------------------------------------------------------------------
+| Development Environment
+|--------------------------------------------------------------------------
+*/
+
+    'super_admin_name' => env('APP_SUPER_ADMIN_NAME', 'Arasi Adebayo'),
+
+    'super_admin_email' => env(
+        'APP_SUPER_ADMIN_EMAIL',
+        'arasiadebayo@gmail.com'
+    ),
+
+    'development_password' => env(
+        'APP_DEVELOPMENT_PASSWORD',
+        'password'
+    ),
+
+    /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
     |--------------------------------------------------------------------------

@@ -11,11 +11,16 @@ class PermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        // Clear Spatie's cached permissions
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $registrar = app(PermissionRegistrar::class);
+
+        // Clear before seeding
+        $registrar->forgetCachedPermissions();
 
         foreach (Permission::values() as $permission) {
             PermissionModel::findOrCreate($permission, 'web');
         }
+
+        // IMPORTANT: Clear again after creating permissions
+        $registrar->forgetCachedPermissions();
     }
 }

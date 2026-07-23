@@ -6,6 +6,7 @@ use App\Enums\Permission;
 use App\Enums\Role as RoleEnum;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RoleSeeder extends Seeder
 {
@@ -14,10 +15,14 @@ class RoleSeeder extends Seeder
         /*
          * Super Administrator
          */
-        $superAdmin = Role::findOrCreate(RoleEnum::SUPER_ADMIN->value, 'web');
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+        $superAdmin = Role::findOrCreate(
+            RoleEnum::SUPER_ADMIN->value,
+            'web'
+        );
 
         $superAdmin->syncPermissions(Permission::values());
-
         /*
          * Church Administrator
          */
