@@ -1,3 +1,11 @@
+@php
+use App\Enums\Role as RoleEnum;
+use App\Enums\Permission;
+
+$user = auth()->user();
+@endphp
+
+
 <aside id="sidebar"
     class="fixed inset-y-0 left-0 z-50
            w-72 max-w-[85vw] bg-white shadow-lg min-h-screen
@@ -17,7 +25,7 @@
         $user = auth()->user();
         @endphp
 
-        @if($user->isAdmin())
+        @if($user->hasRole(RoleEnum::SUPER_ADMIN->value))
 
         <a href="{{ route('admin.dashboard') }}"
             class="block px-4 py-3 rounded-lg
@@ -200,7 +208,7 @@
         </a>
 
 
-        @if($user->hasFinancialAccess())
+        @if($user->can(Permission::FINANCIAL_DASHBOARD_VIEW->value))
         <a href="{{ route('admin.financial.dashboard') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.financial.*')
@@ -211,7 +219,7 @@
         </a>
         @endif
 
-        @if($user->canManageDonations())
+        @if($user->can(Permission::DONATIONS_VIEW->value))
         <a href="{{ route('admin.donations.index') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.donations.*')
@@ -222,7 +230,7 @@
         </a>
         @endif
 
-        @if($user->canManageExpenses())
+        @if($user->can(Permission::EXPENSES_VIEW->value))
         <a href="{{ route('admin.expenses.index') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.expenses.*')
@@ -233,7 +241,7 @@
         </a>
         @endif
 
-        @if($user->hasFinancialAccess())
+        @if($user->can(Permission::FINANCIAL_REPORTS_VIEW->value))
         <a href="{{ route('admin.financial-reports.index') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.financial-reports.*')
@@ -244,7 +252,7 @@
         </a>
         @endif
 
-        @if($user->canViewAuditLogs())
+        @if($user->can(Permission::AUDIT_LOGS_VIEW->value))
         <a href="{{ route('admin.audit-logs.index') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.audit-logs.*')
@@ -254,7 +262,7 @@
             Audit Logs
         </a>
         @endif
-        @if($user->hasFinancialAccess())
+        @if($user->can(Permission::FUND_CATEGORIES_VIEW->value))
         <a href="{{ route('admin.fund-categories.index') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.fund-categories.*')

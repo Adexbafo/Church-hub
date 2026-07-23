@@ -99,10 +99,23 @@ class MediaAlbumController extends Controller
      */
     public function destroy(MediaAlbum $mediaAlbum): RedirectResponse
     {
+        if ($mediaAlbum->mediaItems()->exists()) {
+
+            return redirect()
+                ->route('admin.media-albums.index')
+                ->with(
+                    'error',
+                    'This album cannot be deleted because it contains media items.'
+                );
+        }
+
         $mediaAlbum->delete();
 
         return redirect()
             ->route('admin.media-albums.index')
-            ->with('success', 'Media album deleted successfully.');
+            ->with(
+                'success',
+                'Media album deleted successfully.'
+            );
     }
 }

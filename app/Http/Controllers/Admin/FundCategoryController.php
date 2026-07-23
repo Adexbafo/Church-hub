@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Models\FundCategory;
-use Illuminate\Http\Request;
+use App\Http\Requests\FundCategories\StoreFundCategoryRequest;
+use App\Http\Requests\FundCategories\UpdateFundCategoryRequest;
 
 class FundCategoryController extends Controller
 {
@@ -32,19 +34,12 @@ class FundCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:fund_categories',
-            'description' => 'nullable|string',
-            'is_active' => 'nullable|boolean',
-        ]);
+    public function store(
+        StoreFundCategoryRequest $request
+    ) {
+        $validated = $request->validated();
 
-        FundCategory::create([
-            'name' => $validated['name'],
-            'description' => $validated['description'] ?? null,
-            'is_active' => $request->boolean('is_active'),
-        ]);
+        FundCategory::create($validated);
 
         return redirect()
             ->route('admin.fund-categories.index')
@@ -84,20 +79,12 @@ class FundCategoryController extends Controller
      * Update the specified resource in storage.
      */
     public function update(
-        Request $request,
+        UpdateFundCategoryRequest $request,
         FundCategory $fundCategory
     ) {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:fund_categories,name,'.$fundCategory->id,
-            'description' => 'nullable|string',
-            'is_active' => 'nullable|boolean',
-        ]);
+        $validated = $request->validated();
 
-        $fundCategory->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'] ?? null,
-            'is_active' => $request->boolean('is_active'),
-        ]);
+        $fundCategory->update($validated);
 
         return redirect()
             ->route('admin.fund-categories.index')

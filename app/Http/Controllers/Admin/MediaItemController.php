@@ -9,6 +9,7 @@ use App\Models\MediaAlbum;
 use App\Models\MediaCategory;
 use App\Models\MediaItem;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class MediaItemController extends Controller
 {

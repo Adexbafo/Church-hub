@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Permission;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
@@ -23,12 +24,18 @@ class FinancialPermissionMiddleware
         }
 
         $allowed = match ($permission) {
-            'dashboard' => $user->hasFinancialAccess(),
-            'donations' => $user->canManageDonations(),
-            'expenses' => $user->canManageExpenses(),
-            'reports' => $user->hasFinancialAccess(),
-            'exports' => $user->canExportFinancialReports(),
-            'audit' => $user->canViewAuditLogs(),
+            'dashboard' => $user->can(Permission::FINANCIAL_DASHBOARD_VIEW->value),
+
+            'donations' => $user->can(Permission::DONATIONS_VIEW->value),
+
+            'expenses' => $user->can(Permission::EXPENSES_VIEW->value),
+
+            'reports' => $user->can(Permission::FINANCIAL_REPORTS_VIEW->value),
+
+            'exports' => $user->can(Permission::FINANCIAL_REPORTS_EXPORT->value),
+
+            'audit' => $user->can(Permission::AUDIT_LOGS_VIEW->value),
+
             default => false,
         };
 

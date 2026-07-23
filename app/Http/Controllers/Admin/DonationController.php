@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\DB;
 use App\Helpers\AuditHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Donation;
 use App\Models\FinancialTransaction;
 use App\Models\FundCategory;
 use Illuminate\Http\Request;
+use App\Http\Requests\Donations\StoreDonationRequest;
+use App\Http\Requests\Donations\UpdateDonationRequest;
 
 class DonationController extends Controller
 {
@@ -45,90 +48,54 @@ class DonationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDonationRequest $request)
     {
-        $validated = $request->validate([
 
-            'user_id' => 'nullable|exists:users,id',
+        $validated = $request->validated();
 
-            'donor_name' => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
-
-            'fund_category_id' => [
-                'required',
-                'exists:fund_categories,id',
-            ],
-
-            'amount' => [
-                'required',
-                'numeric',
-                'min:0',
-            ],
-
-            'payment_method' => [
-                'required',
-                'string',
-            ],
-
-            'reference' => [
-                'nullable',
-                'string',
-            ],
-
-            'notes' => [
-                'nullable',
-                'string',
-            ],
-
-            'donation_date' => [
-                'required',
-                'date',
-            ],
-
-        ]);
 
         if (auth()->check()) {
             $validated['user_id'] = auth()->id();
         }
 
         $validated['receipt_number'] =
-            'REC-'.now()->format('YmdHis');
+            'REC-' . now()->format('YmdHis');
 
         $validated['reference'] = $validated['receipt_number'];
 
-        $donation = Donation::create($validated);
+        DB::transaction(function () use ($validated) {
 
-        AuditHelper::log(
-            'create',
-            'Created donation: '.$donation->donor_name,
-            $donation
-        );
+            $donation = Donation::create($validated);
 
-        FinancialTransaction::create([
+            AuditHelper::log(
+                'create',
+                'Created donation: ' . $donation->donor_name,
+                $donation
+            );
 
-            'fund_category_id' => $donation->fund_category_id,
+            FinancialTransaction::create([
 
-            'user_id' => $donation->user_id,
+                'fund_category_id' => $donation->fund_category_id,
 
-            'amount' => $donation->amount,
+                'user_id' => $donation->user_id,
 
-            'transaction_type' => 'income',
+                'amount' => $donation->amount,
 
-            'status' => 'completed',
+                'transaction_type' => 'income',
 
-            'reference' => $donation->reference,
+                'status' => 'completed',
 
-            'description' => 'Donation - '.
-                $donation->fundCategory->name,
+                'reference' => $donation->reference,
 
-            'transaction_date' => $donation->donation_date,
+                'description' => 'Donation - ' .
+                    $donation->fundCategory->name,
 
-            'recorded_by' => auth()->id(),
+                'transaction_date' => $donation->donation_date,
 
-        ]);
+                'recorded_by' => auth()->id(),
+
+            ]);
+        });
 
         return redirect()
             ->route('admin.donations.index')
@@ -174,45 +141,38 @@ class DonationController extends Controller
      * Update the specified resource in storage.
      */
     public function update(
-        Request $request,
+        UpdateDonationRequest $request,
         Donation $donation
     ) {
 
-        $validated = $request->validate([
-            'donor_name' => 'nullable|string|max:255',
+        $validated = $request->validated();
 
-            'fund_category_id' => 'required|exists:fund_categories,id',
-            'amount' => 'required|numeric|min:0',
-            'payment_method' => 'required|string',
-            'reference' => 'nullable|string',
-            'notes' => 'nullable|string',
-            'donation_date' => 'required|date',
+        DB::transaction(function () use ($donation, $validated) {
 
-        ]);
+            $donation->update($validated);
 
-        $donation->update($validated);
+            AuditHelper::log(
+                'update',
+                'Updated donation: ' . $donation->donor_name,
+                $donation
+            );
 
-        AuditHelper::log(
-            'update',
-            'Updated donation: '.$donation->donor_name,
-            $donation
-        );
+            FinancialTransaction::where(
+                'reference',
+                $donation->reference
+            )->update([
 
-        FinancialTransaction::where(
-            'reference',
-            $donation->reference
-        )->update([
+                'fund_category_id' => $donation->fund_category_id,
 
-            'fund_category_id' => $donation->fund_category_id,
+                'amount' => $donation->amount,
 
-            'amount' => $donation->amount,
+                'transaction_date' => $donation->donation_date,
 
-            'transaction_date' => $donation->donation_date,
+                'description' => 'Donation - ' .
+                    $donation->fundCategory->name,
 
-            'description' => 'Donation - '.
-                $donation->fundCategory->name,
-
-        ]);
+            ]);
+        });
 
         return redirect()
             ->route('admin.donations.index')
@@ -228,18 +188,21 @@ class DonationController extends Controller
     public function destroy(
         Donation $donation
     ) {
-        FinancialTransaction::where(
-            'reference',
-            $donation->reference
-        )->delete();
+        DB::transaction(function () use ($donation) {
 
-        AuditHelper::log(
-            'delete',
-            'Deleted donation: '.$donation->donor_name,
-            $donation
-        );
+            FinancialTransaction::where(
+                'reference',
+                $donation->reference
+            )->delete();
 
-        $donation->delete();
+            AuditHelper::log(
+                'delete',
+                'Deleted donation: ' . $donation->donor_name,
+                $donation
+            );
+
+            $donation->delete();
+        });
 
         return redirect()
             ->route('admin.donations.index')

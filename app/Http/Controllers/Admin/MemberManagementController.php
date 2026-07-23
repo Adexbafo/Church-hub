@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Role as RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use Illuminate\Http\Request;
@@ -17,7 +18,10 @@ class MemberManagementController extends Controller
         $gender = $request->input('gender');
         $baptized = $request->input('baptized');
 
-        abort_unless(auth()->user()->role === 'admin', 403);
+        abort_unless(
+            auth()->user()->hasRole(RoleEnum::SUPER_ADMIN->value),
+            403
+        );
 
         $members = Member::query()
 

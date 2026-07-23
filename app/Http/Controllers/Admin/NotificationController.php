@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use App\Http\Requests\StoreNotificationRequest;
+use App\Http\Requests\UpdateNotificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -54,25 +56,16 @@ class NotificationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreNotificationRequest $request)
     {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'message' => ['required', 'string'],
-            'category' => ['required', 'string'],
-            'audience' => ['required', 'string'],
-            'priority' => ['required', 'string'],
-            'expires_at' => ['nullable', 'date'],
-            'link' => ['nullable', 'url'],
-            'attachment' => ['nullable', 'file', 'max:5120'],
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('attachment')) {
+
             $validated['attachment'] = $request
                 ->file('attachment')
                 ->store('notifications', 'public');
         }
-
         $validated['created_by'] = auth()->id();
 
         $validated['published_at'] = now();
@@ -111,20 +104,17 @@ class NotificationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Notification $notification)
-    {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'message' => ['required', 'string'],
-            'category' => ['required', 'string'],
-            'audience' => ['required', 'string'],
-            'priority' => ['required', 'string'],
-            'expires_at' => ['nullable', 'date'],
-            'link' => ['nullable', 'url'],
-            'attachment' => ['nullable', 'file', 'max:5120'],
-        ]);
+    public function update(
+        UpdateNotificationRequest $request,
+        Notification $notification
+    ) {
+        $validated = $request->validated();
 
         if ($request->hasFile('attachment')) {
+
+            if ($notification->attachment) {
+                Storage::disk('public')->delete($notification->attachment);
+            }
 
             $validated['attachment'] = $request
                 ->file('attachment')

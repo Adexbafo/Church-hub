@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Role as RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\Member;
@@ -10,8 +11,10 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-
-        abort_unless(auth()->user()->role === 'admin', 403);
+        abort_unless(
+            auth()->user()->hasRole(RoleEnum::SUPER_ADMIN->value),
+            403
+        );
 
         return view('admin.dashboard', [
             'totalMembers' => Member::count(),
