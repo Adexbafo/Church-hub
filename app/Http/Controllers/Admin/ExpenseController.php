@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\AuditHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Expenses\StoreExpenseRequest;
+use App\Http\Requests\Expenses\UpdateExpenseRequest;
 use App\Models\Expense;
 use App\Models\FinancialTransaction;
 use App\Models\FundCategory;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
@@ -45,77 +47,44 @@ class ExpenseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-
-            'fund_category_id' => [
-                'required',
-                'exists:fund_categories,id',
-            ],
-
-            'expense_title' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'amount' => [
-                'required',
-                'numeric',
-                'min:0',
-            ],
-
-            'payment_method' => [
-                'nullable',
-                'string',
-            ],
-
-            'reference' => [
-                'nullable',
-                'string',
-            ],
-
-            'description' => [
-                'nullable',
-                'string',
-            ],
-
-            'expense_date' => [
-                'required',
-                'date',
-            ],
-        ]);
+    public function store(
+        StoreExpenseRequest $request
+    ) {
+        $validated = $request->validated();
 
         $validated['recorded_by'] = auth()->id();
 
-        $expense = Expense::create($validated);
+        DB::transaction(function () use ($validated) {
 
-        AuditHelper::log(
-            'create',
-            'Created expense: '.$expense->expense_title,
-            $expense
-        );
+            $expense = Expense::create($validated);
 
-        FinancialTransaction::create([
+            AuditHelper::log(
+                'create',
+                'Created expense: ' . $expense->expense_title,
+                $expense
+            );
 
-            'fund_category_id' => $expense->fund_category_id,
+            FinancialTransaction::create([
 
-            'amount' => $expense->amount,
+                'fund_category_id' => $expense->fund_category_id,
 
-            'transaction_type' => 'expense',
+                'amount' => $expense->amount,
 
-            'status' => 'completed',
+                'transaction_type' => 'expense',
 
-            'reference' => $expense->reference,
+                'status' => 'completed',
 
-            'description' => 'Expense - '.
-                $expense->expense_title,
+                'reference' => $expense->reference,
 
-            'transaction_date' => $expense->expense_date,
+                'description' => 'Expense - ' .
+                    $expense->expense_title,
 
-            'recorded_by' => auth()->id(),
-        ]);
+                'transaction_date' => $expense->expense_date,
+
+                'recorded_by' => auth()->id(),
+
+            ]);
+        });
 
         return redirect()
             ->route('admin.expenses.index')
@@ -161,71 +130,37 @@ class ExpenseController extends Controller
      * Update the specified resource in storage.
      */
     public function update(
-        Request $request,
+        UpdateExpenseRequest $request,
         Expense $expense
     ) {
-        $validated = $request->validate([
+        $validated = $request->validated();
 
-            'expense_title' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+        DB::transaction(function () use ($expense, $validated) {
 
-            'fund_category_id' => [
-                'required',
-                'exists:fund_categories,id',
-            ],
+            $expense->update($validated);
 
-            'amount' => [
-                'required',
-                'numeric',
-                'min:0',
-            ],
+            AuditHelper::log(
+                'update',
+                'Updated expense: ' . $expense->expense_title,
+                $expense
+            );
 
-            'payment_method' => [
-                'required',
-                'string',
-            ],
+            FinancialTransaction::where(
+                'reference',
+                $expense->reference
+            )->update([
 
-            'reference' => [
-                'nullable',
-                'string',
-            ],
+                'fund_category_id' => $expense->fund_category_id,
 
-            'description' => [
-                'nullable',
-                'string',
-            ],
+                'amount' => $expense->amount,
 
-            'expense_date' => [
-                'required',
-                'date',
-            ],
-        ]);
+                'transaction_date' => $expense->expense_date,
 
-        $expense->update($validated);
+                'description' => 'Expense - ' .
+                    $expense->expense_title,
 
-        AuditHelper::log(
-            'update',
-            'Updated expense: '.$expense->expense_title,
-            $expense
-        );
-
-        FinancialTransaction::where(
-            'reference',
-            $expense->reference
-        )->update([
-
-            'fund_category_id' => $expense->fund_category_id,
-
-            'amount' => $expense->amount,
-
-            'transaction_date' => $expense->expense_date,
-
-            'description' => 'Expense - '.
-                $expense->expense_title,
-        ]);
+            ]);
+        });
 
         return redirect()
             ->route('admin.expenses.index')
@@ -241,18 +176,21 @@ class ExpenseController extends Controller
     public function destroy(
         Expense $expense
     ) {
-        FinancialTransaction::where(
-            'reference',
-            $expense->reference
-        )->delete();
+        DB::transaction(function () use ($expense) {
 
-        AuditHelper::log(
-            'delete',
-            'Deleted expense: '.$expense->expense_title,
-            $expense
-        );
+            FinancialTransaction::where(
+                'reference',
+                $expense->reference
+            )->delete();
 
-        $expense->delete();
+            AuditHelper::log(
+                'delete',
+                'Deleted expense: ' . $expense->expense_title,
+                $expense
+            );
+
+            $expense->delete();
+        });
 
         return redirect()
             ->route('admin.expenses.index')

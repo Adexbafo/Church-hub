@@ -24,36 +24,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SermonController;
 use App\Http\Controllers\Admin\LivestreamController;
 use App\Http\Controllers\Admin\MediaTeamController;
+use App\Http\Controllers\WelcomeController;
 
-Route::get('/', function () {
 
-    return view('welcome', [
 
-        'totalMembers' => Member::count(),
-
-        'activeMembers' => Member::where('membership_status', 'active')->count(),
-
-        'totalAnnouncements' => Announcement::count(),
-
-        'totalBands' => collect(
-
-            Member::select('band_one', 'band_two', 'band_three')->get()
-
-        )
-            ->flatMap(function ($member) {
-
-                return [
-                    $member->band_one,
-                    $member->band_two,
-                    $member->band_three,
-                ];
-            })
-            ->filter()
-            ->unique()
-            ->count(),
-
-    ]);
-});
+Route::get('/', [WelcomeController::class, 'index'])
+    ->name('welcome');
 
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')

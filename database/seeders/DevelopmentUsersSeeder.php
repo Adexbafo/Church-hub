@@ -17,15 +17,35 @@ class DevelopmentUsersSeeder extends Seeder
 
         $verifiedAt = now();
 
-        $hashedPassword = Hash::make(
-            config('app.development_password')
-        );
+        $superAdminName = config('app.super_admin_name');
+        $superAdminEmail = config('app.super_admin_email');
+        $developmentPassword = config('app.development_password');
+
+        if (blank($superAdminName)) {
+            throw new \RuntimeException(
+                'APP_SUPER_ADMIN_NAME is not configured. Please add it to your .env file.'
+            );
+        }
+
+        if (blank($superAdminEmail)) {
+            throw new \RuntimeException(
+                'APP_SUPER_ADMIN_EMAIL is not configured. Please add it to your .env file.'
+            );
+        }
+
+        if (blank($developmentPassword)) {
+            throw new \RuntimeException(
+                'APP_DEVELOPMENT_PASSWORD is not configured. Please add it to your .env file before running the seeders.'
+            );
+        }
+
+        $hashedPassword = Hash::make($developmentPassword);
 
 
         $users = [
             [
-                'name' => config('app.super_admin_name', 'Arasi Adebayo'),
-                'email' => config('app.super_admin_email', 'arasiadebayo@gmail.com'),
+                'name' => $superAdminName,
+                'email' => $superAdminEmail,
                 'role' => Role::SUPER_ADMIN,
             ],
             [

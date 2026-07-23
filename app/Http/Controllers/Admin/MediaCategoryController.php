@@ -107,8 +107,8 @@ class MediaCategoryController extends Controller
         return redirect()
             ->route('admin.media-categories.index')
             ->with(
-                'error',
-                'This category cannot be deleted because it contains media items.'
+                'success',
+                'Media category deleted successfully.'
             );
     }
 }

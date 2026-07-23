@@ -6,18 +6,20 @@ use App\Enums\Role as RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\Notification;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreAnnouncementRequest;
+use App\Http\Requests\UpdateAnnouncementRequest;
+use Illuminate\Support\Facades\DB;
 
 class AnnouncementController extends Controller
 {
     public function index()
     {
-        $announcements = Announcement::latest()->get();
-
         abort_unless(
             auth()->user()->hasRole(RoleEnum::SUPER_ADMIN->value),
             403
         );
+
+        $announcements = Announcement::latest()->get();
 
         return view(
             'admin.announcements.index',
@@ -30,49 +32,48 @@ class AnnouncementController extends Controller
         return view('admin.announcements.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreAnnouncementRequest $request)
     {
-        $validated = $request->validate([
+        $validated = $request->validated();
 
-            'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string'],
+        DB::transaction(function () use ($validated, $request) {
 
-        ]);
+            $announcement = Announcement::create([
 
-        $announcement = Announcement::create([
-
-            'title' => $validated['title'],
-            'content' => $validated['content'],
-            'user_id' => auth()->id(),
-            'published_at' => now(),
-
-        ]);
-        if ($request->boolean('send_notification')) {
-
-            Notification::create([
-
-                'created_by' => auth()->id(),
-
-                'title' => $announcement->title,
-
-                'message' => $announcement->content,
-
-                'category' => 'announcement',
-
-                'type' => 'announcement',
-
-                'audience' => 'all',
-
-                'priority' => 'normal',
-
-                'is_active' => true,
-
-                'is_pinned' => false,
-
+                'title' => $validated['title'],
+                'content' => $validated['content'],
+                'user_id' => auth()->id(),
                 'published_at' => now(),
 
             ]);
-        }
+
+            if ($request->boolean('send_notification')) {
+
+                Notification::create([
+
+                    'created_by' => auth()->id(),
+
+                    'title' => $announcement->title,
+
+                    'message' => $announcement->content,
+
+                    'category' => 'announcement',
+
+                    'type' => 'announcement',
+
+                    'audience' => 'all',
+
+                    'priority' => 'normal',
+
+                    'is_active' => true,
+
+                    'is_pinned' => false,
+
+                    'published_at' => now(),
+
+                ]);
+            }
+        });
 
         return redirect()
             ->route('admin.announcements.index')
@@ -87,14 +88,11 @@ class AnnouncementController extends Controller
         );
     }
 
-    public function update(Request $request, Announcement $announcement)
-    {
-        $validated = $request->validate([
-
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-
-        ]);
+    public function update(
+        UpdateAnnouncementRequest $request,
+        Announcement $announcement
+    ) {
+        $validated = $request->validated();
 
         $announcement->update($validated);
 

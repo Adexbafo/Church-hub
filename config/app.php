@@ -111,17 +111,11 @@ return [
 |--------------------------------------------------------------------------
 */
 
-    'super_admin_name' => env('APP_SUPER_ADMIN_NAME', 'Arasi Adebayo'),
+    'super_admin_name' => env('APP_SUPER_ADMIN_NAME'),
 
-    'super_admin_email' => env(
-        'APP_SUPER_ADMIN_EMAIL',
-        'arasiadebayo@gmail.com'
-    ),
+    'super_admin_email' => env('APP_SUPER_ADMIN_EMAIL'),
 
-    'development_password' => env(
-        'APP_DEVELOPMENT_PASSWORD',
-        'password'
-    ),
+    'development_password' => env('APP_DEVELOPMENT_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------
