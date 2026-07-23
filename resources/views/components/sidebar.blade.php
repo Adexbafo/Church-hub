@@ -1,5 +1,6 @@
 @php
 use App\Enums\Role as RoleEnum;
+use App\Enums\Permission;
 
 $user = auth()->user();
 @endphp
@@ -207,7 +208,7 @@ $user = auth()->user();
         </a>
 
 
-        @if($user->hasFinancialAccess())
+        @if($user->can(Permission::FINANCIAL_DASHBOARD_VIEW->value))
         <a href="{{ route('admin.financial.dashboard') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.financial.*')
@@ -218,7 +219,7 @@ $user = auth()->user();
         </a>
         @endif
 
-        @if($user->canManageDonations())
+        @if($user->can(Permission::DONATIONS_VIEW->value))
         <a href="{{ route('admin.donations.index') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.donations.*')
@@ -229,7 +230,7 @@ $user = auth()->user();
         </a>
         @endif
 
-        @if($user->canManageExpenses())
+        @if($user->can(Permission::EXPENSES_VIEW->value))
         <a href="{{ route('admin.expenses.index') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.expenses.*')
@@ -240,7 +241,7 @@ $user = auth()->user();
         </a>
         @endif
 
-        @if($user->hasFinancialAccess())
+        @if($user->can(Permission::FINANCIAL_REPORTS_VIEW->value))
         <a href="{{ route('admin.financial-reports.index') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.financial-reports.*')
@@ -251,7 +252,7 @@ $user = auth()->user();
         </a>
         @endif
 
-        @if($user->canViewAuditLogs())
+        @if($user->can(Permission::AUDIT_LOGS_VIEW->value))
         <a href="{{ route('admin.audit-logs.index') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.audit-logs.*')
@@ -261,7 +262,7 @@ $user = auth()->user();
             Audit Logs
         </a>
         @endif
-        @if($user->hasFinancialAccess())
+        @if($user->can(Permission::FUND_CATEGORIES_VIEW->value))
         <a href="{{ route('admin.fund-categories.index') }}"
             class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.fund-categories.*')
