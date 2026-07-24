@@ -10,6 +10,10 @@ class Announcement extends Model
         'title',
         'content',
         'user_id',
-        'is_active',
+        'published_at',
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
     ];
 }

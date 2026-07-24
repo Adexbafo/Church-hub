@@ -9,24 +9,34 @@ use App\Models\Notification;
 use App\Http\Requests\StoreAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+
 
 class AnnouncementController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_unless(
             auth()->user()->hasRole(RoleEnum::SUPER_ADMIN->value),
             403
         );
 
-        $announcements = Announcement::latest()->get();
+        $totalAnnouncements = Announcement::count();
+
+        $announcements = $this
+            ->filteredAnnouncements($request)
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
 
         return view(
             'admin.announcements.index',
-            compact('announcements')
+            compact(
+                'announcements',
+                'totalAnnouncements'
+            )
         );
     }
-
     public function create()
     {
         return view('admin.announcements.create');
@@ -108,5 +118,19 @@ class AnnouncementController extends Controller
         return redirect()
             ->route('admin.announcements.index')
             ->with('success', 'Announcement deleted successfully.');
+    }
+
+    private function filteredAnnouncements(Request $request)
+    {
+        return Announcement::query()
+
+            ->when($request->search, function ($query) use ($request) {
+
+                $query->where(function ($query) use ($request) {
+
+                    $query->where('title', 'like', "%{$request->search}%")
+                        ->orWhere('content', 'like', "%{$request->search}%");
+                });
+            });
     }
 }
