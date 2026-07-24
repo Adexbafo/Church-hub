@@ -10,6 +10,28 @@
                     Create Announcement
                 </h1>
 
+                @if ($errors->any())
+
+                <div class="mb-6 rounded-lg border border-red-200 bg-red-50 p-4">
+
+                    <div class="font-semibold text-red-700">
+                        Please correct the following errors:
+                    </div>
+
+                    <ul class="mt-2 list-disc list-inside text-sm text-red-600">
+
+                        @foreach ($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                        @endforeach
+
+                    </ul>
+
+                </div>
+
+                @endif
+
                 <form method="POST"
                     action="{{ route('admin.announcements.store') }}">
 
@@ -21,8 +43,10 @@
                             Title
                         </label>
 
-                        <input type="text"
+                        <input
+                            type="text"
                             name="title"
+                            value="{{ old('title') }}"
                             class="w-full border rounded-lg px-4 py-3"
                             required>
 
@@ -34,10 +58,11 @@
                             Content
                         </label>
 
-                        <textarea name="content"
+                        <textarea
+                            name="content"
                             rows="6"
                             class="w-full border rounded-lg px-4 py-3"
-                            required></textarea>
+                            required>{{ old('content') }}</textarea>
 
                     </div>
 
@@ -61,12 +86,25 @@
 
                     </div>
 
-                    <button type="submit"
-                        class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+                    <div class="flex flex-col sm:flex-row gap-3">
 
-                        Publish Announcement
+                        <button
+                            type="submit"
+                            class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
 
-                    </button>
+                            Publish Announcement
+
+                        </button>
+
+                        <a
+                            href="{{ route('admin.announcements.index') }}"
+                            class="w-full sm:w-auto bg-gray-200 hover:bg-gray-300 px-6 py-3 rounded-lg text-center">
+
+                            Cancel
+
+                        </a>
+
+                    </div>
 
                 </form>
 

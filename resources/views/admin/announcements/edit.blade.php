@@ -10,8 +10,30 @@
                     Edit Announcement
                 </h1>
 
+                @if ($errors->any())
+
+                <div class="mb-6 rounded-lg border border-red-200 bg-red-50 p-4">
+
+                    <div class="font-semibold text-red-700">
+                        Please correct the following errors:
+                    </div>
+
+                    <ul class="mt-2 list-disc list-inside text-sm text-red-600">
+
+                        @foreach ($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                        @endforeach
+
+                    </ul>
+
+                </div>
+
+                @endif
+
                 <form method="POST"
-                      action="{{ route('admin.announcements.update', $announcement) }}">
+                    action="{{ route('admin.announcements.update', $announcement) }}">
 
                     @csrf
                     @method('PUT')
@@ -23,10 +45,10 @@
                         </label>
 
                         <input type="text"
-                               name="title"
-                               value="{{ $announcement->title }}"
-                               class="w-full border rounded-lg px-4 py-3"
-                               required>
+                            name="title"
+                            value="{{ old('title', $announcement->title) }}"
+                            class="w-full border rounded-lg px-4 py-3"
+                            required>
 
                     </div>
 
@@ -37,18 +59,31 @@
                         </label>
 
                         <textarea name="content"
-                                  rows="6"
-                                  class="w-full border rounded-lg px-4 py-3"
-                                  required>{{ $announcement->content }}</textarea>
+                            rows="6"
+                            class="w-full border rounded-lg px-4 py-3"
+                            required>{{ old('content', $announcement->content) }}</textarea>
 
                     </div>
 
-                    <button type="submit"
-                        class="w-full md:w-auto bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg">
+                    <div class="flex flex-col sm:flex-row gap-3">
 
-                        Update Announcement
+                        <button
+                            type="submit"
+                            class="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg">
 
-                    </button>
+                            Update Announcement
+
+                        </button>
+
+                        <a
+                            href="{{ route('admin.announcements.index') }}"
+                            class="w-full sm:w-auto bg-gray-200 hover:bg-gray-300 px-6 py-3 rounded-lg text-center">
+
+                            Cancel
+
+                        </a>
+
+                    </div>
 
                 </form>
 
