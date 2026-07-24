@@ -36,38 +36,65 @@ $user = auth()->user();
             Dashboard
         </a>
 
-        <a href="{{ route('admin.members.index') }}"
-            class="block px-4 py-3 rounded-lg
+        <div class="pt-4 mt-4 border-t">
+            <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Member Management
+            </p>
+            <a href="{{ route('admin.members.index') }}"
+                class="block px-4 py-3 rounded-lg
        {{ request()->routeIs('admin.members.*')
            ? 'bg-blue-100 text-blue-700'
            : 'text-gray-700 hover:bg-blue-50' }}">
-            <span class="mr-3">👥</span>
-            Members
-        </a>
+                <span class="mr-3">👥</span>
+                Members
+            </a>
+        </div>
 
-        <a href="{{ route('admin.announcements.index') }}"
-            class="block px-4 py-3 rounded-lg
+        <div class="pt-4 mt-4 border-t">
+            <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Communication
+            </p>
+
+            <!-- Announcements Link -->
+            <a href="{{ route('admin.announcements.index') }}"
+                class="block px-4 py-3 rounded-lg
        {{ request()->routeIs('admin.announcements.*')
            ? 'bg-blue-100 text-blue-700'
            : 'text-gray-700 hover:bg-blue-50' }}">
-            <span class="mr-3">📢</span>
-            Announcements
-        </a>
-        <a href="{{ route('admin.notifications.index') }}"
-            class="block px-4 py-3 rounded-lg
+                <span class="mr-3">📢</span>
+                Announcements
+            </a>
+
+            <!-- Notifications Link -->
+            <a href="{{ route('admin.notifications.index') }}"
+                class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.notifications.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
 
-            <span class="mr-3">🔔</span>
-            Notifications
+                <span class="mr-3">🔔</span>
+                Notifications
 
-        </a>
+            </a>
+
+        </div>
+
+
+
 
         <div class="pt-4 mt-4 border-t">
             <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
                 Media Management
             </p>
+
+            <a href="{{ route('admin.media-items.index') }}"
+                class="block px-4 py-3 rounded-lg
+        {{ request()->routeIs('admin.media-items.*')
+            ? 'bg-blue-100 text-blue-700'
+            : 'text-gray-700 hover:bg-blue-50' }}">
+                <span class="mr-3">🎬</span>
+                Media Library
+            </a>
 
             <a href="{{ route('admin.media-categories.index') }}"
                 class="block px-4 py-3 rounded-lg
@@ -87,15 +114,6 @@ $user = auth()->user();
 
                 <span class="mr-3">🎞️</span>
                 Media Albums
-            </a>
-
-            <a href="{{ route('admin.media-items.index') }}"
-                class="block px-4 py-3 rounded-lg
-        {{ request()->routeIs('admin.media-items.*')
-            ? 'bg-blue-100 text-blue-700'
-            : 'text-gray-700 hover:bg-blue-50' }}">
-                <span class="mr-3">🎬</span>
-                Media Library
             </a>
 
             <a href="{{ route('admin.sermons.index') }}"
@@ -143,16 +161,6 @@ $user = auth()->user();
                 Financial Dashboard
 
             </a>
-            <a href="{{ route('admin.fund-categories.index') }}"
-                class="block px-4 py-3 rounded-lg
-    {{ request()->routeIs('admin.fund-categories.*')
-        ? 'bg-blue-100 text-blue-700'
-        : 'text-gray-700 hover:bg-blue-50' }}">
-
-                <span class="mr-3">🗂️</span>
-                Fund Categories
-
-            </a>
             <a href="{{ route('admin.donations.index') }}"
                 class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.donations.*')
@@ -171,9 +179,17 @@ $user = auth()->user();
 
                 <span class="mr-3">💸</span>
                 Expenses
-
             </a>
 
+            <a href="{{ route('admin.fund-categories.index') }}"
+                class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.fund-categories.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
+
+                <span class="mr-3">🗂️</span>
+                Fund Categories
+            </a>
 
             <a href="{{ route('admin.financial-reports.index') }}"
                 class="block px-4 py-3 rounded-lg
@@ -184,7 +200,14 @@ $user = auth()->user();
                 <span class="mr-3">📊</span>
                 Financial Reports
             </a>
+        </div>
 
+        <div class="pt-4 mt-4 border-t">
+            <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Administration
+            </p>
+
+            <!-- Audit Logs Link -->
             <a href="{{ route('admin.audit-logs.index') }}"
                 class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.audit-logs.*')
