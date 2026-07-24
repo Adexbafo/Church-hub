@@ -318,6 +318,16 @@ $bands = config('church.bands');
 
                     <div class="hidden md:block overflow-x-auto rounded-xl border">
 
+                        <div class="flex items-center justify-between mb-4">
+
+                            <div
+                                id="selection-count"
+                                class="text-sm text-gray-600 font-medium hidden">
+                                0 members selected
+                            </div>
+
+                        </div>
+
                         <div class="flex flex-wrap gap-3 mb-4">
 
                             <button
@@ -584,6 +594,27 @@ $bands = config('church.bands');
             ).length > 0;
 
         }
+
+        function updateSelectionCount() {
+
+            const count = document.querySelectorAll(
+                '.member-checkbox:checked'
+            ).length;
+
+            const label = document.getElementById('selection-count');
+
+            if (count === 0) {
+
+                label.classList.add('hidden');
+                return;
+
+            }
+
+            label.classList.remove('hidden');
+
+            label.textContent =
+                `${count} member${count > 1 ? 's' : ''} selected`;
+        }
         const bulkForm = document.getElementById('bulk-form');
         const actionInput = document.getElementById('bulk-action');
 
@@ -596,10 +627,20 @@ $bands = config('church.bands');
                 .forEach(function(checkbox) {
 
                     checkbox.checked = selectAll.checked;
+                    updateSelectionCount();
 
                 });
 
+
         });
+
+        document
+            .querySelectorAll('.member-checkbox')
+            .forEach(function(checkbox) {
+
+                checkbox.addEventListener('change', updateSelectionCount);
+
+            });
 
         document
             .getElementById('activate-selected')
