@@ -20,6 +20,8 @@ $completedFields = collect($fields)
 ->count();
 
 $totalFields = count($fields);
+
+use Illuminate\Support\Str;
 @endphp
 
 <x-app-layout>
@@ -235,14 +237,7 @@ $totalFields = count($fields);
 
             <div class="space-y-4">
 
-                @forelse(
-                \App\Models\Announcement::where('is_active', true)
-
-                ->latest()
-                ->take(3)
-                ->get()
-                as $announcement
-                )
+                @forelse($latestAnnouncements as $announcement)
 
                 <div class="border rounded-xl p-4">
 
@@ -258,8 +253,8 @@ $totalFields = count($fields);
 
                     <div class="text-xs text-gray-400">
 
-                        Posted
-                        {{ $announcement->created_at->diffForHumans() }}
+                        Published
+                        {{ $announcement->published_at->diffForHumans() }}
 
                     </div>
 

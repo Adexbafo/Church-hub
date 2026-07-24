@@ -7,24 +7,24 @@
 
                 <div class="mb-6">
 
-                <a href="{{ route('announcements.index') }}"
-                    class="text-blue-600 hover:text-blue-700 font-medium">
+                    <a href="{{ route('announcements.index') }}"
+                        class="text-blue-600 hover:text-blue-700 font-medium">
 
-                    ← Back to Announcements
+                        ← Back to Announcements
 
-                </a>
+                    </a>
 
-            </div>
+                </div>
 
                 <h1 class="text-3xl font-bold mb-4">
                     {{ $announcement->title }}
                 </h1>
 
                 <div class="text-sm text-gray-500 mb-6">
-                    Posted {{ $announcement->created_at->diffForHumans() }}
+                    Published {{ $announcement->published_at->diffForHumans() }}
                 </div>
 
-                <div class="prose max-w-none">
+                <div class="prose max-w-none whitespace-pre-line">
                     {{ $announcement->content }}
                 </div>
 

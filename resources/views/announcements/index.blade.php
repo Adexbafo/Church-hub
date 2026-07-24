@@ -1,3 +1,6 @@
+@php
+use Illuminate\Support\Str;
+@endphp
 <x-app-layout>
 
     <div class="py-10">
@@ -18,11 +21,11 @@
                     </h2>
 
                     <p class="text-gray-700 whitespace-pre-line">
-                        {{ $announcement->content }}
+                        {{ Str::limit($announcement->content, 220) }}
                     </p>
 
                     <div class="mt-4 text-sm text-gray-500">
-                        {{ $announcement->created_at->format('F d, Y') }}
+                        {{ $announcement->published_at->format('F d, Y') }}
                     </div>
 
                     <div class="mt-4">
@@ -41,12 +44,28 @@
 
                 @empty
 
-                <div class="bg-white shadow rounded-xl p-6">
-                    No announcements available.
-                </div>
+                <div class="bg-white shadow rounded-xl p-8 text-center">
 
+                    <h2 class="text-lg font-semibold">
+                        No announcements available
+                    </h2>
+
+                    <p class="mt-2 text-gray-500">
+                        Please check back later for church updates and upcoming events.
+                    </p>
+                </div>
                 @endforelse
             </div>
+
+            @if ($announcements->hasPages())
+
+            <div class="mt-8">
+
+                {{ $announcements->links() }}
+
+            </div>
+
+            @endif
         </div>
     </div>
 
