@@ -23,31 +23,7 @@ class MemberManagementController extends Controller
             403
         );
 
-        $members = Member::query()
-
-            ->when($search, function ($query) use ($search) {
-
-                $query->where('full_name', 'like', "%{$search}%")
-                    ->orWhere('phone', 'like', "%{$search}%")
-                    ->orWhere('occupation', 'like', "%{$search}%")
-                    ->orWhere('membership_id', 'like', "%{$search}%")
-                    ->orWhere('band_one', 'like', "%{$search}%")
-                    ->orWhere('band_two', 'like', "%{$search}%")
-                    ->orWhere('band_three', 'like', "%{$search}%");
-            })
-
-            ->when($status, function ($query, $status) {
-                $query->where('membership_status', $status);
-            })
-
-            ->when($gender, function ($query, $gender) {
-                $query->where('gender', $gender);
-            })
-
-            ->when($request->filled('baptized'), function ($query) use ($baptized) {
-                $query->where('is_baptized', $baptized);
-            })
-
+        $members = $this->filteredMembers($request)
             ->latest()
             ->paginate(10)
             ->withQueryString();
@@ -198,41 +174,8 @@ class MemberManagementController extends Controller
 
     public function export(Request $request): StreamedResponse
     {
-        $members = Member::query()
-
-            ->when($request->search, function ($query) use ($request) {
-
-                $query->where('full_name', 'like', "%{$request->search}%")
-                    ->orWhere('phone', 'like', "%{$request->search}%")
-                    ->orWhere('membership_id', 'like', "%{$request->search}%");
-            })
-
-            ->when($request->status, function ($query) use ($request) {
-
-                $query->where(
-                    'membership_status',
-                    $request->status
-                );
-            })
-
-            ->when($request->gender, function ($query) use ($request) {
-
-                $query->where(
-                    'gender',
-                    $request->gender
-                );
-            })
-
-            ->when($request->filled('baptized'), function ($query) use ($request) {
-
-                $query->where(
-                    'is_baptized',
-                    $request->baptized
-                );
-            })
-
+        $members = $this->filteredMembers($request)
             ->orderBy('full_name')
-
             ->get();
 
         $headers = [
@@ -292,6 +235,7 @@ class MemberManagementController extends Controller
         return response()->stream($callback, 200, $headers);
     }
 
+
     public function print()
     {
         $members = Member::orderBy('full_name')->get();
@@ -304,5 +248,47 @@ class MemberManagementController extends Controller
         $member->delete();
 
         return back()->with('success', 'Member deleted successfully.');
+    }
+    private function filteredMembers(Request $request)
+    {
+        return Member::query()
+
+            ->when($request->search, function ($query) use ($request) {
+
+                $query->where(function ($query) use ($request) {
+
+                    $query->where('full_name', 'like', "%{$request->search}%")
+                        ->orWhere('phone', 'like', "%{$request->search}%")
+                        ->orWhere('occupation', 'like', "%{$request->search}%")
+                        ->orWhere('membership_id', 'like', "%{$request->search}%")
+                        ->orWhere('band_one', 'like', "%{$request->search}%")
+                        ->orWhere('band_two', 'like', "%{$request->search}%")
+                        ->orWhere('band_three', 'like', "%{$request->search}%");
+                });
+            })
+
+            ->when($request->status, function ($query) use ($request) {
+
+                $query->where(
+                    'membership_status',
+                    $request->status
+                );
+            })
+
+            ->when($request->gender, function ($query) use ($request) {
+
+                $query->where(
+                    'gender',
+                    $request->gender
+                );
+            })
+
+            ->when($request->filled('baptized'), function ($query) use ($request) {
+
+                $query->where(
+                    'is_baptized',
+                    $request->baptized
+                );
+            });
     }
 }
