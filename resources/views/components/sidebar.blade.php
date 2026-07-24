@@ -3,6 +3,30 @@ use App\Enums\Role as RoleEnum;
 use App\Enums\Permission;
 
 $user = auth()->user();
+
+$memberOpen = request()->routeIs('admin.members.*');
+
+$communicationOpen =
+request()->routeIs('admin.announcements.*')
+|| request()->routeIs('admin.notifications.*');
+
+$mediaOpen =
+request()->routeIs('admin.media-items.*')
+|| request()->routeIs('admin.media-categories.*')
+|| request()->routeIs('admin.media-albums.*')
+|| request()->routeIs('admin.sermons.*')
+|| request()->routeIs('admin.livestreams.*')
+|| request()->routeIs('admin.media-teams.*');
+
+$financialOpen =
+request()->routeIs('admin.financial.*')
+|| request()->routeIs('admin.donations.*')
+|| request()->routeIs('admin.expenses.*')
+|| request()->routeIs('admin.fund-categories.*')
+|| request()->routeIs('admin.financial-reports.*');
+
+$administrationOpen =
+request()->routeIs('admin.audit-logs.*');
 @endphp
 
 
@@ -36,187 +60,311 @@ $user = auth()->user();
             Dashboard
         </a>
 
-        <div class="pt-4 mt-4 border-t">
-            <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                Member Management
-            </p>
-            <a href="{{ route('admin.members.index') }}"
-                class="block px-4 py-3 rounded-lg
+        <div
+            x-data="{
+        open: {{ $memberOpen ? 'true' : 'false' }}
+    }">
+            <button
+                @click="open = !open"
+                type="button"
+                class="w-full flex items-center justify-between px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                <span>Member Management</span>
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 transition-transform duration-200"
+                    :class="{ 'rotate-90': open }"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
+            <div
+                x-show="open"
+                x-transition:enter.duration.200ms
+                x-transition:leave.duration.150ms>
+                <a href="{{ route('admin.members.index') }}"
+                    class="block px-4 py-3 rounded-lg
        {{ request()->routeIs('admin.members.*')
            ? 'bg-blue-100 text-blue-700'
            : 'text-gray-700 hover:bg-blue-50' }}">
-                <span class="mr-3">👥</span>
-                Members
-            </a>
+                    <span class="mr-3">👥</span>
+                    Members
+                </a>
+            </div>
         </div>
 
-        <div class="pt-4 mt-4 border-t">
-            <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                Communication
-            </p>
+        <div
+            x-data="{
+        open: {{ $communicationOpen ? 'true' : 'false' }}
+    }">
+            <button
+                @click="open = !open"
+                type="button"
+                class="w-full flex items-center justify-between px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                <span>Communication</span>
 
-            <!-- Announcements Link -->
-            <a href="{{ route('admin.announcements.index') }}"
-                class="block px-4 py-3 rounded-lg
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 transition-transform duration-200"
+                    :class="{ 'rotate-90': open }"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
+            <div
+                x-show="open"
+                x-transition:enter.duration.200ms
+                x-transition:leave.duration.150ms>
+
+                <!-- Announcements Link -->
+                <a href="{{ route('admin.announcements.index') }}"
+                    class="block px-4 py-3 rounded-lg
        {{ request()->routeIs('admin.announcements.*')
            ? 'bg-blue-100 text-blue-700'
            : 'text-gray-700 hover:bg-blue-50' }}">
-                <span class="mr-3">📢</span>
-                Announcements
-            </a>
+                    <span class="mr-3">📢</span>
+                    Announcements
+                </a>
 
-            <!-- Notifications Link -->
-            <a href="{{ route('admin.notifications.index') }}"
-                class="block px-4 py-3 rounded-lg
+                <!-- Notifications Link -->
+                <a href="{{ route('admin.notifications.index') }}"
+                    class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.notifications.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
 
-                <span class="mr-3">🔔</span>
-                Notifications
+                    <span class="mr-3">🔔</span>
+                    Notifications
 
-            </a>
-
+                </a>
+            </div>
         </div>
 
+        <div
+            x-data="{
+        open: {{ $mediaOpen ? 'true' : 'false' }}
+    }">
+            <button
+                @click="open = !open"
+                class="w-full flex items-center justify-between px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                type="button">
+                <span>Media Management</span>
 
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 transition-transform duration-200"
+                    :class="{ 'rotate-90': open }"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+            <div
+                x-show="open"
+                x-transition:enter.duration.200ms
+                x-transition:leave.duration.150ms>
 
-
-        <div class="pt-4 mt-4 border-t">
-            <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                Media Management
-            </p>
-
-            <a href="{{ route('admin.media-items.index') }}"
-                class="block px-4 py-3 rounded-lg
+                <a href="{{ route('admin.media-items.index') }}"
+                    class="block px-4 py-3 rounded-lg
         {{ request()->routeIs('admin.media-items.*')
             ? 'bg-blue-100 text-blue-700'
             : 'text-gray-700 hover:bg-blue-50' }}">
-                <span class="mr-3">🎬</span>
-                Media Library
-            </a>
+                    <span class="mr-3">🎬</span>
+                    Media Library
+                </a>
 
-            <a href="{{ route('admin.media-categories.index') }}"
-                class="block px-4 py-3 rounded-lg
+                <a href="{{ route('admin.media-categories.index') }}"
+                    class="block px-4 py-3 rounded-lg
         {{ request()->routeIs('admin.media-categories.*')
             ? 'bg-blue-100 text-blue-700'
             : 'text-gray-700 hover:bg-blue-50' }}">
 
-                <span class="mr-3">📂</span>
-                Media Categories
-            </a>
+                    <span class="mr-3">📂</span>
+                    Media Categories
+                </a>
 
-            <a href="{{ route('admin.media-albums.index') }}"
-                class="block px-4 py-3 rounded-lg
+                <a href="{{ route('admin.media-albums.index') }}"
+                    class="block px-4 py-3 rounded-lg
         {{ request()->routeIs('admin.media-albums.*')
             ? 'bg-blue-100 text-blue-700'
             : 'text-gray-700 hover:bg-blue-50' }}">
 
-                <span class="mr-3">🎞️</span>
-                Media Albums
-            </a>
+                    <span class="mr-3">🎞️</span>
+                    Media Albums
+                </a>
 
-            <a href="{{ route('admin.sermons.index') }}"
-                class="block px-4 py-3 rounded-lg
+                <a href="{{ route('admin.sermons.index') }}"
+                    class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.sermons.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
-                <span class="mr-3">🎤</span>
-                Sermons
-            </a>
+                    <span class="mr-3">🎤</span>
+                    Sermons
+                </a>
 
-            <a href="{{ route('admin.livestreams.index') }}"
-                class="block px-4 py-3 rounded-lg
+                <a href="{{ route('admin.livestreams.index') }}"
+                    class="block px-4 py-3 rounded-lg
    {{ request()->routeIs('admin.livestreams.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
 
-                <span class="mr-3">📺</span>
+                    <span class="mr-3">📺</span>
 
-                Livestreams
-            </a>
+                    Livestreams
+                </a>
 
-            <a href="{{ route('admin.media-teams.index') }}"
-                class="block px-4 py-3 rounded-lg
+                <a href="{{ route('admin.media-teams.index') }}"
+                    class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.media-teams.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
 
-                <span class="mr-3">👥</span>
+                    <span class="mr-3">👥</span>
 
-                Media Team
-            </a>
+                    Media Team
+                </a>
+            </div>
         </div>
-        <div class="pt-4 mt-4 border-t">
-            <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                Financial Management
-            </p>
-            <a href="{{ route('admin.financial.dashboard') }}"
-                class="block px-4 py-3 rounded-lg
+        <div
+            x-data="{
+        open: {{ $financialOpen ? 'true' : 'false' }}
+    }"
+            class="pt-4 mt-4 border-t">
+            <button
+                @click="open = !open"
+                class="w-full flex items-center justify-between px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                type="button">
+                <span>Financial Management</span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 transition-transform duration-200"
+                    :class="{ 'rotate-90': open }"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+            <div
+                x-show="open"
+                x-transition:enter.duration.200ms
+                x-transition:leave.duration.150ms>
+                <a href="{{ route('admin.financial.dashboard') }}"
+                    class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.financial.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
 
-                <span class="mr-3">💰</span>
-                Financial Dashboard
+                    <span class="mr-3">💰</span>
+                    Financial Dashboard
 
-            </a>
-            <a href="{{ route('admin.donations.index') }}"
-                class="block px-4 py-3 rounded-lg
+                </a>
+                <a href="{{ route('admin.donations.index') }}"
+                    class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.donations.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
 
-                <span class="mr-3">💵</span>
-                Donations
+                    <span class="mr-3">💵</span>
+                    Donations
 
-            </a>
-            <a href="{{ route('admin.expenses.index') }}"
-                class="block px-4 py-3 rounded-lg
+                </a>
+                <a href="{{ route('admin.expenses.index') }}"
+                    class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.expenses.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
 
-                <span class="mr-3">💸</span>
-                Expenses
-            </a>
+                    <span class="mr-3">💸</span>
+                    Expenses
+                </a>
 
-            <a href="{{ route('admin.fund-categories.index') }}"
-                class="block px-4 py-3 rounded-lg
+                <a href="{{ route('admin.fund-categories.index') }}"
+                    class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.fund-categories.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
 
-                <span class="mr-3">🗂️</span>
-                Fund Categories
-            </a>
+                    <span class="mr-3">🗂️</span>
+                    Fund Categories
+                </a>
 
-            <a href="{{ route('admin.financial-reports.index') }}"
-                class="block px-4 py-3 rounded-lg
+                <a href="{{ route('admin.financial-reports.index') }}"
+                    class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.financial-reports.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
 
-                <span class="mr-3">📊</span>
-                Financial Reports
-            </a>
+                    <span class="mr-3">📊</span>
+                    Financial Reports
+                </a>
+            </div>
         </div>
 
-        <div class="pt-4 mt-4 border-t">
-            <p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                Administration
-            </p>
+        <div
+            x-data="{
+        open: {{ $administrationOpen ? 'true' : 'false' }}
+    }"
+            class="pt-4 mt-4 border-t">
+            <button
+                @click="open = !open"
+                class="w-full flex items-center justify-between px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                type="button">
+                <span>Administration</span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 transition-transform duration-200"
+                    :class="{ 'rotate-90': open }"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
 
-            <!-- Audit Logs Link -->
-            <a href="{{ route('admin.audit-logs.index') }}"
-                class="block px-4 py-3 rounded-lg
+            <div
+                x-show="open"
+                x-transition:enter.duration.200ms
+                x-transition:leave.duration.150ms>
+
+                <!-- Audit Logs Link -->
+                <a href="{{ route('admin.audit-logs.index') }}"
+                    class="block px-4 py-3 rounded-lg
     {{ request()->routeIs('admin.audit-logs.*')
         ? 'bg-blue-100 text-blue-700'
         : 'text-gray-700 hover:bg-blue-50' }}">
 
-                <span class="mr-3">📋</span>
-                Audit Logs
-            </a>
+                    <span class="mr-3">📋</span>
+                    Audit Logs
+                </a>
+            </div>
         </div>
 
         @else
