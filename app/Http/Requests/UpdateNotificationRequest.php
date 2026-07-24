@@ -23,7 +23,57 @@ class UpdateNotificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'message' => [
+                'required',
+                'string',
+            ],
+
+            'category' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'audience' => [
+                'required',
+                'in:all,member,admin',
+            ],
+
+            'priority' => [
+                'required',
+                'in:low,normal,high,urgent',
+            ],
+
+            'link' => [
+                'nullable',
+                'url',
+                'max:255',
+            ],
+
+            'expires_at' => [
+                'nullable',
+                'date',
+                'after:now',
+            ],
+
+            'is_pinned' => [
+                'nullable',
+                'boolean',
+            ],
+
+            'attachment' => [
+                'nullable',
+                'file',
+                'max:2048',
+            ],
+
         ];
     }
 }

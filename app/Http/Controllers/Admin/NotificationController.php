@@ -53,16 +53,16 @@ class NotificationController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('attachment')) {
-
             $validated['attachment'] = $request
                 ->file('attachment')
                 ->store('notifications', 'public');
         }
+
         $validated['created_by'] = auth()->id();
-
         $validated['published_at'] = now();
-
-        $validated['is_active'] = true;
+        $validated['type'] = 'announcement';
+        $validated['is_active'] = $request->boolean('is_active');
+        $validated['is_pinned'] = $request->boolean('is_pinned');
 
         Notification::create($validated);
 
@@ -151,6 +151,14 @@ class NotificationController extends Controller
                     $query->where('title', 'like', "%{$request->search}%")
                         ->orWhere('message', 'like', "%{$request->search}%");
                 });
+            })
+
+            ->when($request->category, function ($query) use ($request) {
+
+                $query->where(
+                    'category',
+                    $request->category
+                );
             });
     }
 }

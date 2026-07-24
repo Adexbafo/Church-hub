@@ -25,6 +25,16 @@
 
                     @csrf
 
+                    @if ($errors->any())
+                    <div class="mb-6 rounded-lg border border-red-300 bg-red-50 p-4">
+                        <ul class="list-disc list-inside text-red-700">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
                     <!-- Title -->
 
                     <div class="mb-6">
