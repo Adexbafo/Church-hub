@@ -16,16 +16,8 @@ class NotificationController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->input('search');
-
-        $notifications = Notification::query()
-
-            ->when($search, function ($query) use ($search) {
-
-                $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('message', 'like', "%{$search}%");
-            })
-
+        $notifications = $this
+            ->filteredNotifications($request)
             ->latest()
             ->paginate(10)
             ->withQueryString();
@@ -146,5 +138,19 @@ class NotificationController extends Controller
         return redirect()
             ->route('admin.notifications.index')
             ->with('success', 'Notification deleted successfully.');
+    }
+
+    private function filteredNotifications(Request $request)
+    {
+        return Notification::query()
+
+            ->when($request->search, function ($query) use ($request) {
+
+                $query->where(function ($query) use ($request) {
+
+                    $query->where('title', 'like', "%{$request->search}%")
+                        ->orWhere('message', 'like', "%{$request->search}%");
+                });
+            });
     }
 }
