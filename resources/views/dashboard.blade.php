@@ -276,6 +276,4 @@ use Illuminate\Support\Str;
 
     </div>
 
-    </div>
-
 </x-app-layout>

@@ -17,6 +17,7 @@
 
                     <div class="mb-6">
 
+
                         <label class="block font-medium mb-2">
                             Donor Name
                         </label>
@@ -25,7 +26,14 @@
                             type="text"
                             name="donor_name"
                             value="{{ old('donor_name') }}"
-                            class="w-full rounded-lg border-gray-300">
+                            class="w-full rounded-lg border-gray-300"
+                            required>
+
+                        @error('donor_name')
+                        <p class="mt-2 text-sm text-red-600">
+                            {{ $message }}
+                        </p>
+                        @enderror
 
                     </div>
                     <div class="mb-6">
@@ -57,6 +65,12 @@
 
                         </select>
 
+                        @error('fund_category_id')
+                        <p class="mt-2 text-sm text-red-600">
+                            {{ $message }}
+                        </p>
+                        @enderror
+
                     </div>
                     <div class="mb-6">
 
@@ -72,6 +86,12 @@
                             class="w-full rounded-lg border-gray-300"
                             required>
 
+                        @error('amount')
+                        <p class="mt-2 text-sm text-red-600">
+                            {{ $message }}
+                        </p>
+                        @enderror
+
                     </div>
                     <div class="mb-6">
 
@@ -83,6 +103,8 @@
                             name="payment_method"
                             class="w-full rounded-lg border-gray-300"
                             required>
+
+
 
                             <option value="cash">Cash</option>
 
@@ -100,18 +122,11 @@
 
                         </select>
 
-                    </div>
-                    <div class="mb-6">
-
-                        <label class="block font-medium mb-2">
-                            Reference
-                        </label>
-
-                        <input
-                            type="text"
-                            name="reference"
-                            value="{{ old('reference') }}"
-                            class="w-full rounded-lg border-gray-300">
+                        @error('payment_method')
+                        <p class="mt-2 text-sm text-red-600">
+                            {{ $message }}
+                        </p>
+                        @enderror
 
                     </div>
                     <div class="mb-6">
@@ -127,6 +142,12 @@
                             class="w-full rounded-lg border-gray-300"
                             required>
 
+                        @error('donation_date')
+                        <p class="mt-2 text-sm text-red-600">
+                            {{ $message }}
+                        </p>
+                        @enderror
+
                     </div>
                     <div class="mb-6">
 
@@ -138,6 +159,12 @@
                             name="notes"
                             rows="4"
                             class="w-full rounded-lg border-gray-300">{{ old('notes') }}</textarea>
+
+                        @error('notes')
+                        <p class="mt-2 text-sm text-red-600">
+                            {{ $message }}
+                        </p>
+                        @enderror
 
                     </div>
                     <div class="flex justify-end gap-4">

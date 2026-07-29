@@ -48,7 +48,7 @@
                         <tr class="border-t">
 
                             <td class="px-6 py-4">
-                                {{ $donation->created_at->format('M d, Y') }}
+                                {{ $donation->donation_date->format('M d, Y') }}
                             </td>
 
                             <td class="px-6 py-4">
@@ -76,6 +76,25 @@
                                     class="text-green-600 mr-3">
                                     Edit
                                 </a>
+
+                                <form
+                                    action="{{ route('admin.donations.destroy', $donation) }}"
+                                    method="POST"
+                                    class="inline">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        type="submit"
+                                        class="text-red-600"
+                                        onclick="return confirm('Are you sure you want to delete this donation? This action cannot be undone.')">
+
+                                        Delete
+
+                                    </button>
+
+                                </form>
 
                             </td>
 

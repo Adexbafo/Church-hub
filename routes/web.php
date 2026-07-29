@@ -18,8 +18,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MemberProfileController;
 use App\Http\Controllers\NotificationFeedController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Announcement;
-use App\Models\Member;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SermonController;
 use App\Http\Controllers\Admin\LivestreamController;
@@ -31,8 +29,8 @@ use App\Http\Controllers\WelcomeController;
 Route::get('/', [WelcomeController::class, 'index'])
     ->name('welcome');
 
-Route::middleware(['auth', 'admin'])
-    ->prefix('admin')
+Route::prefix('admin')
+    ->middleware(['auth', 'admin'])
     ->group(function () {
 
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])

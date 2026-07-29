@@ -202,7 +202,9 @@
                             <tr>
 
                                 <td colspan="5" class="p-6 text-center">
-                                    No transactions found.
+                                    No transactions were found for the selected reporting period.
+                                    <br>
+                                    Try selecting a different date range.
                                 </td>
 
                             </tr>
