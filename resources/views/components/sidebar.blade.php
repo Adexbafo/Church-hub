@@ -140,6 +140,19 @@ request()->routeIs('admin.audit-logs.*');
                     Announcements
                 </a>
 
+                <a href="{{ route('admin.events.index') }}"
+                    class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.events.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
+
+                    <span class="mr-3">📅</span>
+                    Events
+
+                </a>
+
+
+
                 <!-- Notifications Link -->
                 <a href="{{ route('admin.notifications.index') }}"
                     class="block px-4 py-3 rounded-lg

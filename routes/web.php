@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\SermonController;
 use App\Http\Controllers\Admin\LivestreamController;
 use App\Http\Controllers\Admin\MediaTeamController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\Admin\EventController;
 
 
 
@@ -80,6 +81,8 @@ Route::prefix('admin')
             ->names('admin.sermons');
         Route::resource('livestreams', LivestreamController::class)
             ->names('admin.livestreams');
+        Route::resource('events', EventController::class)
+            ->names('admin.events');
     });
 
 Route::middleware(['auth'])
