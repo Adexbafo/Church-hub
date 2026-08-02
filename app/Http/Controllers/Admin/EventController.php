@@ -56,7 +56,7 @@ class EventController extends Controller
         Event::create($validated);
 
         return redirect()
-            ->route('events.index')
+            ->route('admin.events.index')
             ->with('success', 'Event created successfully.');
     }
 
@@ -97,7 +97,7 @@ class EventController extends Controller
         $event->update($validated);
 
         return redirect()
-            ->route('events.index')
+            ->route('admin.events.index')
             ->with('success', 'Event updated successfully.');
     }
     /**
@@ -108,7 +108,7 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()
-            ->route('events.index')
+            ->route('admin.events.index')
             ->with('success', 'Event deleted successfully.');
     }
 }

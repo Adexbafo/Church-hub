@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\LivestreamController;
 use App\Http\Controllers\Admin\MediaTeamController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Member\EventController as MemberEventController;
 
 
 
@@ -162,11 +163,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notifications/{notification}', [NotificationFeedController::class, 'show'])
         ->name('notifications.show');
 
-    Route::get('/member/profile', [MemberProfileController::class, 'edit'])
-        ->name('member.profile');
+    Route::prefix('member')
+        ->name('member.')
+        ->group(function () {
 
-    Route::patch('/member/profile', [MemberProfileController::class, 'update'])
-        ->name('member.profile.update');
+            // Profile
+            Route::get('/profile', [MemberProfileController::class, 'edit'])
+                ->name('profile');
+
+            Route::patch('/profile', [MemberProfileController::class, 'update'])
+                ->name('profile.update');
+
+            // Events
+            Route::resource('events', MemberEventController::class)
+                ->only(['index', 'show']);
+        });
 
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
