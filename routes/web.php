@@ -25,6 +25,8 @@ use App\Http\Controllers\Admin\MediaTeamController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Member\EventController as MemberEventController;
+use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Member\GalleryController as MemberGalleryController;
 
 
 
@@ -84,6 +86,8 @@ Route::prefix('admin')
             ->names('admin.livestreams');
         Route::resource('events', EventController::class)
             ->names('admin.events');
+        Route::resource('galleries', GalleryController::class)
+            ->names('admin.galleries');
     });
 
 Route::middleware(['auth'])
@@ -176,6 +180,9 @@ Route::middleware(['auth'])->group(function () {
 
             // Events
             Route::resource('events', MemberEventController::class)
+                ->only(['index', 'show']);
+            // Gallery
+            Route::resource('gallery', MemberGalleryController::class)
                 ->only(['index', 'show']);
         });
 

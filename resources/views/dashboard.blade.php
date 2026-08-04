@@ -102,22 +102,12 @@ use Illuminate\Support\Str;
 
                     <!-- Events -->
 
-                    <div
-                        class="bg-slate-50 border border-slate-200 rounded-2xl p-6 opacity-80">
+                    <a
+                        href="{{ route('member.events.index') }}"
+                        class="block bg-white border border-slate-200 rounded-2xl p-6 transition duration-200 hover:shadow-lg hover:-translate-y-1 hover:border-blue-300">
 
-                        <div class="flex justify-between items-start">
-
-                            <div class="text-4xl">
-                                📅
-                            </div>
-
-                            <span
-                                class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">
-
-                                Coming Soon
-
-                            </span>
-
+                        <div class="text-4xl">
+                            📅
                         </div>
 
                         <h3 class="text-lg font-bold text-gray-800 mt-4">
@@ -128,26 +118,16 @@ use Illuminate\Support\Str;
                             View upcoming church programs and activities.
                         </p>
 
-                    </div>
+                    </a>
 
                     <!-- Gallery -->
 
-                    <div
-                        class="bg-slate-50 border border-slate-200 rounded-2xl p-6 opacity-80">
+                    <a
+                        href="{{ route('member.gallery.index') }}"
+                        class="block bg-white border border-slate-200 rounded-2xl p-6 transition duration-200 hover:shadow-lg hover:-translate-y-1 hover:border-blue-300">
 
-                        <div class="flex justify-between items-start">
-
-                            <div class="text-4xl">
-                                🖼️
-                            </div>
-
-                            <span
-                                class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">
-
-                                Coming Soon
-
-                            </span>
-
+                        <div class="text-4xl">
+                            🖼️
                         </div>
 
                         <h3 class="text-lg font-bold text-gray-800 mt-4">
@@ -158,7 +138,7 @@ use Illuminate\Support\Str;
                             Browse church photos, videos and media albums.
                         </p>
 
-                    </div>
+                    </a>
 
                 </div>
 

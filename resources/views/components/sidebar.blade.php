@@ -4,6 +4,15 @@ use App\Enums\Permission;
 
 $user = auth()->user();
 
+$personalOpen =
+request()->routeIs('member.profile*');
+
+$communicationOpen =
+request()->routeIs('announcements.*') ||
+request()->routeIs('member.events.*') ||
+request()->routeIs('member.gallery.*') ||
+request()->routeIs('notifications.*');
+
 $memberOpen = request()->routeIs('admin.members.*');
 
 $communicationOpen =
@@ -255,6 +264,15 @@ request()->routeIs('admin.audit-logs.*');
 
                     Media Team
                 </a>
+                <a href="{{ route('admin.galleries.index') }}"
+                    class="block px-4 py-3 rounded-lg
+    {{ request()->routeIs('admin.galleries.*')
+        ? 'bg-blue-100 text-blue-700'
+        : 'text-gray-700 hover:bg-blue-50' }}">
+
+                    <span class="mr-3">🖼️</span>
+                    Gallery
+                </a>
             </div>
         </div>
         <div
@@ -456,50 +474,159 @@ request()->routeIs('admin.audit-logs.*');
             Fund Categories
         </a>
         @endif
-        <a href="{{ route('member.profile') }}"
-            class="block px-4 py-3 rounded-lg
-       {{ request()->routeIs('member.profile*')
-           ? 'bg-blue-100 text-blue-700'
-           : 'text-gray-700 hover:bg-blue-50' }}">
-            <span class="mr-3">👤</span>
-            My Profile
-        </a>
+        <div
+            x-data="{ open: {{ $personalOpen ? 'true' : 'false' }} }">
 
-        <a href="{{ route('announcements.index') }}"
-            class="block px-4 py-3 rounded-lg
-       {{ request()->routeIs('announcements.*')
-           ? 'bg-blue-100 text-blue-700'
-           : 'text-gray-700 hover:bg-blue-50' }}">
-            <span class="mr-3">📢</span>
-            Announcements
-        </a>
-        <a href="{{ route('notifications.index') }}"
-            class="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-100">
+            <button
+                @click="open = !open"
+                type="button"
+                class="w-full flex items-center justify-between px-4 py-2
+               text-xs font-semibold uppercase tracking-wider
+               text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-md">
 
-            <div class="flex items-center">
+                <span>Personal</span>
 
-                <span>🔔</span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 transition-transform duration-200"
+                    :class="{ 'rotate-90': open }"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
 
-                <span class="ml-3">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7" />
 
-                    Notifications
+                </svg>
 
-                </span>
+            </button>
+
+            <div
+                x-show="open"
+                x-transition>
+
+                <a
+                    href="{{ route('member.profile') }}"
+                    class="block px-4 py-3 rounded-lg
+            {{ request()->routeIs('member.profile*')
+                ? 'bg-blue-100 text-blue-700'
+                : 'text-gray-700 hover:bg-blue-50' }}">
+
+                    <span class="mr-3">👤</span>
+
+                    My Profile
+
+                </a>
 
             </div>
 
-            @if(($unreadNotifications ?? 0) > 0)
+        </div>
+        <div
+            x-data="{ open: {{ $communicationOpen ? 'true' : 'false' }} }">
 
-            <span
-                class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+            <button
+                @click="open = !open"
+                type="button"
+                class="w-full flex items-center justify-between px-4 py-2
+               text-xs font-semibold uppercase tracking-wider
+               text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-md">
 
-                {{ $unreadNotifications }}
+                <span>Communication</span>
 
-            </span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 transition-transform duration-200"
+                    :class="{ 'rotate-90': open }"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
 
-            @endif
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7" />
 
-        </a>
+                </svg>
+
+            </button>
+
+            <div
+                x-show="open"
+                x-transition>
+
+                <a
+                    href="{{ route('announcements.index') }}"
+                    class="block px-4 py-3 rounded-lg
+            {{ request()->routeIs('announcements.*')
+                ? 'bg-blue-100 text-blue-700'
+                : 'text-gray-700 hover:bg-blue-50' }}">
+
+                    <span class="mr-3">📢</span>
+
+                    Announcements
+
+                </a>
+
+                <a
+                    href="{{ route('member.events.index') }}"
+                    class="block px-4 py-3 rounded-lg
+            {{ request()->routeIs('member.events.*')
+                ? 'bg-blue-100 text-blue-700'
+                : 'text-gray-700 hover:bg-blue-50' }}">
+
+                    <span class="mr-3">📅</span>
+
+                    Events
+
+                </a>
+
+                <a
+                    href="{{ route('member.gallery.index') }}"
+                    class="block px-4 py-3 rounded-lg
+            {{ request()->routeIs('member.gallery.*')
+                ? 'bg-blue-100 text-blue-700'
+                : 'text-gray-700 hover:bg-blue-50' }}">
+
+                    <span class="mr-3">🖼️</span>
+
+                    Gallery
+
+                </a>
+
+                <a
+                    href="{{ route('notifications.index') }}"
+                    class="flex items-center justify-between px-4 py-3 rounded-lg
+            {{ request()->routeIs('notifications.*')
+                ? 'bg-blue-100 text-blue-700'
+                : 'text-gray-700 hover:bg-blue-50' }}">
+
+                    <div class="flex items-center">
+
+                        <span class="mr-3">🔔</span>
+
+                        <span>Notifications</span>
+
+                    </div>
+
+                    @if(($unreadNotifications ?? 0) > 0)
+
+                    <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+
+                        {{ $unreadNotifications }}
+
+                    </span>
+
+                    @endif
+
+                </a>
+
+            </div>
+
+        </div>
         @endif
 
         <div class="pt-6 border-t mt-6">
