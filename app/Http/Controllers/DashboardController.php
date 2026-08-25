@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Role as RoleEnum;
 use App\Models\Announcement;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Gallery;
 
 class DashboardController extends Controller
 {
@@ -20,9 +21,20 @@ class DashboardController extends Controller
             ->take(3)
             ->get();
 
+        $latestGallery = Gallery::where('is_active', true)
+            ->where('is_featured', true)
+            ->latest()
+            ->first();
+
+        if (! $latestGallery) {
+            $latestGallery = Gallery::where('is_active', true)
+                ->latest()
+                ->first();
+        }
+
         return view(
             'dashboard',
-            compact('latestAnnouncements')
+            compact('latestAnnouncements', 'latestGallery')
         );
     }
 }

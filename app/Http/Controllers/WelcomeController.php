@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Announcement;
+use App\Models\Event;
 use App\Models\Member;
 
 class WelcomeController extends Controller
@@ -18,25 +19,9 @@ class WelcomeController extends Controller
                 'active'
             )->count(),
 
-            'totalAnnouncements' => Announcement::count(),
+            'totalEvents' => Event::count(),
 
-            'totalBands' => collect(
-                Member::select(
-                    'band_one',
-                    'band_two',
-                    'band_three'
-                )->get()
-            )
-                ->flatMap(function ($member) {
-                    return [
-                        $member->band_one,
-                        $member->band_two,
-                        $member->band_three,
-                    ];
-                })
-                ->filter()
-                ->unique()
-                ->count(),
+            'totalAnnouncements' => Announcement::count(),
 
         ]);
     }

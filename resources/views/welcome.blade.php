@@ -118,12 +118,7 @@
 
             <p class="text-gray-600 text-lg leading-8 max-w-3xl mx-auto">
 
-                ChurchHub is a secure church management platform designed to
-                help churches manage members, ministry groups, announcements,
-                profiles, and church communication from anywhere.
-
-                It enables both church leaders and members to stay connected
-                through a modern web application.
+                ChurchHub is a secure church management platform designed to help churches manage members, events, galleries, announcements, finances, profiles and church communication from anywhere. It enables church leaders and members to stay connected through a modern web application.
 
             </p>
 
@@ -151,8 +146,8 @@
 
                     <p class="text-gray-600">
 
-                        Register members, manage profiles, ministry bands,
-                        and church records.
+                        Register members, manage profiles,
+                        membership records and church information.
 
                     </p>
 
@@ -176,13 +171,15 @@
 
                     <h3 class="text-2xl font-bold mb-4">
 
-                        🎵 Ministry Bands
+                        🖼️ Church Gallery
 
                     </h3>
 
                     <p class="text-gray-600">
 
-                        Organize choir, ushers, media, protocol and other ministry groups with ease.
+                        Share church photos and videos from worship services,
+                        conferences, outreaches and special events, keeping
+                        members connected to every memorable moment.
 
                     </p>
 
@@ -283,13 +280,13 @@
 
                     <div class="text-5xl font-bold text-purple-600">
 
-                        {{ $totalBands }}
+                        {{ $totalEvents }}
 
                     </div>
 
                     <div class="mt-3 text-gray-600">
 
-                        Ministry Bands
+                        Events
 
                     </div>
 
@@ -325,8 +322,7 @@
             </h2>
 
             <p class="text-lg opacity-90 mb-8">
-                ChurchHub helps churches manage members, announcements,
-                ministry groups and communication from one secure platform.
+                ChurchHub helps churches manage members, events, galleries, announcements, finances and communication from one secure platform.
             </p>
 
             @guest
