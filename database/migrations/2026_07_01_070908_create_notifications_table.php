@@ -37,7 +37,7 @@ return new class extends Migration
                 'all',
                 'member',
                 'admin',
-            ])->default('member');
+            ])->default('member')->index();
 
             $table->string('link')
                 ->nullable();
@@ -53,13 +53,17 @@ return new class extends Migration
                 ->default(false);
 
             $table->boolean('is_active')
-                ->default(true);
+                ->default(true)
+                ->index();
+
 
             $table->timestamp('published_at')
-                ->nullable();
+                ->nullable()
+                ->index();
 
             $table->timestamp('expires_at')
-                ->nullable();
+                ->nullable()
+                ->index();
 
             $table->timestamp('read_at')
                 ->nullable();

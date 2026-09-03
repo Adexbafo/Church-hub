@@ -121,6 +121,10 @@
 
             </div>
 
+            <div class="mt-6">
+                {{ $donations->links() }}
+            </div>
+
         </div>
 
     </div>

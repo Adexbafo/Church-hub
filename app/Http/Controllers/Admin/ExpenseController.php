@@ -52,6 +52,10 @@ class ExpenseController extends Controller
     ) {
         $validated = $request->validated();
 
+        if (empty($validated['reference'])) {
+            $validated['reference'] = 'EXP-' . now()->format('YmdHis');
+        }
+
         $validated['recorded_by'] = auth()->id();
 
         DB::transaction(function () use ($validated) {

@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Donation extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'fund_category_id',
@@ -18,17 +22,20 @@ class Donation extends Model
         'donation_date',
     ];
 
-    protected $casts = [
-        'donation_date' => 'date',
-        'amount' => 'decimal:2',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'donation_date' => 'date',
+            'amount' => 'decimal:2',
+        ];
+    }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function fundCategory()
+    public function fundCategory(): BelongsTo
     {
         return $this->belongsTo(FundCategory::class);
     }

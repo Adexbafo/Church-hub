@@ -24,7 +24,8 @@ return new class extends Migration
             $table->text('content');
 
             $table->timestamp('published_at')
-                ->nullable();
+                ->nullable()
+                ->index();
 
             $table->timestamps();
         });

@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Member extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'membership_id',
@@ -30,11 +33,14 @@ class Member extends Model
         'band_three',
     ];
 
-    protected $casts = [
-        'date_of_birth' => 'date',
-        'joined_at' => 'date',
-        'is_baptized' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'date_of_birth' => 'date',
+            'joined_at' => 'date',
+            'is_baptized' => 'boolean',
+        ];
+    }
 
     public function user(): BelongsTo
     {

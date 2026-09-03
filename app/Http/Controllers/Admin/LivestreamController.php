@@ -79,7 +79,8 @@ class LivestreamController extends Controller
 
     private function videoMediaItems()
     {
-        return MediaItem::where('media_type', 'video')
+        return MediaItem::select('id', 'title')
+            ->where('media_type', 'video')
             ->where('is_published', true)
             ->orderBy('title')
             ->get();

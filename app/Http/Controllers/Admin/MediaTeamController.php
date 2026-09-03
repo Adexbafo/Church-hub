@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreMediaTeamRequest;
 use App\Http\Requests\UpdateMediaTeamRequest;
 use App\Models\MediaTeam;
@@ -40,7 +39,12 @@ class MediaTeamController extends Controller
      */
     public function store(StoreMediaTeamRequest $request): RedirectResponse
     {
-        MediaTeam::create($request->validated());
+        MediaTeam::create([
+            'user_id'     => $request->user_id,
+            'role'        => $request->role,
+            'description' => $request->description,
+            'contact_info' => $request->contact_info,
+        ]);
 
         return redirect()
             ->route('admin.media-teams.index')
@@ -50,10 +54,7 @@ class MediaTeamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MediaTeam $mediaTeam)
-    {
-        abort(404);
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -73,7 +74,13 @@ class MediaTeamController extends Controller
         UpdateMediaTeamRequest $request,
         MediaTeam $mediaTeam
     ): RedirectResponse {
-        $mediaTeam->update($request->validated());
+
+        $mediaTeam->update([
+            'user_id' => $request->user_id,
+            'role' => $request->role,
+            'description' => $request->description,
+            'contact_info' => $request->contact_info,
+        ]);
 
         return redirect()
             ->route('admin.media-teams.index')
@@ -82,7 +89,9 @@ class MediaTeamController extends Controller
 
     private function mediaUsers()
     {
-        return User::orderBy('name')->get();
+        return User::orderBy('name')
+            ->select('id', 'name')
+            ->get();
     }
 
     /**

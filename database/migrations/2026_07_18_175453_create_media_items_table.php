@@ -40,23 +40,28 @@ return new class extends Migration
                 'video',
                 'audio',
                 'document',
-            ]);
+            ])->index();
 
             $table->unsignedBigInteger('file_size');
 
             $table->string('thumbnail_path')->nullable();
 
             $table->foreignId('uploaded_by')
+                ->nullable()
                 ->constrained('users')
-                ->cascadeOnDelete();
+                ->nullOnDelete();
 
             $table->unsignedBigInteger('views')->default(0);
 
             $table->unsignedBigInteger('downloads')->default(0);
 
-            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_featured')
+                ->default(false)
+                ->index();
 
-            $table->boolean('is_published')->default(true);
+            $table->boolean('is_published')
+                ->default(true)
+                ->index();
 
             $table->timestamps();
         });

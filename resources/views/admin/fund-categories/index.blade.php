@@ -70,7 +70,7 @@
 
                             <td class="px-6 py-4">
 
-                                {{ $category->description }}
+                                {{ $category->description ?? '—' }}
 
                             </td>
 

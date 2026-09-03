@@ -18,24 +18,33 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->string('full_name');
+            $table->string('full_name')->index();
             $table->string('phone')->nullable();
-            $table->string('gender')->nullable();
+            $table->enum('gender', [
+                'male',
+                'female',
+            ])->nullable();
             $table->date('date_of_birth')->nullable();
 
             $table->text('address')->nullable();
             $table->string('occupation')->nullable();
 
-            $table->string('marital_status')->nullable();
+            $table->enum('marital_status', [
+                'single',
+                'married',
+                'divorced',
+                'widowed',
+            ])->nullable();
 
             $table->string('profile_picture')->nullable();
 
-            $table->date('joined_at')->nullable();
+            $table->date('joined_at')->nullable()->index();
 
             $table->boolean('is_baptized')->default(false);
 
             $table->string('membership_status')
-                ->default('active');
+                ->default('active')
+                ->index();
 
             $table->timestamps();
         });

@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Sermon extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'title',
         'speaker',
@@ -20,22 +24,22 @@ class Sermon extends Model
         'is_published',
     ];
 
-    public function audio()
+    public function audio(): BelongsTo
     {
         return $this->belongsTo(MediaItem::class, 'audio_media_item_id');
     }
 
-    public function video()
+    public function video(): BelongsTo
     {
         return $this->belongsTo(MediaItem::class, 'video_media_item_id');
     }
 
-    public function notes()
+    public function notes(): BelongsTo
     {
         return $this->belongsTo(MediaItem::class, 'notes_media_item_id');
     }
 
-    public function creator()
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }

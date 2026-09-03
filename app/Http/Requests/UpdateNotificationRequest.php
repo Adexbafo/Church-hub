@@ -69,9 +69,9 @@ class UpdateNotificationRequest extends FormRequest
             ],
 
             'attachment' => [
-                'nullable',
                 'file',
-                'max:2048',
+                'mimes:pdf,jpg,jpeg,png,doc,docx',
+                'max:2048'
             ],
 
         ];

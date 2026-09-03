@@ -38,10 +38,12 @@ return new class extends Migration
             ])->nullable();
 
             $table->string('reference')
-                ->nullable();
+                ->nullable()
+                ->unique();
 
             $table->string('receipt_number')
-                ->nullable();
+                ->nullable()
+                ->unique();
 
             $table->text('notes')
                 ->nullable();

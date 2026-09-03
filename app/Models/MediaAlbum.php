@@ -3,9 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MediaAlbum extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'title',
         'slug',
@@ -16,12 +21,12 @@ class MediaAlbum extends Model
         'is_published',
     ];
 
-    public function creator()
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function mediaItems()
+    public function mediaItems(): HasMany
     {
         return $this->hasMany(MediaItem::class);
     }

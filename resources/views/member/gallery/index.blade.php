@@ -12,7 +12,7 @@
                 Browse photos and videos from church programmes.
             </p>
 
-            @if($galleries->count())
+            @if($galleries->isNotEmpty())
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
@@ -22,7 +22,9 @@
 
                     @if($gallery->media_type === 'image')
 
-                    <a href="{{ route('member.gallery.show', $gallery) }}">
+                    <a
+                        href="{{ route('member.gallery.show', $gallery) }}"
+                        class="block">
 
                         <img
                             src="{{ asset('storage/'.$gallery->file_path) }}"
@@ -33,11 +35,15 @@
 
                     @else
 
-                    <a href="{{ route('member.gallery.show', $gallery) }}">
+                    <a
+                        href="{{ route('member.gallery.show', $gallery) }}"
+                        class="block">
 
                         <video
-                            class="w-full h-56 object-cover"
-                            muted>
+                            muted
+                            preload="metadata"
+                            playsinline
+                            class="w-full h-56 object-cover">
 
                             <source
                                 src="{{ asset('storage/'.$gallery->file_path) }}">
@@ -50,7 +56,7 @@
 
                     <div class="p-5">
 
-                        <div class="flex justify-between items-start">
+                        <div class="flex justify-between items-start gap-4">
 
                             <h2 class="text-lg font-semibold">
 
@@ -67,7 +73,7 @@
                             @if($gallery->is_featured)
 
                             <span class="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-700">
-                                Featured
+                                ⭐ Featured
                             </span>
 
                             @endif
@@ -90,7 +96,7 @@
                             href="{{ route('member.gallery.show', $gallery) }}"
                             class="inline-flex mt-5 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
 
-                            View
+                            View Media
 
                         </a>
 

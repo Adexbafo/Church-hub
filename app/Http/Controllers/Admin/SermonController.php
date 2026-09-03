@@ -62,10 +62,7 @@ class SermonController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Sermon $sermon)
-    {
-        abort(404);
-    }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -54,6 +54,7 @@ Route::prefix('admin')
             ->names('admin.members');
 
         Route::resource('announcements', AnnouncementController::class)
+            ->except('show')
             ->names('admin.announcements');
 
         Route::resource('notifications', NotificationController::class)
@@ -70,23 +71,28 @@ Route::prefix('admin')
         )->name('admin.media-items.download');
 
         Route::resource('media-categories', MediaCategoryController::class)
+            ->except('show')
             ->names('admin.media-categories');
         Route::resource('media-albums', MediaAlbumController::class)
+            ->except('show')
             ->names('admin.media-albums');
         Route::resource('media-items', MediaItemController::class)
+            ->except('show')
             ->names('admin.media-items');
-        Route::resource(
-            'media-teams',
-            MediaTeamController::class
-        )->names('admin.media-teams');
+        Route::resource('media-teams', MediaTeamController::class)
+            ->except('show')
+            ->names('admin.media-teams');
         Route::resource('sermons', SermonController::class)
             ->except('show')
             ->names('admin.sermons');
         Route::resource('livestreams', LivestreamController::class)
+            ->except('show')
             ->names('admin.livestreams');
         Route::resource('events', EventController::class)
+            ->except('show')
             ->names('admin.events');
         Route::resource('galleries', GalleryController::class)
+            ->except('show')
             ->names('admin.galleries');
     });
 
@@ -105,6 +111,7 @@ Route::middleware(['auth'])
             'fund-categories',
             FundCategoryController::class
         )
+            ->except('show')
             ->middleware('financial:dashboard')
             ->names('admin.fund-categories');
 

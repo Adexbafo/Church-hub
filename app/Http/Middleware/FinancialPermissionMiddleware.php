@@ -11,6 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FinancialPermissionMiddleware
 {
+    private const PERMISSION_MAP = [
+        'dashboard' => Permission::FINANCIAL_DASHBOARD_VIEW,
+        'donations' => Permission::DONATIONS_VIEW,
+        'expenses' => Permission::EXPENSES_VIEW,
+        'reports' => Permission::FINANCIAL_REPORTS_VIEW,
+        'exports' => Permission::FINANCIAL_REPORTS_EXPORT,
+        'audit' => Permission::AUDIT_LOGS_VIEW,
+    ];
     public function handle(
         Request $request,
         Closure $next,
@@ -19,27 +27,14 @@ class FinancialPermissionMiddleware
         /** @var User $user */
         $user = Auth::user();
 
-        if (! $user) {
-            abort(403);
-        }
+        abort_if(! $user, 403);
 
-        $allowed = match ($permission) {
-            'dashboard' => $user->can(Permission::FINANCIAL_DASHBOARD_VIEW->value),
+        $permissionEnum = self::PERMISSION_MAP[$permission] ?? null;
 
-            'donations' => $user->can(Permission::DONATIONS_VIEW->value),
-
-            'expenses' => $user->can(Permission::EXPENSES_VIEW->value),
-
-            'reports' => $user->can(Permission::FINANCIAL_REPORTS_VIEW->value),
-
-            'exports' => $user->can(Permission::FINANCIAL_REPORTS_EXPORT->value),
-
-            'audit' => $user->can(Permission::AUDIT_LOGS_VIEW->value),
-
-            default => false,
-        };
-
-        abort_unless($allowed, 403);
+        abort_if(
+            ! $permissionEnum || ! $user->can($permissionEnum->value),
+            403
+        );
 
         return $next($request);
     }

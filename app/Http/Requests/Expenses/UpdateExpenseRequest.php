@@ -43,7 +43,7 @@ class UpdateExpenseRequest extends FormRequest
 
             'payment_method' => [
                 'nullable',
-                'string',
+                'in:cash,bank_transfer,pos,online',
             ],
 
             'reference' => [

@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Expense extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'fund_category_id',
         'amount',
@@ -17,17 +21,20 @@ class Expense extends Model
         'recorded_by',
     ];
 
-    protected $casts = [
-        'expense_date' => 'date',
-        'amount' => 'decimal:2',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'expense_date' => 'date',
+            'amount' => 'decimal:2',
+        ];
+    }
 
-    public function fundCategory()
+    public function fundCategory(): BelongsTo
     {
         return $this->belongsTo(FundCategory::class);
     }
 
-    public function recorder()
+    public function recorder(): BelongsTo
     {
         return $this->belongsTo(
             User::class,

@@ -11,6 +11,7 @@ use App\Models\FundCategory;
 use Illuminate\Http\Request;
 use App\Http\Requests\Donations\StoreDonationRequest;
 use App\Http\Requests\Donations\UpdateDonationRequest;
+use Illuminate\Support\Str;
 
 class DonationController extends Controller
 {
@@ -58,9 +59,7 @@ class DonationController extends Controller
             $validated['user_id'] = auth()->id();
         }
 
-        $validated['receipt_number'] =
-            'REC-' . now()->format('YmdHis');
-
+        $validated['receipt_number'] = $this->generateReceiptNumber();
         $validated['reference'] = $validated['receipt_number'];
 
         DB::transaction(function () use ($validated) {
@@ -190,10 +189,8 @@ class DonationController extends Controller
     ) {
         DB::transaction(function () use ($donation) {
 
-            FinancialTransaction::where(
-                'reference',
-                $donation->reference
-            )->delete();
+            FinancialTransaction::where('reference', $donation->reference)
+                ->first()?->delete();
 
             AuditHelper::log(
                 'delete',
@@ -210,5 +207,29 @@ class DonationController extends Controller
                 'success',
                 'Donation deleted successfully.'
             );
+    }
+
+    private function generateReceiptNumber(): string
+    {
+        $today = now()->format('Ymd');
+
+        $lastReceipt = Donation::whereDate('created_at', today())
+            ->orderByDesc('id')
+            ->value('receipt_number');
+
+        $sequence = 1;
+
+        if (
+            $lastReceipt &&
+            preg_match('/REC-\d{8}-(\d{6})/', $lastReceipt, $matches)
+        ) {
+            $sequence = (int) $matches[1] + 1;
+        }
+
+        return sprintf(
+            'REC-%s-%06d',
+            $today,
+            $sequence
+        );
     }
 }

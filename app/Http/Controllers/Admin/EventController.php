@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class EventController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $events = Event::latest('event_date')->paginate(10);
 
@@ -25,7 +28,7 @@ class EventController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.events.create');
     }
@@ -33,25 +36,10 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreEventRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'category' => [
-                'required',
-                'in:general,worship,prayer,youth,conference,training,children,outreach'
-            ],
-            'event_date' => ['required', 'date'],
-            'start_time' => ['required'],
-            'end_time' => ['nullable'],
-            'venue' => ['required', 'string', 'max:255'],
-            'is_featured' => ['nullable', 'boolean'],
-            'is_active' => ['nullable', 'boolean'],
-        ]);
+        $validated = $request->validated();
 
-        $validated['is_featured'] = $request->boolean('is_featured');
-        $validated['is_active'] = $request->boolean('is_active');
 
         Event::create($validated);
 
@@ -60,18 +48,7 @@ class EventController extends Controller
             ->with('success', 'Event created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Event $event)
+    public function edit(Event $event): View
     {
         return view('admin.events.edit', compact('event'));
     }
@@ -79,20 +56,11 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Event $event)
-    {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'category' => ['required', 'string'],
-            'event_date' => ['required', 'date'],
-            'start_time' => ['required'],
-            'end_time' => ['nullable'],
-            'venue' => ['required', 'string', 'max:255'],
-        ]);
-
-        $validated['is_featured'] = $request->boolean('is_featured');
-        $validated['is_active'] = $request->boolean('is_active');
+    public function update(
+        UpdateEventRequest $request,
+        Event $event
+    ): RedirectResponse {
+        $validated = $request->validated();
 
         $event->update($validated);
 
@@ -103,7 +71,7 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event)
+    public function destroy(Event $event): RedirectResponse
     {
         $event->delete();
 

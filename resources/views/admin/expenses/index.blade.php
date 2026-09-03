@@ -105,7 +105,7 @@
                         <tr>
 
                             <td
-                                colspan="4"
+                                colspan="5"
                                 class="p-6 text-center">
 
                                 No expenses recorded.

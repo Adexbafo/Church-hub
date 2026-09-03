@@ -22,6 +22,7 @@
                         <input
                             type="text"
                             name="expense_title"
+                            value="{{ old('expense_title') }}"
                             class="w-full rounded-lg border-gray-300"
                             required>
                     </div>
@@ -42,7 +43,9 @@
 
                             @foreach ($categories as $category)
 
-                            <option value="{{ $category->id }}">
+                            <option
+                                value="{{ $category->id }}"
+                                @selected(old('fund_category_id')==$category->id)>
                                 {{ $category->name }}
                             </option>
 
@@ -60,6 +63,7 @@
                             type="number"
                             step="0.01"
                             name="amount"
+                            value="{{ old('amount') }}"
                             class="w-full rounded-lg border-gray-300"
                             required>
                     </div>
@@ -71,21 +75,30 @@
 
                         <select
                             name="payment_method"
+                            value="{{ old('payment_method') }}"
                             class="w-full rounded-lg border-gray-300">
 
-                            <option value="cash">
+                            <option
+                                value="cash"
+                                @selected(old('payment_method')=='cash' )>
                                 Cash
                             </option>
 
-                            <option value="bank_transfer">
+                            <option
+                                value="bank_transfer"
+                                @selected(old('payment_method')=='bank_transfer' )>
                                 Bank Transfer
                             </option>
 
-                            <option value="pos">
+                            <option
+                                value="pos"
+                                @selected(old('payment_method')=='pos' )>
                                 POS
                             </option>
 
-                            <option value="online">
+                            <option
+                                value="online"
+                                @selected(old('payment_method')=='online' )>
                                 Online
                             </option>
 
@@ -101,6 +114,7 @@
                         <input
                             type="text"
                             name="reference"
+                            value="{{ old('reference') }}"
                             class="w-full rounded-lg border-gray-300">
 
                     </div>
@@ -113,6 +127,7 @@
 
                         <textarea
                             name="description"
+                            value="{{ old('description') }}"
                             rows="4"
                             class="w-full rounded-lg border-gray-300"></textarea>
 
@@ -127,7 +142,7 @@
                         <input
                             type="date"
                             name="expense_date"
-                            value="{{ now()->toDateString() }}"
+                            value="{{ old('expense_date', now()->toDateString()) }}"
                             class="w-full rounded-lg border-gray-300"
                             required>
 

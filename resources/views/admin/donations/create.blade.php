@@ -106,17 +106,25 @@
 
 
 
-                            <option value="cash">Cash</option>
+                            <option
+                                value="cash"
+                                @selected(old('payment_method')=='cash' )>Cash</option>
 
-                            <option value="bank_transfer">
+                            <option
+                                value="bank_transfer"
+                                @selected(old('payment_method')=='bank_transfer' )>
                                 Bank Transfer
                             </option>
 
-                            <option value="pos">
+                            <option
+                                value="pos"
+                                @selected(old('payment_method')=='pos' )>
                                 POS
                             </option>
 
-                            <option value="online">
+                            <option
+                                value="online"
+                                @selected(old('payment_method')=='online' )>
                                 Online
                             </option>
 

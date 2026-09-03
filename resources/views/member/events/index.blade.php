@@ -5,11 +5,11 @@
         <div class="max-w-6xl mx-auto px-4">
 
             <h1 class="text-3xl font-bold mb-2">
-                Upcoming Events
+                Church Events
             </h1>
 
             <p class="text-gray-500 mb-8">
-                Stay informed about upcoming church activities.
+                Stay informed about upcoming and past church activities.
             </p>
 
             <div class="grid grid-cols-1 gap-6">
@@ -18,13 +18,31 @@
 
                 <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
 
-                    <h2 class="text-2xl font-bold text-gray-900">
-                        {{ $event->title }}
-                    </h2>
+                    <div class="flex items-start justify-between gap-4">
 
-                    <p class="mt-3 text-gray-600 leading-relaxed">
-                        {{ $event->description }}
-                    </p>
+                        <h2 class="text-2xl font-bold text-gray-900">
+                            {{ $event->title }}
+                        </h2>
+
+                        @if($event->event_date->isPast())
+
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
+                            Completed
+                        </span>
+
+                        @else
+
+                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">
+                            Upcoming
+                        </span>
+
+                        @endif
+
+                    </div>
+
+                    <div class="prose max-w-none mt-4">
+                        {!! nl2br(e($event->description)) !!}
+                    </div>
 
                     <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
 
@@ -68,7 +86,7 @@
                             href="{{ route('member.events.show', $event) }}"
                             class="rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white hover:bg-blue-700 transition">
 
-                            View Details
+                            View Event
 
                         </a>
 
@@ -87,11 +105,11 @@
                         </div>
 
                         <h2 class="text-2xl font-bold">
-                            No Upcoming Events
+                            No Events Available
                         </h2>
 
                         <p class="mt-2 text-gray-500">
-                            Check back later for upcoming church activities.
+                            Check back later for more church events
                         </p>
 
                     </div>

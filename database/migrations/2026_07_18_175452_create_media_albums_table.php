@@ -22,13 +22,17 @@ return new class extends Migration
 
             $table->string('cover_image_path')->nullable();
 
-            $table->date('event_date')->nullable();
+            $table->date('event_date')
+                ->nullable()
+                ->index();
 
             $table->foreignId('created_by')
+                ->nullable()
                 ->constrained('users')
-                ->cascadeOnDelete();
-
-            $table->boolean('is_published')->default(true);
+                ->nullOnDelete();
+            $table->boolean('is_published')
+                ->default(true)
+                ->index();
 
             $table->timestamps();
         });

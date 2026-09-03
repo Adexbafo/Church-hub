@@ -31,7 +31,8 @@ return new class extends Migration
                 ->nullable();
 
             $table->string('reference')
-                ->nullable();
+                ->nullable()
+                ->unique();
 
             $table->date('expense_date');
 

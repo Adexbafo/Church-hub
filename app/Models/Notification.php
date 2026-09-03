@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Notification extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'created_by',
@@ -26,13 +29,16 @@ class Notification extends Model
         'is_pinned',
     ];
 
-    protected $casts = [
-        'published_at' => 'datetime',
-        'expires_at' => 'datetime',
-        'read_at' => 'datetime',
-        'is_active' => 'boolean',
-        'is_pinned' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'published_at' => 'datetime',
+            'expires_at' => 'datetime',
+            'read_at' => 'datetime',
+            'is_active' => 'boolean',
+            'is_pinned' => 'boolean',
+        ];
+    }
 
     public function user(): BelongsTo
     {
@@ -56,8 +62,7 @@ class Notification extends Model
 
     public function scopePublished(Builder $query): Builder
     {
-        return $query->where(function ($query) {
-
+        return $query->where(function (Builder $query) {
             $query->whereNull('published_at')
                 ->orWhere('published_at', '<=', now());
         });

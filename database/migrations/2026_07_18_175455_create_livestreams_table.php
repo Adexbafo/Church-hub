@@ -41,10 +41,13 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->foreignId('created_by')
+                ->nullable()
                 ->constrained('users')
-                ->cascadeOnDelete();
+                ->nullOnDelete();
 
-            $table->boolean('is_published')->default(true);
+            $table->boolean('is_published')
+                ->default(true)
+                ->index();
 
             $table->timestamps();
         });

@@ -35,17 +35,14 @@ class MediaAlbumController extends Controller
      */
     public function store(StoreMediaAlbumRequest $request): RedirectResponse
     {
+        $validated = $request->validated();
+
         MediaAlbum::create([
-            'title' => $request->title,
-
-            'slug' => Str::slug($request->title),
-
-            'description' => $request->description,
-
-            'event_date' => $request->event_date,
-
+            'title' => $validated['title'],
+            'slug' => Str::slug($validated['title']),
+            'description' => $validated['description'],
+            'event_date' => $validated['event_date'],
             'is_published' => $request->boolean('is_published'),
-
             'created_by' => auth()->id(),
         ]);
 
@@ -57,10 +54,6 @@ class MediaAlbumController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MediaAlbum $mediaAlbum)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -77,15 +70,13 @@ class MediaAlbumController extends Controller
         UpdateMediaAlbumRequest $request,
         MediaAlbum $mediaAlbum
     ): RedirectResponse {
+        $validated = $request->validated();
+
         $mediaAlbum->update([
-            'title' => $request->title,
-
-            'slug' => Str::slug($request->title),
-
-            'description' => $request->description,
-
-            'event_date' => $request->event_date,
-
+            'title' => $validated['title'],
+            'slug' => Str::slug($validated['title']),
+            'description' => $validated['description'],
+            'event_date' => $validated['event_date'],
             'is_published' => $request->boolean('is_published'),
         ]);
 

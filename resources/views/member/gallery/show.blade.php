@@ -50,6 +50,38 @@
 
                 </h1>
 
+                <div class="mt-3 flex flex-wrap gap-3">
+
+                    @if($gallery->is_featured)
+
+                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs">
+
+                        ⭐ Featured
+
+                    </span>
+
+                    @endif
+
+                    @if($gallery->media_type === 'image')
+
+                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs">
+
+                        📷 Image
+
+                    </span>
+
+                    @else
+
+                    <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs">
+
+                        🎥 Video
+
+                    </span>
+
+                    @endif
+
+                </div>
+
                 @if($gallery->album)
 
                 <p class="text-blue-600 mt-2">
@@ -80,29 +112,13 @@
 
                     <p class="text-sm text-gray-500">
 
-                        Uploaded
+                        Uploaded On
 
                     </p>
 
                     <p class="font-semibold mt-2">
 
                         {{ $gallery->created_at->format('F d, Y') }}
-
-                    </p>
-
-                </div>
-
-                <div class="bg-white rounded-xl shadow p-5">
-
-                    <p class="text-sm text-gray-500">
-
-                        Media Type
-
-                    </p>
-
-                    <p class="font-semibold mt-2 capitalize">
-
-                        {{ $gallery->media_type }}
 
                     </p>
 

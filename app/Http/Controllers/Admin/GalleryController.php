@@ -3,17 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreGalleryRequest;
+use App\Http\Requests\UpdateGalleryRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use App\Models\Gallery;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class GalleryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $galleries = Gallery::latest()->paginate(10);
 
@@ -28,7 +30,7 @@ class GalleryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.galleries.create');
     }
@@ -36,22 +38,10 @@ class GalleryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'media_type' => ['required', 'in:image,video'],
-            'album' => ['nullable', 'string', 'max:255'],
-            'media' => [
-                'required',
-                'file',
-                'mimes:jpg,jpeg,png,webp,mp4,mov,webm',
-                'max:51200',
-            ],
-            'is_featured' => ['nullable', 'boolean'],
-            'is_active' => ['nullable', 'boolean'],
-        ]);
+    public function store(
+        StoreGalleryRequest $request
+    ): RedirectResponse {
+        $validated = $request->validated();
 
         $path = $request->file('media')->store(
             'gallery',
@@ -74,17 +64,9 @@ class GalleryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Gallery $gallery)
+    public function edit(Gallery $gallery): View
     {
         return view('admin.galleries.edit', compact('gallery'));
     }
@@ -92,19 +74,20 @@ class GalleryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Gallery $gallery)
-    {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'media_type' => ['required', 'in:image,video'],
-            'album' => ['nullable', 'string', 'max:255'],
-            'file' => ['nullable', 'file'],
-        ]);
+    public function update(
+        UpdateGalleryRequest $request,
+        Gallery $gallery
+    ): RedirectResponse {
+        $validated = $request->validated();
 
         if ($request->hasFile('file')) {
 
-            Storage::disk('public')->delete($gallery->file_path);
+            if (
+                $gallery->file_path &&
+                Storage::disk('public')->exists($gallery->file_path)
+            ) {
+                Storage::disk('public')->delete($gallery->file_path);
+            }
 
             $validated['file_path'] = $request
                 ->file('file')
@@ -124,9 +107,8 @@ class GalleryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Gallery $gallery)
+    public function destroy(Gallery $gallery): RedirectResponse
     {
-        // Delete the uploaded file if it exists
         if (
             $gallery->file_path &&
             Storage::disk('public')->exists($gallery->file_path)

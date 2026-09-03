@@ -25,7 +25,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
         abort_if(
-            !$event->is_active || $event->event_date->isPast(),
+            !$event->is_active,
             404
         );
 

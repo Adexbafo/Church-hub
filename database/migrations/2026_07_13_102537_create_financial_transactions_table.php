@@ -39,7 +39,8 @@ return new class extends Migration
             ])->default('completed');
 
             $table->string('reference')
-                ->nullable();
+                ->nullable()
+                ->unique();
 
             $table->text('description')
                 ->nullable();

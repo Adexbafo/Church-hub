@@ -3,24 +3,22 @@
 namespace App\Helpers;
 
 use App\Models\AuditLog;
+use Illuminate\Database\Eloquent\Model;
 
 class AuditHelper
 {
     public static function log(
         string $action,
         string $description,
-        $model = null
+        ?Model $model = null
     ): void {
+
         AuditLog::create([
             'user_id' => auth()->id(),
             'action' => $action,
             'description' => $description,
-            'model_type' => $model
-                ? get_class($model)
-                : null,
-            'model_id' => $model
-                ? $model->id
-                : null,
+            'model_type' => $model?->getMorphClass(),
+            'model_id' => $model?->getKey(),
         ]);
     }
 }

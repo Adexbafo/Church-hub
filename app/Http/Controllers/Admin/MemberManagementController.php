@@ -13,10 +13,6 @@ class MemberManagementController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        $status = $request->input('status');
-        $gender = $request->input('gender');
-        $baptized = $request->input('baptized');
 
         abort_unless(
             auth()->user()->hasRole(RoleEnum::SUPER_ADMIN->value),
@@ -236,15 +232,21 @@ class MemberManagementController extends Controller
     }
 
 
-    public function print()
+    public function print(Request $request)
     {
-        $members = Member::orderBy('full_name')->get();
+        $members = $this->filteredMembers($request)
+            ->orderBy('full_name')
+            ->get();
 
-        return view('admin.members.print', compact('members'));
+        return view(...);
     }
 
     public function destroy(Member $member)
     {
+        if ($member->profile_picture) {
+            Storage::disk('public')->delete($member->profile_picture);
+        }
+
         $member->delete();
 
         return back()->with('success', 'Member deleted successfully.');

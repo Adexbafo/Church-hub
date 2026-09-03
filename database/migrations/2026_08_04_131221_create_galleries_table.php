@@ -19,15 +19,24 @@ return new class extends Migration
 
             $table->text('description')->nullable();
 
-            $table->string('media_type');
+            $table->enum('media_type', [
+                'image',
+                'video',
+            ])->index();
 
             $table->string('file_path');
 
-            $table->string('album')->nullable();
+            $table->string('album')
+                ->nullable()
+                ->index();
 
-            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_featured')
+                ->default(false)
+                ->index();
 
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')
+                ->default(true)
+                ->index();
 
             $table->timestamps();
         });

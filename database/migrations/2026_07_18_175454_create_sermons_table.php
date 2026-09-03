@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('sermons', function (Blueprint $table) {
             $table->id();
 
-            $table->string('title');
+            $table->string('title')
+                ->index();
 
-            $table->string('speaker');
+            $table->string('speaker')->index();
 
             $table->string('scripture')->nullable();
 
-            $table->date('sermon_date');
+            $table->date('sermon_date')->index();
 
             $table->text('description')->nullable();
 
@@ -40,12 +41,17 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->foreignId('created_by')
+                ->nullable()
                 ->constrained('users')
-                ->cascadeOnDelete();
+                ->nullOnDelete();
 
-            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_featured')
+                ->default(false)
+                ->index();
 
-            $table->boolean('is_published')->default(true);
+            $table->boolean('is_published')
+                ->default(true)
+                ->index();
 
             $table->timestamps();
         });

@@ -38,7 +38,7 @@
                             class="w-full rounded-lg border-gray-300">
                     </div>
 
-                    <div class="flex items-end">
+                    <div class="flex items-end gap-3">
 
                         <button
                             class="bg-blue-600 text-white px-6 py-2 rounded-lg">
@@ -310,29 +310,33 @@
                 </h2>
 
                 <div style="height: 400px;">
-                    <canvas id="incomeExpenseChart"></canvas>
+                    <canvas id="incomeExpenseChart" data-income="{{ $chartData['income'] }}" data-expenses="{{ $chartData['expenses'] }}"></canvas>
                 </div>
             </div>
 
         </div>
 
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('incomeExpenseChart');
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('incomeExpenseChart');
 
-            new Chart(ctx, {
+            if (!canvas) {
+                return;
+            }
+
+            const income = parseFloat(canvas.dataset.income || 0);
+            const expenses = parseFloat(canvas.dataset.expenses || 0);
+
+            new Chart(canvas, {
                 type: 'bar',
                 data: {
                     labels: ['Income', 'Expenses'],
                     datasets: [{
                         label: 'Amount (₦)',
-                        data: [
-                            Number("{{ $chartData['income'] }}"),
-                            Number("{{ $chartData['expenses'] }}")
-                        ],
+                        data: [income, expenses],
                         backgroundColor: [
                             '#16a34a',
                             '#dc2626'
@@ -344,12 +348,12 @@
                     maintainAspectRatio: false,
 
                     plugins: {
+                        legend: {
+                            display: false
+                        },
                         title: {
                             display: true,
                             text: 'Income vs Expenses Analysis'
-                        },
-                        legend: {
-                            display: false
                         }
                     },
 
@@ -357,8 +361,8 @@
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                callback: function(value) {
-                                    return '₦' + value.toLocaleString();
+                                callback(value) {
+                                    return '₦' + Number(value).toLocaleString();
                                 }
                             }
                         }

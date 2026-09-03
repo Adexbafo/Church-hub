@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Validation\Rule;
+
 use App\Http\Controllers\Controller;
 use App\Models\FundCategory;
 use App\Http\Requests\FundCategories\StoreFundCategoryRequest;
@@ -10,6 +10,9 @@ use App\Http\Requests\FundCategories\UpdateFundCategoryRequest;
 
 class FundCategoryController extends Controller
 {
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
     /**
      * Display a listing of the resource.
      */
@@ -52,15 +55,7 @@ class FundCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(FundCategory $fundCategory)
-    {
-        return view(
-            'admin.fund-categories.show',
-            [
-                'category' => $fundCategory,
-            ]
-        );
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -102,7 +97,7 @@ class FundCategoryController extends Controller
     ) {
         if (
             $fundCategory->donations()->exists()
-            || $fundCategory->transactions()->exists()
+            || $fundCategory->financialTransactions()->exists()
         ) {
             return back()->with(
                 'error',

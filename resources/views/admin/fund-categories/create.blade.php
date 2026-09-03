@@ -27,6 +27,11 @@
                             value="{{ old('name') }}"
                             class="w-full rounded-lg border-gray-300"
                             required>
+                        @error('name')
+                        <p class="text-red-600 text-sm mt-1">
+                            {{ $message }}
+                        </p>
+                        @enderror
 
                     </div>
 
@@ -40,6 +45,12 @@
                             name="description"
                             rows="5"
                             class="w-full rounded-lg border-gray-300">{{ old('description') }}</textarea>
+
+                        @error('description')
+                        <p class="text-red-600 text-sm mt-1">
+                            {{ $message }}
+                        </p>
+                        @enderror
 
                     </div>
 

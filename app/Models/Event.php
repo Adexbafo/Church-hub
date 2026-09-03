@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'title',
         'description',
@@ -18,9 +21,12 @@ class Event extends Model
         'is_active',
     ];
 
-    protected $casts = [
-        'event_date' => 'date',
-        'is_featured' => 'boolean',
-        'is_active' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'event_date' => 'date',
+            'is_featured' => 'boolean',
+            'is_active' => 'boolean',
+        ];
+    }
 }

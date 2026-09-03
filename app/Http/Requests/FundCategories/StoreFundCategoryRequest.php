@@ -4,6 +4,7 @@ namespace App\Http\Requests\FundCategories;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreFundCategoryRequest extends FormRequest
 {
@@ -28,7 +29,7 @@ class StoreFundCategoryRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:fund_categories',
+                Rule::unique('fund_categories'),
             ],
 
             'description' => [

@@ -13,95 +13,49 @@ class FinancialReportController extends Controller
 {
     public function index(Request $request)
     {
-        $from = $request->from
-            ? Carbon::parse($request->from)
-            : now()->startOfMonth();
+        [$from, $to] = $this->getDateRange($request);
 
-        $to = $request->to
-            ? Carbon::parse($request->to)
-            : now()->endOfMonth();
+        $transactionQuery = FinancialTransaction::query()
+            ->whereBetween('transaction_date', [$from, $to]);
 
-        $income = FinancialTransaction::where(
-            'transaction_type',
-            'income'
-        )
-            ->whereBetween(
-                'transaction_date',
-                [$from, $to]
-            )
+        $income = (clone $transactionQuery)
+            ->where('transaction_type', 'income')
             ->sum('amount');
 
-        $expenses = FinancialTransaction::where(
-            'transaction_type',
-            'expense'
-        )
-            ->whereBetween(
-                'transaction_date',
-                [$from, $to]
-            )
+        $expenses = (clone $transactionQuery)
+            ->where('transaction_type', 'expense')
             ->sum('amount');
 
         $balance = $income - $expenses;
 
-        $transactions = FinancialTransaction::with(
-            'fundCategory'
-        )
-            ->whereBetween(
-                'transaction_date',
-                [$from, $to]
-            )
+        $transactions = (clone $transactionQuery)
+            ->with('fundCategory')
             ->latest()
             ->paginate(20);
 
         $categoryReports = FundCategory::withSum(
             [
-                'financialTransactions as income_total' => function ($query) {
-                    $query->where(
-                        'transaction_type',
-                        'income'
-                    );
+                'financialTransactions as income_total' => function ($query) use ($from, $to) {
+                    $query->where('transaction_type', 'income')
+                        ->whereBetween('transaction_date', [$from, $to]);
                 },
             ],
             'amount'
         )
             ->withSum(
                 [
-                    'financialTransactions as expense_total' => function ($query) {
-                        $query->where(
-                            'transaction_type',
-                            'expense'
-                        );
+                    'financialTransactions as expense_total' => function ($query) use ($from, $to) {
+                        $query->where('transaction_type', 'expense')
+                            ->whereBetween('transaction_date', [$from, $to]);
                     },
                 ],
                 'amount'
             )
-            ->get();
-
-        $incomeByCategory = FinancialTransaction::select(
-            'fund_category_id'
-        )
-            ->selectRaw('SUM(amount) as total')
-            ->where('transaction_type', 'income')
-            ->whereBetween(
-                'transaction_date',
-                [$from, $to]
-            )
-            ->groupBy('fund_category_id')
-            ->with('fundCategory')
-            ->get();
-
-        $expenseByCategory = FinancialTransaction::select(
-            'fund_category_id'
-        )
-            ->selectRaw('SUM(amount) as total')
-            ->where('transaction_type', 'expense')
-            ->whereBetween(
-                'transaction_date',
-                [$from, $to]
-            )
-            ->groupBy('fund_category_id')
-            ->with('fundCategory')
-            ->get();
+            ->get()
+            ->filter(function ($category) {
+                return ($category->income_total ?? 0) > 0
+                    || ($category->expense_total ?? 0) > 0;
+            });
 
         $chartData = [
             'income' => $income,
@@ -125,20 +79,14 @@ class FinancialReportController extends Controller
 
     public function exportCsv(Request $request)
     {
-        $from = $request->from
-            ? Carbon::parse($request->from)
-            : now()->startOfMonth();
-
-        $to = $request->to
-            ? Carbon::parse($request->to)
-            : now()->endOfMonth();
+        [$from, $to] = $this->getDateRange($request);
 
         $transactions = FinancialTransaction::with('fundCategory')
             ->whereBetween('transaction_date', [$from, $to])
             ->latest()
             ->get();
 
-        $filename = 'financial-report-'.now()->format('Y-m-d-His').'.csv';
+        $filename = 'financial-report-' . now()->format('Y-m-d-His') . '.csv';
 
         $headers = [
             'Content-Type' => 'text/csv',
@@ -174,13 +122,7 @@ class FinancialReportController extends Controller
 
     public function exportPdf(Request $request)
     {
-        $from = $request->from
-            ? Carbon::parse($request->from)
-            : now()->startOfMonth();
-
-        $to = $request->to
-            ? Carbon::parse($request->to)
-            : now()->endOfMonth();
+        [$from, $to] = $this->getDateRange($request);
 
         $transactions = FinancialTransaction::with('fundCategory')
             ->whereBetween(
@@ -213,9 +155,22 @@ class FinancialReportController extends Controller
         );
 
         return $pdf->download(
-            'financial-report-'.
-                now()->format('Y-m-d-His').
+            'financial-report-' .
+                now()->format('Y-m-d-His') .
                 '.pdf'
         );
+    }
+
+    private function getDateRange(Request $request): array
+    {
+        return [
+            $request->filled('from')
+                ? Carbon::parse($request->from)
+                : now()->startOfMonth(),
+
+            $request->filled('to')
+                ? Carbon::parse($request->to)
+                : now()->endOfMonth(),
+        ];
     }
 }

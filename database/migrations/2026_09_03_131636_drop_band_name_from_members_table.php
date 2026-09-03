@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
+        Schema::table('members', function (Blueprint $table) {
+            $table->dropColumn('band_name');
         });
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->nullable();
+        Schema::table('members', function (Blueprint $table) {
+            $table->string('band_name')->nullable()->after('next_of_kin_address');
         });
     }
 };

@@ -43,12 +43,12 @@ class StoreDonationRequest extends FormRequest
             'amount' => [
                 'required',
                 'numeric',
-                'min:0',
+                'gt:0',
             ],
 
             'payment_method' => [
                 'required',
-                'string',
+                'in:cash,bank_transfer,pos,online',
             ],
 
             'reference' => [

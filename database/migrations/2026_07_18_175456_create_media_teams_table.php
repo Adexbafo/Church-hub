@@ -18,13 +18,25 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->string('role');
+            $table->enum('role', [
+                'photographer',
+                'videographer',
+                'video_editor',
+                'audio_engineer',
+                'livestream_operator',
+                'director',
+            ])->index();
 
-            $table->date('joined_at')->nullable();
+            $table->date('joined_at')
+                ->nullable()
+                ->index();
 
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')
+                ->default(true)
+                ->index();
 
-            $table->text('notes')->nullable();
+            $table->text('notes')
+                ->nullable();
 
             $table->timestamps();
 

@@ -14,21 +14,46 @@
 
             <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-8">
 
-                <h1 class="text-3xl font-bold text-gray-900">
-                    {{ $event->title }}
-                </h1>
+                <div class="flex items-center justify-between">
 
-                <p class="mt-4 text-gray-600 leading-relaxed">
-                    {{ $event->description }}
-                </p>
+                    <h1 class="text-3xl font-bold text-gray-900">
+                        {{ $event->title }}
+                    </h1>
+
+                </div>
+
+                <div class="mt-3">
+
+                    @if($event->event_date->isPast())
+
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
+                        Completed
+                    </span>
+
+                    @else
+
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">
+                        Upcoming
+                    </span>
+
+                    @endif
+
+                    @if($event->is_featured)
+                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs">
+                        ⭐ Featured Event
+                    </span>
+                    @endif
+                </div>
+
+                <div class="prose max-w-none mt-4">
+                    {!! nl2br(e($event->description)) !!}
+                </div>
 
                 <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <div>
 
-                        <p class="text-sm font-medium text-gray-500">
-                            📅 Date
-                        </p>
+                        <p class="mt-1 text-lg font-semibold">📅 Date</p>
 
                         <p class="mt-1 text-lg">
                             {{ $event->event_date->format('F d, Y') }}
@@ -38,9 +63,7 @@
 
                     <div>
 
-                        <p class="text-sm font-medium text-gray-500">
-                            🕒 Time
-                        </p>
+                        <p class="mt-1 text-lg font-semibold">🕒 Time</p>
 
                         <p class="mt-1 text-lg">
 
@@ -58,9 +81,7 @@
 
                     <div>
 
-                        <p class="text-sm font-medium text-gray-500">
-                            📍 Venue
-                        </p>
+                        <p class="mt-1 text-lg font-semibold">📍 Venue</p>
 
                         <p class="mt-1 text-lg">
                             {{ $event->venue }}
@@ -70,9 +91,7 @@
 
                     <div>
 
-                        <p class="text-sm font-medium text-gray-500">
-                            🏷 Category
-                        </p>
+                        <p class="mt-1 text-lg font-semibold">🏷 Category</p>
 
                         <span class="mt-2 inline-flex rounded-full bg-blue-100 px-4 py-1 text-sm font-medium text-blue-700">
 
@@ -83,20 +102,6 @@
                     </div>
 
                 </div>
-
-                @if($event->is_featured)
-
-                <div class="mt-8">
-
-                    <span class="inline-flex rounded-full bg-yellow-100 px-4 py-2 text-sm font-medium text-yellow-700">
-
-                        ⭐ Featured Event
-
-                    </span>
-
-                </div>
-
-                @endif
 
                 <div class="mt-10 border-t pt-6">
 

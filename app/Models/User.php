@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'name',
@@ -41,12 +42,12 @@ class User extends Authenticatable
         return $this->hasOne(Member::class);
     }
 
-    public function donations()
+    public function donations(): HasMany
     {
         return $this->hasMany(Donation::class);
     }
 
-    public function financialTransactions()
+    public function financialTransactions(): HasMany
     {
         return $this->hasMany(
             FinancialTransaction::class,
@@ -54,26 +55,26 @@ class User extends Authenticatable
         );
     }
 
-    public function mediaAlbums()
+    public function mediaAlbums(): HasMany
     {
         return $this->hasMany(MediaAlbum::class, 'created_by');
     }
 
-    public function mediaUploads()
+    public function mediaUploads(): HasMany
     {
         return $this->hasMany(MediaItem::class, 'uploaded_by');
     }
 
-    public function mediaTeams()
+    public function mediaTeams(): HasMany
     {
         return $this->hasMany(MediaTeam::class);
     }
-    public function livestreams()
+    public function livestreams(): HasMany
     {
         return $this->hasMany(Livestream::class, 'created_by');
     }
 
-    public function sermons()
+    public function sermons(): HasMany
     {
         return $this->hasMany(Sermon::class, 'created_by');
     }

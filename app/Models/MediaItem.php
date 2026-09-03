@@ -3,9 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MediaItem extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'media_category_id',
         'media_album_id',
@@ -25,37 +31,37 @@ class MediaItem extends Model
         'is_published',
     ];
 
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(MediaCategory::class, 'media_category_id');
     }
 
-    public function album()
+    public function album(): BelongsTo
     {
         return $this->belongsTo(MediaAlbum::class, 'media_album_id');
     }
 
-    public function uploader()
+    public function uploader(): BelongsTo
     {
         return $this->belongsTo(User::class, 'uploaded_by');
     }
 
-    public function audioSermons()
+    public function audioSermons(): HasMany
     {
         return $this->hasMany(Sermon::class, 'audio_media_item_id');
     }
 
-    public function videoSermons()
+    public function videoSermons(): HasMany
     {
         return $this->hasMany(Sermon::class, 'video_media_item_id');
     }
 
-    public function noteSermons()
+    public function noteSermons(): HasMany
     {
         return $this->hasMany(Sermon::class, 'notes_media_item_id');
     }
 
-    public function livestreamRecording()
+    public function livestreamRecording(): HasOne
     {
         return $this->hasOne(Livestream::class, 'recording_media_item_id');
     }
@@ -63,6 +69,9 @@ class MediaItem extends Model
     protected function casts(): array
     {
         return [
+            'file_size' => 'integer',
+            'views' => 'integer',
+            'downloads' => 'integer',
             'is_featured' => 'boolean',
             'is_published' => 'boolean',
         ];
@@ -90,19 +99,10 @@ class MediaItem extends Model
     public function getMediaTypeBadgeAttribute(): string
     {
         return match ($this->media_type) {
-
-            'image' => '🖼️ Image',
-
-            'video' => '🎥 Video',
-
-            'audio' => '🎵 Audio',
-
-            default => '📄 Document',
+            'image' => 'Image',
+            'video' => 'Video',
+            'audio' => 'Audio',
+            default => 'Document',
         };
-    }
-
-    public function livestreamRecordings()
-    {
-        return $this->hasMany(Livestream::class, 'recording_media_item_id');
     }
 }

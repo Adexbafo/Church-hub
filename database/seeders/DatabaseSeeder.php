@@ -15,10 +15,15 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            FundCategorySeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
-            DevelopmentUsersSeeder::class,
+            FundCategorySeeder::class,
         ]);
+
+        if (app()->environment('local')) {
+            $this->call([
+                DevelopmentUsersSeeder::class,
+            ]);
+        }
     }
 }
