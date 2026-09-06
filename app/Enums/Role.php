@@ -20,4 +20,21 @@ enum Role: string
     {
         return array_column(self::cases(), 'value');
     }
+
+    /**
+     * Roles that can access the administrative area.
+     */
+    public static function administrative(): array
+    {
+        return [
+            self::SUPER_ADMIN->value,
+            self::CHURCH_ADMIN->value,
+            self::PASTOR->value,
+            self::FINANCE_OFFICER->value,
+            self::MEDIA_DIRECTOR->value,
+            self::MEMBER_MANAGER->value,
+            self::COMMUNICATIONS_OFFICER->value,
+            self::VOLUNTEER->value,
+        ];
+    }
 }

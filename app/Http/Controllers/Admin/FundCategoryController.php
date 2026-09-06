@@ -10,9 +10,6 @@ use App\Http\Requests\FundCategories\UpdateFundCategoryRequest;
 
 class FundCategoryController extends Controller
 {
-    protected $casts = [
-        'is_active' => 'boolean',
-    ];
     /**
      * Display a listing of the resource.
      */

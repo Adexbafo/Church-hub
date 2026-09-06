@@ -16,11 +16,36 @@ enum Permission: string
     case ANNOUNCEMENTS_EDIT = 'announcements.edit';
     case ANNOUNCEMENTS_DELETE = 'announcements.delete';
 
-        // Media Library
-    case MEDIA_VIEW = 'media.view';
-    case MEDIA_CREATE = 'media.create';
-    case MEDIA_EDIT = 'media.edit';
-    case MEDIA_DELETE = 'media.delete';
+        // Notifications
+    case NOTIFICATIONS_VIEW = 'notifications.view';
+    case NOTIFICATIONS_CREATE = 'notifications.create';
+    case NOTIFICATIONS_EDIT = 'notifications.edit';
+    case NOTIFICATIONS_DELETE = 'notifications.delete';
+
+        // Media Categories
+    case MEDIA_CATEGORIES_VIEW = 'media-categories.view';
+    case MEDIA_CATEGORIES_CREATE = 'media-categories.create';
+    case MEDIA_CATEGORIES_EDIT = 'media-categories.edit';
+    case MEDIA_CATEGORIES_DELETE = 'media-categories.delete';
+
+        // Media Albums
+    case MEDIA_ALBUMS_VIEW = 'media-albums.view';
+    case MEDIA_ALBUMS_CREATE = 'media-albums.create';
+    case MEDIA_ALBUMS_EDIT = 'media-albums.edit';
+    case MEDIA_ALBUMS_DELETE = 'media-albums.delete';
+
+        // Media Items
+    case MEDIA_ITEMS_VIEW = 'media-items.view';
+    case MEDIA_ITEMS_CREATE = 'media-items.create';
+    case MEDIA_ITEMS_EDIT = 'media-items.edit';
+    case MEDIA_ITEMS_DELETE = 'media-items.delete';
+    case MEDIA_ITEMS_DOWNLOAD = 'media-items.download';
+
+        // Media Teams
+    case MEDIA_TEAMS_VIEW = 'media-teams.view';
+    case MEDIA_TEAMS_CREATE = 'media-teams.create';
+    case MEDIA_TEAMS_EDIT = 'media-teams.edit';
+    case MEDIA_TEAMS_DELETE = 'media-teams.delete';
 
         // Sermons
     case SERMONS_VIEW = 'sermons.view';
@@ -33,6 +58,18 @@ enum Permission: string
     case LIVESTREAMS_CREATE = 'livestreams.create';
     case LIVESTREAMS_EDIT = 'livestreams.edit';
     case LIVESTREAMS_DELETE = 'livestreams.delete';
+
+        // Events
+    case EVENTS_VIEW = 'events.view';
+    case EVENTS_CREATE = 'events.create';
+    case EVENTS_EDIT = 'events.edit';
+    case EVENTS_DELETE = 'events.delete';
+
+        // Galleries
+    case GALLERIES_VIEW = 'galleries.view';
+    case GALLERIES_CREATE = 'galleries.create';
+    case GALLERIES_EDIT = 'galleries.edit';
+    case GALLERIES_DELETE = 'galleries.delete';
 
         // Financial Dashboard
     case FINANCIAL_DASHBOARD_VIEW = 'financial.dashboard.view';
@@ -62,9 +99,6 @@ enum Permission: string
         // Audit Logs
     case AUDIT_LOGS_VIEW = 'audit-logs.view';
 
-    /**
-     * Return all permission values.
-     */
     public static function values(): array
     {
         return array_column(self::cases(), 'value');

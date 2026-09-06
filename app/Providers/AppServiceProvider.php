@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Notification;
-use Illuminate\Support\Facades\View;
+use App\Enums\Role;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,20 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('*', function ($view) {
-
-            if (auth()->check()) {
-
-                $view->with(
-
-                    'unreadNotifications',
-
-                    Notification::whereNull('read_at')
-                        ->where('is_active', true)
-                        ->count()
-
-                );
-            }
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole(Role::SUPER_ADMIN->value)
+                ? true
+                : null;
         });
     }
 }

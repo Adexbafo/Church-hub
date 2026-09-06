@@ -13,14 +13,15 @@ class PermissionSeeder extends Seeder
     {
         $registrar = app(PermissionRegistrar::class);
 
-        // Clear before seeding
         $registrar->forgetCachedPermissions();
 
-        foreach (Permission::values() as $permission) {
-            PermissionModel::findOrCreate($permission, 'web');
+        foreach (Permission::cases() as $permission) {
+            PermissionModel::findOrCreate(
+                $permission->value,
+                'web'
+            );
         }
 
-        // IMPORTANT: Clear again after creating permissions
         $registrar->forgetCachedPermissions();
     }
 }
